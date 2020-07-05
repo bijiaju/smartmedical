@@ -1,4 +1,4 @@
-package com.hp.docker_base.bean.user;
+package com.hp.docker_base.bean.dto;
 
 import com.hp.docker_base.util.validate.group.MiniValidation;
 import io.swagger.annotations.ApiModelProperty;

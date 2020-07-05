@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hp.docker_base.mapper.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.User" >
+<mapper namespace="com.hp.docker_base.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.Menu" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
-    <result column="user_name" property="userName" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="full_parh" property="fullParh" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
@@ -16,51 +16,13 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
-
-    <select id="selectAllUsers" resultMap="BaseResultMap">
-       SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-    create_time, update_time FROM tb_user WHERE is_delete=0
-    </select>
-
-
-    <select id="selectUserByUserName" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE user_name=#{userName,jdbcType=VARCHAR}
-        AND is_delete=0
-    </select>
-
-    <select id="selectUserByPhone" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE phone=#{phone,jdbcType=VARCHAR}
-        AND is_delete=0
-    </select>
-
-    <select id="selectUserByEmail" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE email=#{email,jdbcType=VARCHAR}
-        AND is_delete=0
-    </select>
-
-    <select id="findUserByNameAndPassword" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE user_name=#{userName,jdbcType=VARCHAR}
-        AND password=#{password,jdbcType=VARCHAR}
-         AND is_delete=0
-    </select>
-
-  <insert id="insertUserInfo" parameterType="com.hp.docker_base.bean.User" >
-    insert into tb_user (id, uuid, user_name,
-                         password, phone, email,
-                         sort, is_delete, create_user,
-                         update_user, create_time, update_time
-    )
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
-            #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-            #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
-            #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-           )
-  </insert>
-  <!--<sql id="Example_Where_Clause" >
+  <select id="selectAllMenuList" resultMap="BaseResultMap">
+    SELECT  id, uuid, name, parent_id, full_parh, level, sort, is_delete, create_user, update_user,
+    create_time, update_time
+    FROM tb_menu WHERE is_delete=0
+    ORDER BY level ,sort
+  </select>
+ <!-- <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -119,16 +81,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user, 
+    id, uuid, name, parent_id, full_parh, level, sort, is_delete, create_user, update_user, 
     create_time, update_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.mapper.user.UserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.taotao.pojo.MenuExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_user
+    from tb_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -139,33 +101,33 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from tb_user
+    from tb_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_user
+    delete from tb_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hp.docker_base.mapper.user.UserExample" >
-    delete from tb_user
+  <delete id="deleteByExample" parameterType="com.taotao.pojo.MenuExample" >
+    delete from tb_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hp.docker_base.bean.user.User" >
-    insert into tb_user (id, uuid, user_name, 
-      password, phone, email, 
+  <insert id="insert" parameterType="com.taotao.pojo.Menu" >
+    insert into tb_menu (id, uuid, name, 
+      parent_id, full_parh, level, 
       sort, is_delete, create_user, 
       update_user, create_time, update_time
       )
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{fullParh,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
       #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
       #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.user.User" >
-    insert into tb_user
+  <insert id="insertSelective" parameterType="com.taotao.pojo.Menu" >
+    insert into tb_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -173,17 +135,17 @@
       <if test="uuid != null" >
         uuid,
       </if>
-      <if test="userName != null" >
-        user_name,
+      <if test="name != null" >
+        name,
       </if>
-      <if test="password != null" >
-        password,
+      <if test="parentId != null" >
+        parent_id,
       </if>
-      <if test="phone != null" >
-        phone,
+      <if test="fullParh != null" >
+        full_parh,
       </if>
-      <if test="email != null" >
-        email,
+      <if test="level != null" >
+        level,
       </if>
       <if test="sort != null" >
         sort,
@@ -211,17 +173,17 @@
       <if test="uuid != null" >
         #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
+      <if test="fullParh != null" >
+        #{fullParh,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
       </if>
       <if test="sort != null" >
         #{sort,jdbcType=INTEGER},
@@ -243,14 +205,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hp.docker_base.mapper.user.UserExample" resultType="java.lang.Integer" >
-    select count(*) from tb_user
+  <select id="countByExample" parameterType="com.taotao.pojo.MenuExample" resultType="java.lang.Integer" >
+    select count(*) from tb_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_user
+    update tb_menu
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -258,17 +220,17 @@
       <if test="record.uuid != null" >
         uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.userName != null" >
-        user_name = #{record.userName,jdbcType=VARCHAR},
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null" >
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=VARCHAR},
       </if>
-      <if test="record.phone != null" >
-        phone = #{record.phone,jdbcType=VARCHAR},
+      <if test="record.fullParh != null" >
+        full_parh = #{record.fullParh,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null" >
-        email = #{record.email,jdbcType=VARCHAR},
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
       </if>
       <if test="record.sort != null" >
         sort = #{record.sort,jdbcType=INTEGER},
@@ -294,13 +256,13 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tb_user
+    update tb_menu
     set id = #{record.id,jdbcType=INTEGER},
       uuid = #{record.uuid,jdbcType=VARCHAR},
-      user_name = #{record.userName,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=VARCHAR},
+      full_parh = #{record.fullParh,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
       sort = #{record.sort,jdbcType=INTEGER},
       is_delete = #{record.isDelete,jdbcType=INTEGER},
       create_user = #{record.createUser,jdbcType=VARCHAR},
@@ -311,23 +273,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.user.User" >
-    update tb_user
+  <update id="updateByPrimaryKeySelective" parameterType="com.taotao.pojo.Menu" >
+    update tb_menu
     <set >
       <if test="uuid != null" >
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null" >
-        user_name = #{userName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
+      <if test="fullParh != null" >
+        full_parh = #{fullParh,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
       </if>
       <if test="sort != null" >
         sort = #{sort,jdbcType=INTEGER},
@@ -350,13 +312,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.user.User" >
-    update tb_user
+  <update id="updateByPrimaryKey" parameterType="com.taotao.pojo.Menu" >
+    update tb_menu
     set uuid = #{uuid,jdbcType=VARCHAR},
-      user_name = #{userName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      full_parh = #{fullParh,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
       sort = #{sort,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=INTEGER},
       create_user = #{createUser,jdbcType=VARCHAR},

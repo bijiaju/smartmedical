@@ -1,13 +1,22 @@
 package com.hp.docker_base.service.impl;
 
-import com.hp.docker_base.bean.user.User;
-import com.hp.docker_base.bean.user.UserDto;
+import com.hp.docker_base.bean.RoleUser;
+import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.dto.UserDto;
 import com.hp.docker_base.em.EnumDelete;
-import com.hp.docker_base.mapper.user.UserMapper;
+import com.hp.docker_base.em.EnumOKOrNG;
+import com.hp.docker_base.em.EnumRole;
+import com.hp.docker_base.mapper.RoleUserMapper;
+import com.hp.docker_base.mapper.UserMapper;
 import com.hp.docker_base.service.IUserService;
+import com.hp.docker_base.util.MD5Utils;
 import com.hp.docker_base.util.convert.UserObjectConvert;
+import com.hp.docker_base.util.validate.ErrorParamException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -24,21 +33,122 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RoleUserMapper roleUserMapper;
+
     @Override
     public List<User> findAllUsers() {
         return userMapper.selectAllUsers();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int addUserInfo(UserDto userInfo) {
+
+        // 新增账户
         User user = UserObjectConvert.convertUserDto2User(userInfo);
 
-        user.setUuid(UUID.randomUUID().toString());
+        String uuid = UUID.randomUUID().toString();
+        user.setUuid(uuid);
+
+        // 查看帐户名是否已经存在
+        checkUserValidity(user);
+
+        user.setPassword(MD5Utils.string2MD5(userInfo.getPassword()));
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
         user.setCreateUser(userInfo.getUserName());
         user.setUpdateUser(userInfo.getUserName());
         user.setIsDelete(EnumDelete.NOT_DELETE.getCode());
+        user.setSort(queryUserSort());
+
+        // 新增账户角色
+        RoleUser roleUser = new RoleUser();
+        roleUser.setUserId(uuid);
+        roleUser.setRoleId(EnumRole.DOCTOR.getCode());
+        roleUser.setCreateTime(new Date());
+        roleUser.setUpdateTime(new Date());
+        roleUser.setCreateUser(userInfo.getUserName());
+        roleUser.setUpdateUser(userInfo.getUserName());
+        roleUser.setIsDelete(EnumDelete.NOT_DELETE.getCode());
+        roleUserMapper.insertRoleUser(roleUser);
         return userMapper.insertUserInfo(user);
     }
+
+    /**
+     *  校验账户有消息
+     */
+    private void checkUserValidity(User userInfo) {
+        boolean isNotExist = queryRoleNameIsUnique(userInfo.getUuid(),
+                userInfo.getUserName());
+        if(!isNotExist){
+            throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"账户名已经存在");
+        }
+
+        boolean isNotExist1 = queryPhoneIsUnique(userInfo.getUuid(),
+                userInfo.getPhone());
+        if(!isNotExist1){
+            throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"手机号已经存在");
+        }
+
+        boolean isNotExist2 = queryEmailIsUnique(userInfo.getUuid(),
+                userInfo.getEmail());
+        if(!isNotExist2){
+            throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"邮箱已经存在");
+        }
+    }
+
+    @Override
+    public User queryUserByNameAndPassword(String userName,
+                                           String password) {
+        User user = userMapper.findUserByNameAndPassword(userName,password);
+        return user;
+    }
+
+    @Override
+    public boolean queryRoleNameIsUnique(String userId,
+                                         String userName) {
+        User user = userMapper.selectUserByUserName(userName);
+        if(user == null){
+            return true;
+        }else {
+            // 1-2 找到账户，如果是当前编辑账户的话，则认为账户名也是唯一的
+            return StringUtils.isNotEmpty(userId) && user.getUuid().equals(userId);
+        }
+    }
+
+    @Override
+    public boolean queryPhoneIsUnique(String userId,
+                                      String phone) {
+        User user = userMapper.selectUserByPhone(phone);
+        if(user == null){
+            return true;
+        }else {
+            // 1-2 找到账户，如果是当前编辑账户的话，则认为账户名也是唯一的
+            return StringUtils.isNotEmpty(userId) && user.getUuid().equals(userId);
+        }
+    }
+
+    @Override
+    public boolean queryEmailIsUnique(String userId,
+                                      String email) {
+        User user = userMapper.selectUserByEmail(email);
+        if(user == null){
+            return true;
+        }else {
+            // 1-2 找到账户，如果是当前编辑账户的话，则认为账户名也是唯一的
+            return StringUtils.isNotEmpty(userId) && user.getUuid().equals(userId);
+        }
+    }
+
+    @Override
+    public int queryUserSort() {
+        List<User> allUsers = findAllUsers();
+        if(!CollectionUtils.isEmpty(allUsers)){
+            return allUsers.size()+1;
+        }
+        return 0;
+    }
+
+
 }

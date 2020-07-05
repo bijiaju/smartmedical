@@ -1,4 +1,4 @@
-FROM hub.c.163.com/r00txx/java8
+FROM java8:ziti
 MAINTAINER bee byq_work@163.com
 VOLUME /home/bee
 ADD docker_base-0.0.1-SNAPSHOT.jar app.jar

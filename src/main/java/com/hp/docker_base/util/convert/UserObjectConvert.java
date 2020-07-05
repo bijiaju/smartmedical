@@ -1,7 +1,7 @@
 package com.hp.docker_base.util.convert;
 
-import com.hp.docker_base.bean.user.User;
-import com.hp.docker_base.bean.user.UserDto;
+import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.dto.UserDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
