@@ -16,11 +16,29 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
+  <sql id="Base_Column_List" >
+    id, uuid, name, parent_id, full_parh, level, sort, is_delete, create_user, update_user,
+    create_time, update_time
+  </sql>
+
   <select id="selectAllMenuList" resultMap="BaseResultMap">
     SELECT  id, uuid, name, parent_id, full_parh, level, sort, is_delete, create_user, update_user,
     create_time, update_time
     FROM tb_menu WHERE is_delete=0
     ORDER BY level ,sort
+  </select>
+
+
+
+  <select id="findMenuListByUserId" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM tb_menu menu
+    WHERE menu.uuid in (SELECT  DISTINCT role_menu.menu_id  FROM tb_role_menu role_menu
+                                                                   INNER JOIN tb_role_user role_user
+                                                                              ON role_menu.role_id=role_user.role_id
+                        WHERE role_user.user_id=#{userId,jdbcType=VARCHAR}
+                          AND role_menu.is_delete=0
+                          AND role_user.is_delete=0)
+      AND menu.is_delete=0
   </select>
  <!-- <sql id="Example_Where_Clause" >
     <where >
@@ -80,10 +98,7 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, uuid, name, parent_id, full_parh, level, sort, is_delete, create_user, update_user, 
-    create_time, update_time
-  </sql>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.taotao.pojo.MenuExample" >
     select
     <if test="distinct" >

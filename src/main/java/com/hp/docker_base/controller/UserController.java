@@ -12,6 +12,9 @@ import com.hp.docker_base.service.IUserService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.MD5Utils;
 import com.hp.docker_base.util.convert.UserObjectConvert;
+import com.hp.docker_base.util.validate.ValidateUtils;
+import com.hp.docker_base.util.validate.group.MiniValidation;
+import com.hp.docker_base.util.validate.group.UpdateValidation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -69,6 +72,8 @@ public class UserController {
 
         // 1、解析账户Json字符串参数
         UserDto userInfo = JSONObject.parseObject(accountJsonStr, UserDto.class);
+
+        ValidateUtils.validateGroup(userInfo, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
 
         // 2、新增账户各属性信息记录
         int addCount = userService.addUserInfo(userInfo);

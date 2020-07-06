@@ -22,4 +22,9 @@ public class MenuServiceImpl implements IMenuService{
     public List<Menu> queryAllMenuList() {
         return menuMapper.selectAllMenuList();
     }
+
+    @Override
+    public List<Menu> queryMenuListByUserId(String userId) {
+        return menuMapper.findMenuListByUserId(userId);
+    }
 }

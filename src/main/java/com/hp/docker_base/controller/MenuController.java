@@ -39,8 +39,8 @@ public class MenuController {
             @PathVariable(value = "userId") String userId) {
 
         // 查询账户的菜单
-        List<Menu> menuList = menuService.queryAllMenuList();
-
+        //List<Menu> menuList = menuService.queryAllMenuList();
+        List<Menu> menuList = menuService.queryMenuListByUserId(userId);
         List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenuList2Dto(menuList);
         List<MenuDto> menuDtos = MenuObjectConvert.buildMenuTreeList(menuDtos1);
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos);

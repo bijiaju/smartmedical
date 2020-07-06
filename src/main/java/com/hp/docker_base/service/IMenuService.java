@@ -16,4 +16,9 @@ public interface IMenuService {
      * 获取所有的菜单
      */
     List<Menu> queryAllMenuList();
+
+    /**
+     * 查询账户下的菜单
+     */
+    List<Menu> queryMenuListByUserId(String userId);
 }
