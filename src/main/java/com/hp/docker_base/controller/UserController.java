@@ -1,7 +1,9 @@
 package com.hp.docker_base.controller;
 
 
+
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.dto.DataUniqueDto;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.UserDto;
@@ -11,6 +13,7 @@ import com.hp.docker_base.service.IRoleUserService;
 import com.hp.docker_base.service.IUserService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.MD5Utils;
+import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.convert.UserObjectConvert;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
@@ -53,6 +56,21 @@ public class UserController {
         List<User> allUsers = userService.findAllUsers();
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(), UserObjectConvert.convertUserList2Dto(allUsers));
+    }
+
+
+    @ApiOperation(value = "分页获取账户列表", notes = "分页获取账户列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
+                    value = "1 就是查第一页，每页10条记录"),
+    })
+    @GetMapping("/page/list")
+    public Map<String,Object> doQueryAccountPageList(@RequestParam(value = "pageNum") int pageNum) {
+
+        PageUtil.startPage(pageNum);
+        List<User> allUsers = userService.findAllUsers();
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(), new PageInfo(allUsers));
     }
 
 
