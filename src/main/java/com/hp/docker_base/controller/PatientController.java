@@ -1,6 +1,8 @@
 package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import com.hp.docker_base.bean.Patient;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.PatientDto;
 import com.hp.docker_base.bean.dto.UserDto;
@@ -8,6 +10,7 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IPatientService;
 import com.hp.docker_base.service.IRoleService;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.PageUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -85,6 +89,22 @@ public class PatientController extends BaseController{
         }
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
+    }
+
+
+    @ApiOperation(value = "分页获取病人列表", notes = "分页获取病人列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
+                    value = "1 就是查第一页，每页10条记录"),
+    })
+    @GetMapping("/page/list")
+    public Map<String,Object> doQueryPatientPageList(@RequestParam(value = "pageNum") int pageNum,
+                                                     @RequestParam(value = "keywords",required = false) String keywords ) {
+
+        PageUtil.startPage(pageNum);
+        List<Patient> allUsers = patientService.findPatients(keywords);
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(), new PageInfo(allUsers));
     }
 
 

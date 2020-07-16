@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -89,5 +90,10 @@ public class PatientServiceImpl implements IPatientService{
             // 1-2 找到账户，如果是当前编辑账户的话，则认为账户名也是唯一的
             return StringUtils.isNotEmpty(uuid) && user.getUuid().equals(uuid);
         }
+    }
+
+    @Override
+    public List<Patient> findPatients(String keywords) {
+         return patientMapper.selectPatients(keywords);
     }
 }

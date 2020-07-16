@@ -21,4 +21,7 @@ public interface PatientMapper {
     int updatePatientInfo(Patient oldPatient);
 
     Patient queryPatientByUUID(@Param("uuid") String uuid);
+
+
+    List<Patient> selectPatients(@Param("keywords") String keywords);
 }

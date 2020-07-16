@@ -23,6 +23,15 @@
 
 
 
+  <select id="selectPatients" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM tb_patient_info
+    WHERE is_delete=0
+    <if test="keywords != null and keywords!=''">
+      AND (`name` like CONCAT('%',#{keywords},'%')
+      or `post_id` like CONCAT('%',#{keywords},'%'))
+    </if>
+  </select>
+
   <select id="queryPatientByUUID" resultMap="BaseResultMap">
     SELECT  <include refid="Base_Column_List" /> FROM tb_patient_info
     WHERE uuid=#{uuid,jdbcType=VARCHAR}

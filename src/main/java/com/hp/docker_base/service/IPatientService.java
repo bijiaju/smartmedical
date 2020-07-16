@@ -1,7 +1,11 @@
 package com.hp.docker_base.service;
 
 import com.hp.docker_base.bean.Patient;
-import com.hp.docker_base.bean.dto.PatientDto; /**
+import com.hp.docker_base.bean.dto.PatientDto;
+
+import java.util.List;
+
+/**
  * @description:
  * @author: biyangqiang
  * @time: 2020/7/5 18:11
@@ -31,4 +35,10 @@ public interface IPatientService {
      */
     boolean queryPostIdIsUnique(String uuid,
                                 String postId);
+
+    /**
+     * 获取所有病人
+     * @param keywords
+     */
+    List<Patient> findPatients(String keywords);
 }
