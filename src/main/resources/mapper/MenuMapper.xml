@@ -39,6 +39,7 @@
                           AND role_menu.is_delete=0
                           AND role_user.is_delete=0)
       AND menu.is_delete=0
+      order by menu.level,menu.sort
   </select>
  <!-- <sql id="Example_Where_Clause" >
     <where >

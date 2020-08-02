@@ -32,7 +32,7 @@ public class DiagnosticFeatureController {
     @Autowired
     private IDiagnosticFeatureService featureService;
 
-    @ApiOperation(value = "查询科室的通用诊断特征", notes = "查询科室的通用诊断特征")
+    @ApiOperation(value = "根据科室查诊断特征", notes = "查询科室的通用诊断特征")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = true)
     })
@@ -42,7 +42,9 @@ public class DiagnosticFeatureController {
 
         // 查询所有的科室
        /// List<Department>  departmentList = departmentService.queryAllDepartmentList();
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                null);
     }
 
 
