@@ -5,10 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.Patient;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.PatientDto;
-import com.hp.docker_base.bean.dto.UserDto;
+import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IPatientService;
-import com.hp.docker_base.service.IRoleService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
 import io.swagger.annotations.Api;
@@ -25,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/patient")
 @Api(tags = "【前端开放】病人相关API", description = "病人相关API")
-public class PatientController extends BaseController{
+public class PatientController extends BaseController {
 
     @Autowired
     private IPatientService patientService;

@@ -1,4 +1,4 @@
-package com.hp.docker_base.controller;
+package com.hp.docker_base.controller.base;
 
 
 import com.alibaba.fastjson.JSONObject;
@@ -43,6 +43,7 @@ public class BaseController {
             throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"缺少操作用户信息！");
         }
         return user;*/
+        // TODO: 2020/8/4  上线修改
        User user = new User();
        user.setUserName("bee");
        user.setPassword("123456");
