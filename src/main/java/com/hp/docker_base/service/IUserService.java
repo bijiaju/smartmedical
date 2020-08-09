@@ -55,4 +55,17 @@ public interface IUserService {
      *  查询邮箱是否存在
      */
     boolean queryEmailIsUnique(String userId, String email);
+
+    /**
+     * 删除账户
+     */
+    int deleteAccountByAccountId(String accountId,
+                                 String userName);
+
+    /**
+     * 编辑账户信息
+     */
+    UserDto editAccountInfo(String accountId,
+                            UserDto userInfo,
+                            String userName);
 }

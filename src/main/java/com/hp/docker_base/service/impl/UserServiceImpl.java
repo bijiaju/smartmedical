@@ -144,6 +144,43 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public int deleteAccountByAccountId(String accountId,
+                                        String userName) {
+        if(StringUtils.isEmpty(accountId)){
+            return 0;
+        }
+
+        User oldUser = userMapper.selectUserByUUID(accountId);
+        if(oldUser != null){
+            oldUser.setIsDelete(EnumDelete.DELETE.getCode());
+        }
+
+        return userMapper.updateUser(oldUser);
+    }
+
+    @Override
+    public UserDto editAccountInfo(String accountId,
+                                   UserDto userInfo,
+                                   String userName) {
+
+        User oldUser = userMapper.selectUserByUUID(accountId);
+        if(oldUser != null){
+             //User newUser = UserObjectConvert.convertUserDto2User(userInfo);
+            oldUser.setUserName(userInfo.getUserName());
+            oldUser.setDepartmentId(userInfo.getDepartmentId());
+            oldUser.setEmail(userInfo.getEmail());
+            oldUser.setPhone(userInfo.getPhone());
+
+            oldUser.setUpdateUser(userName);
+            oldUser.setUpdateTime(new Date());
+
+            userMapper.updateUser(oldUser);
+            return UserObjectConvert.convertUser2Dto(userMapper.selectUserByUUID(accountId));
+        }
+        return null;
+    }
+
+    @Override
     public int queryUserSort() {
         List<User> allUsers = findAllUsers();
         if(!CollectionUtils.isEmpty(allUsers)){

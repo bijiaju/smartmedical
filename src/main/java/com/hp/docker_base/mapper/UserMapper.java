@@ -25,4 +25,9 @@ public interface UserMapper {
     User selectUserByPhone(@Param("phone") String phone);
 
     User selectUserByEmail(@Param("email") String email);
+
+    User selectUserByUUID(@Param("uuid") String uuid);
+
+    int updateUser(User user);
+
 }

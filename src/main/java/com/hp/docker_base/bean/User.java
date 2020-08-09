@@ -6,6 +6,8 @@ import java.util.Date;
 public class User implements Serializable {
     private Integer id;
 
+    private String departmentId;
+
     private String uuid;
 
     private String userName;
@@ -27,6 +29,14 @@ public class User implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public Integer getId() {
         return id;

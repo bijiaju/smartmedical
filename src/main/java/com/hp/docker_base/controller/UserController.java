@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.dto.DataUniqueDto;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.UserDto;
+import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.em.EnumYesOrNo;
 import com.hp.docker_base.service.IRoleUserService;
@@ -38,7 +39,7 @@ import java.util.Map;
 @Api(tags = "【前端开放】4-账户相关API", description = "账户相关API")
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
 
     @Autowired
     private IUserService userService;
@@ -81,6 +82,7 @@ public class UserController {
                             "  \"userName\": \"账户名称，必填\",\n" +
                             "  \"password\": \"账户密码，未加密，如不传，则由系统按照规则自动生成\",\n" +
                             "  \"email\": \"账户邮箱\",\n" +
+                            "  \"departmentId\": \"科室编号\",\n" +
                             "  \"phone\": \"账户手机号\",\n" +
                             "}"),
     })
@@ -96,9 +98,68 @@ public class UserController {
         // 2、新增账户各属性信息记录
         int addCount = userService.addUserInfo(userInfo);
         if(addCount != 1){
-            CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),"插入失败",null);
+            return CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),"插入失败",null);
         }
 
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
+    }
+
+    @ApiOperation(value = "编辑账户", notes = "编辑账户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "accountId", value = "账户编号", paramType = "path", required = true),
+            @ApiImplicitParam(name = "accountJsonStr", paramType = "query", required = true,
+                    value = "账户信息（Json字符串）\n{\n" +
+                            "  \"userName\": \"账户名称，必填\",\n" +
+                            "  \"password\": \"账户密码，未加密，如不传，则由系统按照规则自动生成\",\n" +
+                            "  \"email\": \"账户邮箱\",\n" +
+                            "  \"departmentId\": \"科室编号\",\n" +
+                            "  \"phone\": \"账户手机号\",\n" +
+                            "}"),
+    })
+    @PutMapping("/{accountId}")
+    public Map<String,Object> doPutAccountAllInfo(
+            @PathVariable(value = "accountId") String accountId,
+            @RequestParam(value = "accountJsonStr") String accountJsonStr,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        UserDto userInfo = JSONObject.parseObject(accountJsonStr, UserDto.class);
+
+        // 2、解析账户Json字符串参数
+        ValidateUtils.validateGroup(userInfo, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
+
+        // 3、编辑账户基础属性信息记录
+        UserDto retAccountInfo = userService.editAccountInfo(
+                accountId,
+                userInfo,
+                currentUser.getUserName()
+        );
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retAccountInfo);
+    }
+
+
+    @ApiOperation(value = "删除单个账户信息", notes = "管理员手动删除单个账户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "accountId", value = "账户编号", paramType = "path", required = true)
+    })
+    @DeleteMapping("/{accountId}")
+    public Map<String,Object> doDeleteAccount(
+            @PathVariable(value = "accountId") String accountId,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 2、删除单个账户信息
+        int count = userService.deleteAccountByAccountId(accountId,
+                currentUser.getUserName());
+
+        if (count == 0) {
+            return CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),"删除用户失败",null);
+        }
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }
 
@@ -162,7 +223,7 @@ public class UserController {
                 dataUniqueInfo);
     }
 
-    // region 新增类方法
+    // region 登录类方法
     @ApiOperation(value = "登录验证" , notes = "登录验证")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "帐户名", paramType = "query", required = true),
@@ -201,6 +262,6 @@ public class UserController {
         session.invalidate();
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }
-
+    // endregion
 
 }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
@@ -26,6 +27,10 @@ public class UserDto implements Serializable {
 
     @ApiModelProperty(value = "账户密码", example = "账户密码")
     private String password;
+
+    @ApiModelProperty(value = "部门编号", example = "部门编号")
+    @NotEmpty(message = "科室不能为空", groups = MiniValidation.class)
+    private String departmentId;
 
     @ApiModelProperty(value = "账户手机号", example = "账户手机号")
     @Pattern(regexp = "1\\d{10}", message = "手机号是1开头的11位数字", groups = MiniValidation.class)
