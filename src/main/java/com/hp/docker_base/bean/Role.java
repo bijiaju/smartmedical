@@ -7,6 +7,8 @@ public class Role {
 
     private String uuid;
 
+    private String remark;
+
     private String roleName;
 
     private String roleCode;
@@ -20,6 +22,14 @@ public class Role {
     private Date createTime;
 
     private Date updateTime;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public Integer getId() {
         return id;

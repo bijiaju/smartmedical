@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,6 +89,14 @@ public class CommonUtil {
             str+="*";
         }
         return str;
+    }
+
+    /**
+     * 获取uuid
+     */
+    public static String generateUUID(){
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 
     public static void main(String[] args){

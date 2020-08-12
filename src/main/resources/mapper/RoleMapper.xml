@@ -6,6 +6,7 @@
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
@@ -13,11 +14,57 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
+    <sql id="Base_Column_List" >
+        id, uuid, role_name, role_code, is_delete, create_user, update_user, create_time,
+        update_time,remark
+    </sql>
 
-  <select id="selectAllRoles" resultMap="BaseResultMap">
-    SELECT id, uuid, role_name, role_code, is_delete, create_user, update_user, create_time,update_time
-     FROM tb_role WHERE is_delete=0
+  <select id="findRoleByRoleId" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />
+     FROM tb_role WHERE uuid=#{roleId}
+      AND is_delete=0
   </select>
+
+
+
+    <select id="selectRoleByName" resultMap="BaseResultMap">
+        SELECT  <include refid="Base_Column_List" />
+        FROM tb_role WHERE role_name=#{roleName}
+        AND is_delete=0
+    </select>
+
+    <select id="selectAllRoles" resultMap="BaseResultMap">
+        SELECT  <include refid="Base_Column_List" />
+        FROM tb_role WHERE is_delete=0
+    </select>
+
+    <insert id="addRoleInfo" parameterType="com.hp.docker_base.bean.Role" >
+         insert into tb_role (id, uuid, role_name,
+      role_code, is_delete, create_user,
+      update_user, create_time, update_time,remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},
+      #{roleCode,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
+      #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+    </insert>
+
+
+    <update id="updateRole" parameterType="com.hp.docker_base.bean.Role" >
+        update tb_role
+        set
+        role_name = #{roleName,jdbcType=VARCHAR},
+        role_code = #{roleCode,jdbcType=VARCHAR},
+        is_delete = #{isDelete,jdbcType=INTEGER},
+         remark = #{remark,jdbcType=VARCHAR},
+        create_user = #{createUser,jdbcType=VARCHAR},
+        update_user = #{updateUser,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+
 <!--  <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
