@@ -17,4 +17,14 @@ public interface MenuMapper {
 
 
     List<Menu> findMenuListByUserId(@Param("userId") String userId);
+
+    Menu selectMenuByUUID(@Param("uuid")String uuid);
+
+    List<Menu> selectMenuListByParentId(@Param("parentId") String parentId);
+
+
+    int updateMenuInfo(Menu oldMenu);
+
+
+    int insertMenuInfo(Menu menu);
 }

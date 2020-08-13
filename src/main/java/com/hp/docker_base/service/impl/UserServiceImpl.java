@@ -8,6 +8,7 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.em.EnumRole;
 import com.hp.docker_base.mapper.RoleUserMapper;
 import com.hp.docker_base.mapper.UserMapper;
+import com.hp.docker_base.service.IRoleService;
 import com.hp.docker_base.service.IUserService;
 import com.hp.docker_base.util.MD5Utils;
 import com.hp.docker_base.util.convert.UserObjectConvert;
@@ -38,6 +39,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private RoleUserMapper roleUserMapper;
 
+    @Autowired
+    private IRoleService roleService;
+
     @Override
     public List<User> findAllUsers() {
         return userMapper.selectAllUsers();
@@ -65,15 +69,10 @@ public class UserServiceImpl implements IUserService {
         user.setSort(queryUserSort());
 
         // 新增账户角色
-        RoleUser roleUser = new RoleUser();
-        roleUser.setUserId(uuid);
-        roleUser.setRoleId(EnumRole.DOCTOR.getCode());
-        roleUser.setCreateTime(new Date());
-        roleUser.setUpdateTime(new Date());
-        roleUser.setCreateUser(userInfo.getUserName());
-        roleUser.setUpdateUser(userInfo.getUserName());
-        roleUser.setIsDelete(EnumDelete.NOT_DELETE.getCode());
-        roleUserMapper.insertRoleUser(roleUser);
+        roleService.addRoleMemberInfo(uuid,
+                EnumRole.DOCTOR.getCode(),
+                userInfo.getUserName());
+
         return userMapper.insertUserInfo(user);
     }
 

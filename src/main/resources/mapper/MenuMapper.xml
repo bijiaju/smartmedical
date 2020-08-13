@@ -21,6 +21,22 @@
     create_time, update_time
   </sql>
 
+
+
+  <select id="selectMenuByUUID" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />
+    FROM tb_menu WHERE uuid=#{uuid,jdbcType=VARCHAR}
+    AND is_delete=0
+  </select>
+
+  <select id="selectMenuListByParentId" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />
+    FROM tb_menu WHERE parent_id=#{parentId,jdbcType=VARCHAR}
+    AND is_delete=0
+    ORDER BY level ,sort
+  </select>
+
+
   <select id="selectAllMenuList" resultMap="BaseResultMap">
     SELECT  id, uuid, name, parent_id, full_parh, level, sort, is_delete, create_user, update_user,
     create_time, update_time
@@ -41,6 +57,35 @@
       AND menu.is_delete=0
       order by menu.level,menu.sort
   </select>
+
+  <update id="updateMenuInfo" parameterType="com.hp.docker_base.bean.Menu" >
+    update tb_menu
+    set
+    name = #{name,jdbcType=VARCHAR},
+    parent_id = #{parentId,jdbcType=VARCHAR},
+    full_parh = #{fullParh,jdbcType=VARCHAR},
+    level = #{level,jdbcType=INTEGER},
+    sort = #{sort,jdbcType=INTEGER},
+    is_delete = #{isDelete,jdbcType=INTEGER},
+    create_user = #{createUser,jdbcType=VARCHAR},
+    update_user = #{updateUser,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="insertMenuInfo" parameterType="com.hp.docker_base.bean.Menu" >
+    insert into tb_menu (id, uuid, name,
+    parent_id, full_parh, level,
+    sort, is_delete, create_user,
+    update_user, create_time, update_time
+    )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    #{parentId,jdbcType=VARCHAR}, #{fullParh,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER},
+    #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
+    #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
  <!-- <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -328,19 +373,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.taotao.pojo.Menu" >
-    update tb_menu
-    set uuid = #{uuid,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=VARCHAR},
-      full_parh = #{fullParh,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sort = #{sort,jdbcType=INTEGER},
-      is_delete = #{isDelete,jdbcType=INTEGER},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      update_user = #{updateUser,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>-->
+  -->
 </mapper>

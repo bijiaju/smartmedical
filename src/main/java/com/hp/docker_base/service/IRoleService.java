@@ -43,4 +43,19 @@ public interface IRoleService {
 
     boolean queryRoleNameIsUnique(String roleId,
                                   String roleName);
+
+    /**
+     * 添加角色成员
+     */
+    int addRoleMember(String roleId,
+                      List<String> memberIds,
+                      String userName);
+
+
+    /**
+     * 添加账户角色
+     */
+   int addRoleMemberInfo(String userId,
+                         String roleId,
+                         String userName);
 }

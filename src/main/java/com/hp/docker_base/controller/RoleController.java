@@ -10,6 +10,7 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.em.EnumYesOrNo;
 import com.hp.docker_base.service.IRoleService;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.convert.CommonObjectTypeConvertUtils;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
 import io.swagger.annotations.Api;
@@ -130,7 +131,44 @@ public class RoleController extends BaseController{
                 currentUser.getUserName()
         );
 
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                null);
+    }
+
+    @ApiOperation(value = "添加应用角色下的多个成员账户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "应用角色编号", paramType = "path", required = true),
+            @ApiImplicitParam(name = "accountMemberIdStr", value = "账户编号，多个编号间以','隔开", paramType = "query", required = true)
+    })
+    @PostMapping("/{roleId}/member")
+    public Map<String,Object> doPostApplicationRoleMember(
+            @PathVariable(value = "roleId") String roleId,
+            @RequestParam(value = "accountMemberIdStr") String accountMemberIdStr,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 成员编号集合
+        List<String> memberIds = CommonObjectTypeConvertUtils.convertStrToStrList(accountMemberIdStr);
+
+        // 2、 添加应用角色下的多个成员账户
+        int addCount = roleService.addRoleMember(
+                roleId,
+                memberIds,
+                currentUser.getUserName()
+        );
+
+        if (addCount == 0) {
+            return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                    EnumOKOrNG.NG.getValue(),
+                    null);
+        }
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                "添加角色成员成功！",
+                null);
     }
 
     @ApiOperation(value = "查询角色名是否唯一，唯一返回1，不唯一返回0")
@@ -152,4 +190,8 @@ public class RoleController extends BaseController{
                 EnumOKOrNG.OK.getValue(),
                 dataUniqueInfo);
     }
+
+
+
+
 }

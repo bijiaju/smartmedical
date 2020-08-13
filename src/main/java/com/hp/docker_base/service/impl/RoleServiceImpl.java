@@ -1,11 +1,14 @@
 package com.hp.docker_base.service.impl;
 
 import com.hp.docker_base.bean.Role;
+import com.hp.docker_base.bean.RoleUser;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.em.EnumOKOrNG;
+import com.hp.docker_base.em.EnumRole;
 import com.hp.docker_base.mapper.RoleMapper;
+import com.hp.docker_base.mapper.RoleUserMapper;
 import com.hp.docker_base.service.IRoleService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.convert.RoleObjectConvert;
@@ -13,6 +16,7 @@ import com.hp.docker_base.util.validate.ErrorParamException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +31,9 @@ public class RoleServiceImpl implements IRoleService {
 
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private RoleUserMapper roleUserMapper;
 
     @Override
     public List<Role> findAllRoles() {
@@ -104,6 +111,41 @@ public class RoleServiceImpl implements IRoleService {
             // 1-2 找到账户，如果是当前编辑账户的话，则认为账户名也是唯一的
             return StringUtils.isNotEmpty(roleId) && user.getUuid().equals(roleId);
         }
+    }
+
+    @Override
+    public int addRoleMember(String roleId,
+                             List<String> memberIds,
+                             String userName) {
+        int totalCount = 0;
+        if(!CollectionUtils.isEmpty(memberIds)){
+            for(String memberId: memberIds){
+                totalCount += addRoleMemberInfo(memberId,
+                        roleId,
+                        userName);
+            }
+        }
+        return totalCount;
+    }
+
+    @Override
+    public int addRoleMemberInfo(String userId,
+                                 String roleId,
+                                 String userName){
+        if(StringUtils.isEmpty(userId)
+                || StringUtils.isEmpty(roleId)){
+            return 0;
+        }
+
+        RoleUser roleUser = new RoleUser();
+        roleUser.setUserId(userId);
+        roleUser.setRoleId(roleId);
+        roleUser.setCreateTime(new Date());
+        roleUser.setUpdateTime(new Date());
+        roleUser.setCreateUser(userName);
+        roleUser.setUpdateUser(userName);
+        roleUser.setIsDelete(EnumDelete.NOT_DELETE.getCode());
+        return roleUserMapper.insertRoleUser(roleUser);
     }
 
     private void checkRoleValidity(Role role) {

@@ -99,6 +99,20 @@ public class CommonUtil {
         return uuid.toString();
     }
 
+    /**
+     *  根据fullpath设置level层级
+     * @param fullPath  fullPath：0001/002/003
+     */
+    public static Integer getLevel(String fullPath) {
+        int count = 0;
+        Pattern p = Pattern.compile("/");
+        Matcher m = p.matcher(fullPath);
+        while(m.find()) {
+            count++;
+        }
+        return count+1;
+    }
+
     public static void main(String[] args){
         //测试生成base64的编码
        /* String imgFile = "C:\\Users\\bee\\Desktop\\test1\\2.png";

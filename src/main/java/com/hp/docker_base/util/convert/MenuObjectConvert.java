@@ -60,20 +60,36 @@ public class MenuObjectConvert {
     }
 
 
-    public static List<MenuDto> convertMenuList2Dto(List<Menu> menuList) {
+    public static List<MenuDto> convertMenu2DtoList(List<Menu> menuList) {
         // 判空
         if (CollectionUtils.isEmpty(menuList)) {
             return new ArrayList<>();
         }
 
         // 数据流转换
-        return menuList.stream().map(MenuObjectConvert::convertMenuList2Dto).collect(Collectors.toList());
+        return menuList.stream().map(MenuObjectConvert::convertMenu2Dto).collect(Collectors.toList());
     }
 
 
-    public static MenuDto convertMenuList2Dto(Menu menu) {
+    public static MenuDto convertMenu2Dto(Menu menu) {
+        if(menu == null){
+            return null;
+        }
+
         MenuDto dto = new MenuDto();
         BeanUtils.copyProperties(menu,dto);
         return dto;
+    }
+
+    public static Menu convertMenuDto2Dao(MenuDto menuDto) {
+        if(menuDto == null){
+            return null;
+        }
+
+        Menu menu = new Menu();
+        BeanUtils.copyProperties(menuDto,menu);
+
+        menu.setFullParh(menuDto.getFullParh());
+        return menu;
     }
 }

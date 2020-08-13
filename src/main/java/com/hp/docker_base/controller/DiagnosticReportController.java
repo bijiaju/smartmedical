@@ -49,6 +49,8 @@ public class DiagnosticReportController {
        // return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }*/
 
+
+
     @ApiOperation(value = "获取诊断结果", notes = "获取诊断结果")
    /* @ApiImplicitParams({
             @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = true)

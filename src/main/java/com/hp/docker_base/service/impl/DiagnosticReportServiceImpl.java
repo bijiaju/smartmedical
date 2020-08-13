@@ -4,7 +4,9 @@ import com.hp.docker_base.service.IDiagnosticReportService;
 import com.hp.docker_base.service.IDiagnosticSampleImportService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.List;
  */
 @Service
 public class DiagnosticReportServiceImpl implements IDiagnosticReportService {
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     // 诊断样本导入服务
     @Autowired
