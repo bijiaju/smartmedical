@@ -3,6 +3,7 @@ package com.hp.docker_base.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.hp.docker_base.bean.Role;
 import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.DataUniqueDto;
 import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.controller.base.BaseController;
@@ -35,6 +36,7 @@ public class RoleController extends BaseController{
 
     @ApiOperation(value = "获取所有的角色", notes = "获取所有的角色")
     @GetMapping("/list")
+    @MyLog("获取所有的角色")
     public Map<String,Object> doQueryRoleList() {
 
         List<Role> allRoles = roleService.findAllRoles();

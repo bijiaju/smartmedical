@@ -4,6 +4,7 @@ package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.DataUniqueDto;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.UserDto;
@@ -87,6 +88,7 @@ public class UserController extends BaseController{
                             "}"),
     })
     @PostMapping("/new")
+    @MyLog("注册账户")
     public Map<String,Object> doPostNewUserInfo(
             @RequestParam(value = "accountJsonStr") String accountJsonStr){
 
