@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface RoleMapper {
 
-    List<Role> selectAllRoles();
+    List<Role> selectAllRoles(@Param("keywords") String keywords);
 
 
     Role findRoleByRoleId(@Param("roleId") String roleId);

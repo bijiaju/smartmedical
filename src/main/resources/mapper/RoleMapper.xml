@@ -36,6 +36,9 @@
     <select id="selectAllRoles" resultMap="BaseResultMap">
         SELECT  <include refid="Base_Column_List" />
         FROM tb_role WHERE is_delete=0
+        <if test="keywords != null and keywords!=''">
+            AND (role_name like CONCAT('%',#{keywords},'%'))
+        </if>
     </select>
 
     <insert id="addRoleInfo" parameterType="com.hp.docker_base.bean.Role" >

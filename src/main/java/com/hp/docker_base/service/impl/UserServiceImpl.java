@@ -1,7 +1,7 @@
 package com.hp.docker_base.service.impl;
 
-import com.hp.docker_base.bean.RoleUser;
 import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.condition.UserCondition;
 import com.hp.docker_base.bean.dto.UserDto;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -13,8 +13,6 @@ import com.hp.docker_base.service.IUserService;
 import com.hp.docker_base.util.MD5Utils;
 import com.hp.docker_base.util.convert.UserObjectConvert;
 import com.hp.docker_base.util.validate.ErrorParamException;
-import com.hp.docker_base.util.validate.ValidateUtils;
-import com.hp.docker_base.util.validate.group.UpdateValidation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +41,11 @@ public class UserServiceImpl implements IUserService {
     private IRoleService roleService;
 
     @Override
-    public List<User> findAllUsers() {
-        return userMapper.selectAllUsers();
+    public List<User> findAllUsers(String departmentId, String keywords) {
+        UserCondition condition = new UserCondition();
+        condition.setDepartmentId(departmentId);
+        condition.setKeywords(keywords);
+        return userMapper.selectAllUsers(condition);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -180,8 +181,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public User findUserByUUID(String accountId) {
+        if(StringUtils.isEmpty(accountId)){
+            return null;
+        }
+        return userMapper.selectUserByUUID(accountId);
+    }
+
+    @Override
     public int queryUserSort() {
-        List<User> allUsers = findAllUsers();
+        List<User> allUsers = findAllUsers(null, null);
         if(!CollectionUtils.isEmpty(allUsers)){
             return allUsers.size()+1;
         }

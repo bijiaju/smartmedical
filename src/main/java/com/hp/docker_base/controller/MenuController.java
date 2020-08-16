@@ -4,6 +4,7 @@ package com.hp.docker_base.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.hp.docker_base.bean.Menu;
 import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.MenuDto;
 import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.bean.dto.SortDto;
@@ -11,6 +12,7 @@ import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IMenuService;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.convert.CommonObjectTypeConvertUtils;
 import com.hp.docker_base.util.convert.MenuObjectConvert;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
@@ -42,8 +44,9 @@ public class MenuController extends BaseController{
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "账户编号", paramType = "path", required = true),
     })
-    @GetMapping("/{userId}/tree/list")
-    public  Map<String,Object>  doQueryMenuTreeList(
+    @GetMapping("/user/{userId}/tree/list")
+    @MyLog("查询账户对应的菜单")
+    public  Map<String,Object>  doQueryUserMenuTreeList(
             @PathVariable(value = "userId") String userId) {
 
         // 查询账户的菜单
@@ -54,6 +57,111 @@ public class MenuController extends BaseController{
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos);
     }
 
+    @ApiOperation(value = "查询角色对应的菜单", notes = "查询角色对应的菜单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色编号", paramType = "path", required = true),
+    })
+    @GetMapping("/role/{roleId}/tree/list")
+    @MyLog("查询角色对应的菜单")
+    public  Map<String,Object>  doQueryRoleMenuTreeList(
+            @PathVariable(value = "roleId") String roleId) {
+
+        // 查询角色对应的菜单
+        List<Menu> menuList = menuService.queryMenuListByRoleId(roleId);
+        List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuList);
+        List<MenuDto> menuDtos = MenuObjectConvert.buildMenuTreeList(menuDtos1);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos);
+    }
+
+    @ApiOperation(value = "查询角色对应的有选择状态的菜单", notes = "查询角色对应的有选择状态的菜单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色编号", paramType = "path", required = true),
+    })
+    @GetMapping("/{roleId}/check/tree/list")
+    @MyLog("查询角色对应的有选择状态的菜单")
+    public  Map<String,Object>  doQueryRoleMenuStatusTreeList(
+            @PathVariable(value = "roleId") String roleId) {
+
+        // 查询角色对应的菜单
+        List<Menu> menuAllList = menuService.queryAllMenuList();
+        List<Menu> menuList = menuService.queryMenuListByRoleId(roleId);
+
+        List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoStatusList(menuList,menuAllList);
+        List<MenuDto> menuDtos = MenuObjectConvert.buildMenuTreeList(menuDtos1);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos);
+    }
+
+    @ApiOperation(value = "查询所有的菜单(树形)", notes = "查询所有的菜单")
+    @GetMapping("/tree/list")
+    @MyLog("查询所有的菜单(树形)")
+    public  Map<String,Object>  doQueryMenuTreeList() {
+
+        List<Menu> menuList = menuService.queryAllMenuList();
+        List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuList);
+        List<MenuDto> menuDtos = MenuObjectConvert.buildMenuTreeList(menuDtos1);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos);
+    }
+
+    @ApiOperation(value = "查询所有的菜单（列表）", notes = "查询所有的菜单")
+    @GetMapping("/list")
+    @MyLog("查询所有的菜单（列表）")
+    public  Map<String,Object>  doQueryMenuList() {
+
+        List<Menu> menuList = menuService.queryAllMenuList();
+        List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuList);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos1);
+    }
+
+    @ApiOperation(value = "查询单个菜单信息", notes = "查询单个菜单信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "menuId", value = "菜单编号", paramType = "path", required = true)
+    })
+    @GetMapping("/{menuId}")
+    @MyLog("查询单个菜单信息")
+    public Map<String,Object> doGetAccount(
+            @PathVariable(value = "menuId") String menuId,
+            HttpServletRequest request) {
+
+        Menu menu = menuService.findMenuByUUID(menuId);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menu);
+    }
+
+
+    @ApiOperation(value = "新增角色和菜单关系")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色编号", paramType = "path", required = true),
+            @ApiImplicitParam(name = "menuIdStr", value = "资源编号，多个编号间以','隔开", paramType = "query", required = true)
+    })
+    @PostMapping("/{roleId}/menu")
+    @MyLog("保存角色和菜单关系")
+    public Map<String,Object> doPostApplicationRoleResource(
+            @PathVariable(value = "roleId") String roleId,
+            @RequestParam(value = "menuIdStr") String menuIdStr,
+            HttpServletRequest request) {
+
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        List<String> resourceIds = CommonObjectTypeConvertUtils.convertStrToStrList(menuIdStr);
+
+        // 2、角色和应用资源关系
+        int addCount = menuService.addRoleMenuInfo(
+                roleId,
+                resourceIds,
+                currentUser.getUserName()
+        );
+
+        if (addCount == 0) {
+            return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                    "菜单没有变更",
+                    null);
+        }
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                null);
+    }
 
     @ApiOperation(value = "新增菜单信息", notes = "新增菜单信息")
     @ApiImplicitParams({
@@ -65,6 +173,7 @@ public class MenuController extends BaseController{
                             "}")
     })
     @PostMapping("/new")
+    @MyLog("新增菜单信息")
     public Map<String,Object> doPostNewApplicationResource(
             @RequestParam(value = "resourceJsonStr") String resourceJsonStr,
             HttpServletRequest request) {
@@ -97,6 +206,7 @@ public class MenuController extends BaseController{
                             "}")
     })
     @PutMapping("/{menuId}")
+    @MyLog("编辑菜单信息")
     public Map<String,Object> doPostNewApplicationRoleInfo(
             @PathVariable(value = "menuId") String menuId,
             @RequestParam(value = "resourceJsonStr") String resourceJsonStr,
@@ -122,6 +232,9 @@ public class MenuController extends BaseController{
     }
 
     @ApiOperation(value = "获取菜单默认排序值", notes = "获取菜单默认排序值，然后+1返回")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "parentId", value = "菜单父编号", paramType = "query", required = false)
+    })
     @GetMapping("/sort")
     public  Map<String,Object> doQueryDefaultMenuSort(
             @RequestParam(value = "parentId") String parentId
@@ -143,6 +256,7 @@ public class MenuController extends BaseController{
             @ApiImplicitParam(name = "menuId", value = "菜单编号", paramType = "path", required = true)
     })
     @DeleteMapping("/{menuId}")
+    @MyLog("删除菜单")
     public Map<String,Object> doDeleteMenu(
             @PathVariable(value = "menuId") String menuId,
             HttpServletRequest request) {

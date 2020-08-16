@@ -1,6 +1,7 @@
 package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.Role;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.annotation.MyLog;
@@ -11,6 +12,7 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.em.EnumYesOrNo;
 import com.hp.docker_base.service.IRoleService;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.convert.CommonObjectTypeConvertUtils;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
@@ -19,7 +21,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,9 +40,39 @@ public class RoleController extends BaseController{
     @MyLog("获取所有的角色")
     public Map<String,Object> doQueryRoleList() {
 
-        List<Role> allRoles = roleService.findAllRoles();
+        List<Role> allRoles = roleService.findAllRoles(null);
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),allRoles);
+    }
+
+    @ApiOperation(value = "获取分页角色", notes = "获取分页角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keywords", value = "关键字，支持角色名称查询", paramType = "query", required = false)
+    })
+    @GetMapping("/page/list")
+    @MyLog("获取分页角色")
+    public Map<String,Object> doQueryRolePageList(
+            @RequestParam(value = "keywords",required = false) String keywords,
+            @RequestParam(value = "pageNum") int pageNum) {
+
+        PageUtil.startPage(pageNum);
+        List<Role> allRoles = roleService.findAllRoles(keywords);
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(), new PageInfo(allRoles));
+    }
+
+    @ApiOperation(value = "查询单个角色信息", notes = "查询单个角色信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色编号", paramType = "path", required = true)
+    })
+    @GetMapping("/{roleId}")
+    @MyLog("查询单个角色信息")
+    public Map<String,Object> doGetRole(
+            @PathVariable(value = "roleId") String roleId,
+            HttpServletRequest request) {
+
+        Role role = roleService.findRoleByRoleId(roleId);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),role);
     }
 
 
@@ -51,6 +82,7 @@ public class RoleController extends BaseController{
             @ApiImplicitParam(name = "roleId", value = "应用角色编号", paramType = "path", required = true)
     })
     @DeleteMapping("/{roleId}")
+    @MyLog("删除角色")
     public Map<String,Object> doDeleteApplicationRole(
             @PathVariable(value = "roleId") String roleId,
             HttpServletRequest request) {
@@ -82,6 +114,7 @@ public class RoleController extends BaseController{
                             "}")
     })
     @PostMapping("/new")
+    @MyLog("新增角色信息")
     public Map<String,Object> doPostNewApplicationRoleInfo(
             @RequestParam(value = "roleJsonStr") String roleJsonStr,
             HttpServletRequest request) {
@@ -114,6 +147,7 @@ public class RoleController extends BaseController{
                             "}")
     })
     @PutMapping("/{roleId}")
+    @MyLog("编辑角色信息")
     public Map<String,Object> doPostNewApplicationRoleInfo(
             @PathVariable(value = "roleId") String roleId,
             @RequestParam(value = "roleJsonStr") String roleJsonStr,
@@ -144,6 +178,7 @@ public class RoleController extends BaseController{
             @ApiImplicitParam(name = "accountMemberIdStr", value = "账户编号，多个编号间以','隔开", paramType = "query", required = true)
     })
     @PostMapping("/{roleId}/member")
+    @MyLog("添加角色下的多个成员账户")
     public Map<String,Object> doPostApplicationRoleMember(
             @PathVariable(value = "roleId") String roleId,
             @RequestParam(value = "accountMemberIdStr") String accountMemberIdStr,

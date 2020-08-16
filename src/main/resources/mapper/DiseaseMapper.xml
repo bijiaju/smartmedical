@@ -1,66 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hp.docker_base.mapper.DepartmentMapper" >
-  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.Department" >
+<mapper namespace="com.hp.docker_base.mapper.DiseaseMapper" >
+  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.Disease" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="treatment" property="treatment" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
-
-
-
-  <sql id="Base_Column_List" >
-    id, uuid, name, sort, is_delete, create_user, update_user, create_time, update_time,remark
-  </sql>
-
-  <select id="selectAllDepartmentList" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_department
-    WHERE is_delete=0
-    <if test="keywords != null and keywords!=''">
-      AND (name like CONCAT('%',#{keywords},'%'))
-    </if>
-  </select>
-
-
-  <select id="selectDepartmentByUUID" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_department
-    WHERE is_delete=0
-    AND uuid=#{uuid,jdbcType=VARCHAR}
-  </select>
-
-  <insert id="insertDepartmentInfo" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department (id, uuid, name,
-    sort, is_delete, create_user,
-    update_user, create_time, update_time,remark
-    )
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-    #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
-    #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-    )
-  </insert>
-
-
-  <update id="updateDepartmentInfo" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
-    set
-    name = #{name,jdbcType=VARCHAR},
-    sort = #{sort,jdbcType=INTEGER},
-    is_delete = #{isDelete,jdbcType=INTEGER},
-    create_user = #{createUser,jdbcType=VARCHAR},
-    update_user = #{updateUser,jdbcType=VARCHAR},
-    create_time = #{createTime,jdbcType=TIMESTAMP},
-    update_time = #{updateTime,jdbcType=TIMESTAMP},
-    remark = #{remark,jdbcType=VARCHAR}
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
-  <!--<sql id="Example_Where_Clause" >
+  <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -119,15 +75,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, uuid, name, sort, is_delete, create_user, update_user, create_time, update_time
+    id, uuid, name, department_id, treatment, introduction, remark, sort, is_delete, 
+    create_user, update_user, create_time, update_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.DepartmentExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.DiseaseExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_department
+    from tb_disease
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -138,31 +95,33 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from tb_department
+    from tb_disease
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_department
+    delete from tb_disease
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.DepartmentExample" >
-    delete from tb_department
+  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.DiseaseExample" >
+    delete from tb_disease
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department (id, uuid, name, 
-      sort, is_delete, create_user, 
-      update_user, create_time, update_time
-      )
+  <insert id="insert" parameterType="com.hp.docker_base.bean.Disease" >
+    insert into tb_disease (id, uuid, name, 
+      department_id, treatment, introduction, 
+      remark, sort, is_delete, 
+      create_user, update_user, create_time, 
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
-      #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{departmentId,jdbcType=VARCHAR}, #{treatment,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department
+  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.Disease" >
+    insert into tb_disease
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -172,6 +131,18 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="treatment != null" >
+        treatment,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="remark != null" >
+        remark,
       </if>
       <if test="sort != null" >
         sort,
@@ -202,6 +173,18 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="treatment != null" >
+        #{treatment,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="sort != null" >
         #{sort,jdbcType=INTEGER},
       </if>
@@ -222,14 +205,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hp.docker_base.bean.DepartmentExample" resultType="java.lang.Integer" >
-    select count(*) from tb_department
+  <select id="countByExample" parameterType="com.hp.docker_base.bean.DiseaseExample" resultType="java.lang.Integer" >
+    select count(*) from tb_disease
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_department
+    update tb_disease
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -239,6 +222,18 @@
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentId != null" >
+        department_id = #{record.departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.treatment != null" >
+        treatment = #{record.treatment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.sort != null" >
         sort = #{record.sort,jdbcType=INTEGER},
@@ -264,10 +259,14 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tb_department
+    update tb_disease
     set id = #{record.id,jdbcType=INTEGER},
       uuid = #{record.uuid,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=VARCHAR},
+      treatment = #{record.treatment,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER},
       is_delete = #{record.isDelete,jdbcType=INTEGER},
       create_user = #{record.createUser,jdbcType=VARCHAR},
@@ -278,14 +277,26 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
+  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.Disease" >
+    update tb_disease
     <set >
       <if test="uuid != null" >
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="treatment != null" >
+        treatment = #{treatment,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="sort != null" >
         sort = #{sort,jdbcType=INTEGER},
@@ -308,10 +319,14 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
+  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.Disease" >
+    update tb_disease
     set uuid = #{uuid,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=VARCHAR},
+      treatment = #{treatment,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=INTEGER},
       create_user = #{createUser,jdbcType=VARCHAR},
@@ -319,5 +334,5 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-  </update>-->
+  </update>
 </mapper>

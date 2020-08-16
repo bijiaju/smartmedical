@@ -5,8 +5,11 @@ import com.hp.docker_base.bean.dto.MenuDto;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.mapper.MenuMapper;
+import com.hp.docker_base.mapper.RoleMenuMapper;
 import com.hp.docker_base.service.IMenuService;
+import com.hp.docker_base.service.IRoleMenuService;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.convert.CommonObjectTypeConvertUtils;
 import com.hp.docker_base.util.convert.MenuObjectConvert;
 import com.hp.docker_base.util.validate.ErrorParamException;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +29,11 @@ import java.util.List;
 public class MenuServiceImpl implements IMenuService{
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private IRoleMenuService roleMenuService;
+
+
 
     @Override
     public List<Menu> queryAllMenuList() {
@@ -110,6 +118,43 @@ public class MenuServiceImpl implements IMenuService{
             return MenuObjectConvert.convertMenu2Dto(this.findMenuByUUID(oldMenu.getUuid()));
         }
 
+        return null;
+    }
+
+    @Override
+    public int addRoleMenuInfo(String roleId,
+                               List<String> resourceIds,
+                               String userName) {
+        // 1、 获取角色数据库应用资源
+        List<String> dataBaseResourceIds = roleMenuService.findMenuIdListByRoleId(roleId);
+
+        List<String> addResourceIds = CommonObjectTypeConvertUtils.getAddId(resourceIds, dataBaseResourceIds);
+        List<String> deleteResourceIds = CommonObjectTypeConvertUtils.getDeleteId(resourceIds, dataBaseResourceIds);
+
+        // 2、 添加人和应用资源的关系
+        int total = 0;
+        if (!CollectionUtils.isEmpty(addResourceIds)) {
+            int addCount = roleMenuService.saveRoleMenu(roleId,
+                    addResourceIds, dataBaseResourceIds, userName);
+            total += addCount;
+        }
+        // 3、 删除角色和应用资源的关系
+        if (!CollectionUtils.isEmpty(deleteResourceIds)) {
+            int delCount = roleMenuService.removeRoleMenu(roleId,
+                    deleteResourceIds);
+            total += delCount;
+        }
+        return total;
+    }
+
+    @Override
+    public List<Menu> queryMenuListByRoleId(String roleId) {
+        if(StringUtils.isNotEmpty(roleId)){
+            List<String> menuIdList = roleMenuService.findMenuIdListByRoleId(roleId);
+            if(!CollectionUtils.isEmpty(menuIdList)){
+                return menuMapper.selectMenuByIdList(menuIdList);
+            }
+        }
         return null;
     }
 

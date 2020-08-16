@@ -19,7 +19,6 @@ import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.convert.UserObjectConvert;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
-import com.hp.docker_base.util.validate.group.UpdateValidation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -37,7 +36,7 @@ import java.util.Map;
  * @Date: 2019/1/11 16:47
  * @Description: 用户Controller
  */
-@Api(tags = "【前端开放】4-账户相关API", description = "账户相关API")
+@Api(tags = "【前端开放】账户相关API", description = "账户相关API")
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController{
@@ -53,24 +52,47 @@ public class UserController extends BaseController{
      */
     @ApiOperation(value = "获取账户列表", notes = "获取账户列表")
     @GetMapping("/list")
+    @MyLog("获取账户列表")
     public Map<String,Object> doQueryAccountList() {
 
-        List<User> allUsers = userService.findAllUsers();
+        List<User> allUsers = userService.findAllUsers(null,
+                null);
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(), UserObjectConvert.convertUserList2Dto(allUsers));
+    }
+
+    @ApiOperation(value = "查询单个账户信息", notes = "查询单个账户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "accountId", value = "账户编号", paramType = "path", required = true)
+    })
+    @GetMapping("/{accountId}")
+    @MyLog("查询单个账户信息")
+    public Map<String,Object> doGetAccount(
+            @PathVariable(value = "accountId") String accountId,
+            HttpServletRequest request) {
+
+        User user = userService.findUserByUUID(accountId);
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),user);
     }
 
 
     @ApiOperation(value = "分页获取账户列表", notes = "分页获取账户列表")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "query", required = false),
+            @ApiImplicitParam(name = "keywords", value = "支持名称、手机号、邮箱", paramType = "query", required = false),
             @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
-    public Map<String,Object> doQueryAccountPageList(@RequestParam(value = "pageNum") int pageNum) {
+    @MyLog("分页获取账户列表")
+    public Map<String,Object> doQueryAccountPageList(
+            @RequestParam(value = "departmentId",required = false) String departmentId,
+            @RequestParam(value = "keywords",required = false) String keywords,
+            @RequestParam(value = "pageNum") int pageNum) {
 
         PageUtil.startPage(pageNum);
-        List<User> allUsers = userService.findAllUsers();
+        List<User> allUsers = userService.findAllUsers(departmentId,keywords);
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(), new PageInfo(allUsers));
     }
@@ -119,6 +141,7 @@ public class UserController extends BaseController{
                             "}"),
     })
     @PutMapping("/{accountId}")
+    @MyLog("编辑账户")
     public Map<String,Object> doPutAccountAllInfo(
             @PathVariable(value = "accountId") String accountId,
             @RequestParam(value = "accountJsonStr") String accountJsonStr,
@@ -148,6 +171,7 @@ public class UserController extends BaseController{
             @ApiImplicitParam(name = "accountId", value = "账户编号", paramType = "path", required = true)
     })
     @DeleteMapping("/{accountId}")
+    @MyLog("删除单个账户信息")
     public Map<String,Object> doDeleteAccount(
             @PathVariable(value = "accountId") String accountId,
             HttpServletRequest request) {
@@ -233,6 +257,7 @@ public class UserController extends BaseController{
             @ApiImplicitParam(name = "password", paramType = "query", required = true, value = "密码")
     })
     @PostMapping("/login")
+    @MyLog("登录平台")
     public Map<String,Object> doPostNewApplicationResource(
             @RequestParam(value = "userName") String userName,
             @RequestParam(value = "roleId") String roleId,
@@ -258,6 +283,7 @@ public class UserController extends BaseController{
 
     @ApiOperation(value = "退出登录" , notes = "退出登录")
     @PostMapping("/loginout")
+    @MyLog("退出平台")
     public Map<String,Object> loginout(HttpServletRequest request){
         HttpSession session=request.getSession();
         session.removeAttribute("user");

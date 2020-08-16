@@ -1,6 +1,7 @@
 package com.hp.docker_base.controller;
 
 
+import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.DignosticClassificaitionDto;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IDiagnosticFeatureService;
@@ -56,6 +57,7 @@ public class DiagnosticReportController {
             @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = true)
     })*/
     @GetMapping("/diagnostic/result")
+    @MyLog("获取诊断结果")
     public  Map<String,Object>  doQueryDiagnosticFeatureList() {
 
         // 查询诊断结果
@@ -71,6 +73,7 @@ public class DiagnosticReportController {
                     example = "0:否，只获取根级账户下的账户 | 1:是，获取所有子层级的账户下的账户"),*/
     })
     @GetMapping("/file/export")
+    @MyLog("导出诊断样本")
     public Map<String,Object> doExportAccountList(
             @RequestParam(value = "date") String date,
             HttpServletResponse response) {

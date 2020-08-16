@@ -21,7 +21,16 @@
     create_time, update_time
   </sql>
 
-
+  <select id="selectMenuByIdList" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />
+    FROM tb_menu WHERE is_delete=0
+    AND uuid IN
+    <foreach collection="menuIdList" item="item" index="index" open="(" close=")"
+             separator=",">
+      #{item}
+    </foreach>
+    ORDER BY level ,sort
+  </select>
 
   <select id="selectMenuByUUID" resultMap="BaseResultMap">
     SELECT  <include refid="Base_Column_List" />

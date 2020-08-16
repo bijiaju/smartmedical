@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hp.docker_base.mapper.SysLogMapper">
 
-    <insert id="save" parameterType="com.hp.docker_base.bean.annotation.MyLog" >
+    <insert id="save" parameterType="com.hp.docker_base.bean.annotation.SysLog" >
         INSERT INTO `tb_sys_log` (`id`, `username`, `operation`, `method`, `params`, `ip`, `createDate`)
         VALUES (#{id,jdbcType=INTEGER},
         #{username,jdbcType=VARCHAR},
@@ -13,35 +13,25 @@
 
     </insert>
 
-  <!--  <select id="selectEnterpriseEvaluateScoreList"
-            parameterType="siirisoft.mhqd.evaluate.condition.EvaluateScoreCondition"
-            resultType="siirisoft.mhqd.evaluate.entity.EvaluateScore">
+  <select id="findSysLogList" resultType="com.hp.docker_base.bean.annotation.SysLog">
 
-        SELECT score.* FROM enterprise_evaluate_score score
-        INNER JOIN (
+      SELECT *
+      FROM tb_sys_log
+     <where>
+          <if test="condition.startDate != null and condition.startDate !=''">
+              `createDate` &gt;= #{condition.startDate,jdbcType=VARCHAR}
+          </if>
+          <if test="condition.endDate != null and condition.endDate !=''">
+              AND  `createDate` &lt;= #{condition.endDate,jdbcType=VARCHAR}
+          </if>
+          <if test="condition.keywords != null and condition.keywords !=''">
+              AND (`username` like CONCAT('%',#{condition.keywords},'%')
+              or `operation` like CONCAT('%',#{condition.keywords},'%')
+              or `ip` like CONCAT('%',#{condition.keywords},'%'))
+          </if>
 
-        SELECT
-        MAX(`month`) AS maxMonth,
-        enterprise_id
-        FROM
-        enterprise_evaluate_score
-        WHERE
-        <if test="condition.evaluateMonth != null and condition.evaluateMonth !=''">
-            `month` &lt;= #{condition.evaluateMonth}
-        </if>
-
-        AND is_delete = 0
-        GROUP BY
-        enterprise_id
-        ) AS dt_B ON score.`enterprise_id` = dt_B.enterprise_id
-
-        WHERE score.month = dt_B.maxMonth
-        AND score.enterprise_id in
-        <foreach collection="condition.enterpriseIdList" item="item" index="index" open="(" close=")" separator=",">
-            #{item}
-        </foreach>
-        AND score.is_delete = 0
-    </select>-->
+      </where>
+    </select>
 
 
 

@@ -14,8 +14,11 @@ public interface IUserService {
 
     /**
      * 获取所有的账户
+     * @param departmentId
+     * @param keywords
      */
-    List<User> findAllUsers();
+    List<User> findAllUsers(String departmentId,
+                            String keywords);
 
     /**
      *  添加账户信息
@@ -68,4 +71,9 @@ public interface IUserService {
     UserDto editAccountInfo(String accountId,
                             UserDto userInfo,
                             String userName);
+
+    /**
+     * 查询用户信息
+     */
+    User findUserByUUID(String accountId);
 }

@@ -1,19 +1,14 @@
 package com.hp.docker_base.bean;
 
-import com.hp.docker_base.util.validate.group.MiniValidation;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.util.Date;
 
-public class Department {
+public class RoleMenu {
     private Integer id;
 
-    private String uuid;
+    private String menuId;
 
-    @NotEmpty(message = "科室不能为空", groups = MiniValidation.class)
-    private String name;
+    private String roleId;
 
-    private Integer sort;
 
     private Integer isDelete;
 
@@ -25,14 +20,21 @@ public class Department {
 
     private Date updateTime;
 
-    private String remark;
 
-    public String getRemark() {
-        return remark;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public Integer getId() {
@@ -43,29 +45,6 @@ public class Department {
         this.id = id;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid == null ? null : uuid.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
 
     public Integer getIsDelete() {
         return isDelete;

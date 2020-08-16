@@ -30,9 +30,17 @@
     </select>
 
     <select id="selectAllUsers" resultMap="BaseResultMap">
-    SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-    create_time, update_time FROM tb_user WHERE is_delete=0
-</select>
+    SELECT <include refid="Base_Column_List" /> FROM tb_user WHERE is_delete=0
+        <if test="condition.departmentId != null and condition.departmentId!=''">
+            AND department_id = #{condition.departmentId}
+        </if>
+
+        <if test="condition.keywords != null and condition.keywords!=''">
+            AND (user_name like CONCAT('%',#{condition.keywords},'%')
+            or phone like CONCAT('%',#{condition.keywords},'%')
+            or email like CONCAT('%',#{condition.keywords},'%'))
+        </if>
+    </select>
 
 
     <select id="selectUserByUserName" resultMap="BaseResultMap">

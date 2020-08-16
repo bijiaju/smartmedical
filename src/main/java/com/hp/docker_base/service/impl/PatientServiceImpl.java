@@ -81,6 +81,14 @@ public class PatientServiceImpl implements IPatientService{
     }
 
     @Override
+    public Patient queryPatientByUUID(String uuid) {
+        if(StringUtils.isNotEmpty(uuid)){
+            return patientMapper.queryPatientByUUID(uuid);
+        }
+        return null;
+    }
+
+    @Override
     public boolean queryPostIdIsUnique(String uuid,
                                       String postId) {
         Patient user = patientMapper.selectPatientByPostId(postId);

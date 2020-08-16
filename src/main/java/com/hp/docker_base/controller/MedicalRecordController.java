@@ -3,6 +3,7 @@ package com.hp.docker_base.controller;
 
 import com.hp.docker_base.bean.Department;
 import com.hp.docker_base.bean.MedicalRecord;
+import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IMedicalRecordService;
@@ -38,6 +39,7 @@ public class MedicalRecordController {
             @ApiImplicitParam(name = "postId", value = "身份证号", paramType = "path", required = true),
     })
     @GetMapping("/postId/{postId}")
+    @MyLog("根据身份证查询某人的就诊记录")
     public  Map<String,Object>  doQueryMedicalRecord(
             @PathVariable(value = "postId") String postId) {
 

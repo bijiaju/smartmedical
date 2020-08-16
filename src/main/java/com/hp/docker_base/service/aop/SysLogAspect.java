@@ -7,6 +7,7 @@ import com.hp.docker_base.bean.annotation.SysLog;
 import com.hp.docker_base.service.ISysLogService;
 import com.hp.docker_base.util.IPUtils;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,8 +19,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @description:
@@ -59,13 +65,16 @@ public class SysLogAspect {
         String className = joinPoint.getTarget().getClass().getName();
         //获取请求的方法名
         String methodName = method.getName();
-        sysLog.setMethod(className + "." + methodName);
+        sysLog.setMethod(methodName);
 
 
         //请求的参数
         Object[] args = joinPoint.getArgs();
         //将参数所在的数组转换成json
-        String params = JSON.toJSONString(args);
+        List<Object> logArgs = SysLogAspect.streamOf(args)
+                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
+                .collect(Collectors.toList());
+        String params = JSON.toJSONString(logArgs);
         sysLog.setParams(params);
 
         sysLog.setCreateDate(new Date());
@@ -86,5 +95,9 @@ public class SysLogAspect {
 
         //调用service保存SysLog实体类到数据库
         sysLogService.save(sysLog);
+    }
+
+    public static <T> Stream<T> streamOf(T[] array) {
+        return ArrayUtils.isEmpty(array) ? Stream.empty() : Arrays.asList(array).stream();
     }
 }

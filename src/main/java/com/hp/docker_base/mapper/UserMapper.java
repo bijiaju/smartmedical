@@ -2,6 +2,7 @@ package com.hp.docker_base.mapper;
 
 
 import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.condition.UserCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public interface UserMapper {
 
 
-    List<User> selectAllUsers();
+    List<User> selectAllUsers(@Param("condition") UserCondition condition);
 
     int insertUserInfo(User user);
 

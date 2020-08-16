@@ -30,6 +30,9 @@ public interface IPatientService {
     Patient queryPatientByPostId(String postId);
 
 
+    Patient queryPatientByUUID(String uuid);
+
+
     /**
      *  查询身份证是否唯一
      */

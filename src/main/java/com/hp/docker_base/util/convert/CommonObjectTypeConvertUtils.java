@@ -45,7 +45,35 @@ public class CommonObjectTypeConvertUtils {
         return retList.stream().distinct().collect(Collectors.toList());
     }
 
-   /* *//**
+    /**
+     * 获取要添加的id
+     *
+     * @param front    前端传来数据集合
+     * @param database 数据库查询出来的数据
+     */
+    public static List<String> getAddId(List<String> front, List<String> database) {
+        List<String> front1 = new ArrayList<>(front);
+        List<String> database2 = new ArrayList<>(database);
+
+        front1.removeAll(database2);
+        return front1;
+    }
+
+    /**
+     * 获取要删除的id
+     *
+     * @param front    前端传来数据集合
+     * @param database 数据库查询出来的数据
+     */
+    public static List<String> getDeleteId(List<String> front, List<String> database) {
+        List<String> front1 = new ArrayList<>(front);
+        List<String> database2 = new ArrayList<>(database);
+
+        database2.removeAll(front1);
+        return database2;
+    }
+
+    /* *//**
      *  过滤List中重复数据
      *//*
     public static List<T> convertDistinctList(List<T> list) {

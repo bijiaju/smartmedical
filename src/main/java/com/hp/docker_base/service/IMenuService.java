@@ -50,4 +50,16 @@ public interface IMenuService {
      */
     MenuDto modifyMenuInfo(MenuDto menuDto,
                        String userName);
+
+    /**
+     * 新增角色菜单的关系
+     */
+    int addRoleMenuInfo(String roleId,
+                        List<String> resourceIds,
+                        String userName);
+
+    /**
+     * 查询角色对应的菜单
+     */
+    List<Menu> queryMenuListByRoleId(String roleId);
 }

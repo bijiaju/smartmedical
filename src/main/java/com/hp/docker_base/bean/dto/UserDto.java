@@ -40,5 +40,8 @@ public class UserDto implements Serializable {
     @Email(message = "邮箱格式错误", groups = MiniValidation.class)
     private String email;
 
+    @ApiModelProperty(value = "排序号", example = "排序号")
+    private Integer sort;
+
 
 }

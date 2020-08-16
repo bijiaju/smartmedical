@@ -1,17 +1,21 @@
 package com.hp.docker_base.bean;
 
-import com.hp.docker_base.util.validate.group.MiniValidation;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.util.Date;
 
-public class Department {
+public class Disease {
     private Integer id;
 
     private String uuid;
 
-    @NotEmpty(message = "科室不能为空", groups = MiniValidation.class)
     private String name;
+
+    private String departmentId;
+
+    private String treatment;
+
+    private String introduction;
+
+    private String remark;
 
     private Integer sort;
 
@@ -24,16 +28,6 @@ public class Department {
     private Date createTime;
 
     private Date updateTime;
-
-    private String remark;
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 
     public Integer getId() {
         return id;
@@ -57,6 +51,38 @@ public class Department {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId == null ? null : departmentId.trim();
+    }
+
+    public String getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(String treatment) {
+        this.treatment = treatment == null ? null : treatment.trim();
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? null : introduction.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Integer getSort() {

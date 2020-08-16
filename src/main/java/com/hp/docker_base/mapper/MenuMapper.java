@@ -27,4 +27,9 @@ public interface MenuMapper {
 
 
     int insertMenuInfo(Menu menu);
+
+    /**
+     * 根据菜单编号集合查找菜单
+     */
+    List<Menu> selectMenuByIdList(@Param("menuIdList")List<String> menuIdList);
 }

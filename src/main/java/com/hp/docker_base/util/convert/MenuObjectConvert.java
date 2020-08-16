@@ -92,4 +92,27 @@ public class MenuObjectConvert {
         menu.setFullParh(menuDto.getFullParh());
         return menu;
     }
+
+    public static List<MenuDto> convertMenu2DtoStatusList(List<Menu> menuList,
+                                                          List<Menu> menuAllList) {
+
+        List<MenuDto> retList = new ArrayList<>();
+        if(CollectionUtils.isEmpty(menuAllList)){
+            return null;
+        }
+        if(CollectionUtils.isEmpty(menuList)){
+            return menuAllList.stream().map(MenuObjectConvert::convertMenu2Dto).collect(Collectors.toList());
+        }
+
+        List<String> menuIdList = menuList.stream().map(Menu::getUuid).collect(Collectors.toList());
+        for(Menu menu:menuAllList){
+            MenuDto dto = new MenuDto();
+            BeanUtils.copyProperties(menu,dto);
+            if(menuIdList.contains(menu.getUuid())){
+                dto.setIsChecked(1);
+            }
+            retList.add(dto);
+        }
+        return retList;
+    }
 }

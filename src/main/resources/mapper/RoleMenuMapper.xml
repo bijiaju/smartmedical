@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hp.docker_base.mapper.DepartmentMapper" >
-  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.Department" >
+<mapper namespace="com.hp.docker_base.mapper.RoleMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.RoleMenu" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="menu_id" property="menuId" jdbcType="VARCHAR" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
@@ -14,52 +12,41 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
-
-
   <sql id="Base_Column_List" >
-    id, uuid, name, sort, is_delete, create_user, update_user, create_time, update_time,remark
+    id, role_id, menu_id, is_delete, create_user, update_user, create_time, update_time
   </sql>
 
-  <select id="selectAllDepartmentList" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_department
-    WHERE is_delete=0
-    <if test="keywords != null and keywords!=''">
-      AND (name like CONCAT('%',#{keywords},'%'))
-    </if>
+ <!-- <select id="findMenuIdListByRoleId" resultType="com.hp.docker_base.bean.RoleMenu">
+    SELECT *
+    FROM tb_role_menu
+     WHERE role_id=#{roleId,jdbcType=VARCHAR}
+       AND  menu_id =#{menuId,jdbcType=VARCHAR}
+      AND is_delete=0
+  </select>-->
+
+  <select id="findMenuIdListByRoleId" resultType="java.lang.String">
+    SELECT menu_id
+    FROM tb_role_menu
+    WHERE role_id=#{roleId,jdbcType=VARCHAR}
+    AND is_delete=0
   </select>
 
-
-  <select id="selectDepartmentByUUID" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_department
-    WHERE is_delete=0
-    AND uuid=#{uuid,jdbcType=VARCHAR}
-  </select>
-
-  <insert id="insertDepartmentInfo" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department (id, uuid, name,
-    sort, is_delete, create_user,
-    update_user, create_time, update_time,remark
-    )
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-    #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
-    #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-    )
+  <insert id="insert" parameterType="com.hp.docker_base.bean.RoleMenu" >
+    insert into tb_role_menu (id, role_id, menu_id,
+    is_delete, create_user, update_user,
+    create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR},
+    #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
 
+ <!-- <delete id="deleteRoleMenu" parameterType="java.lang.Integer" >
+    delete from tb_role_menu
+    where role_id=#{roleId,jdbcType=VARCHAR}
+    AND  menu_id =#{menuId,jdbcType=VARCHAR}
+      AND is_delete=0
+  </delete>-->
 
-  <update id="updateDepartmentInfo" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
-    set
-    name = #{name,jdbcType=VARCHAR},
-    sort = #{sort,jdbcType=INTEGER},
-    is_delete = #{isDelete,jdbcType=INTEGER},
-    create_user = #{createUser,jdbcType=VARCHAR},
-    update_user = #{updateUser,jdbcType=VARCHAR},
-    create_time = #{createTime,jdbcType=TIMESTAMP},
-    update_time = #{updateTime,jdbcType=TIMESTAMP},
-    remark = #{remark,jdbcType=VARCHAR}
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
   <!--<sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -119,15 +106,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, uuid, name, sort, is_delete, create_user, update_user, create_time, update_time
+    id, role_id, user_id, is_delete, create_user, update_user, create_time, update_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.DepartmentExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.taotao.pojo.RoleUserExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_department
+    from tb_role_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -138,43 +125,38 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from tb_department
+    from tb_role_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_department
+    delete from tb_role_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.DepartmentExample" >
-    delete from tb_department
+  <delete id="deleteByExample" parameterType="com.taotao.pojo.RoleUserExample" >
+    delete from tb_role_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department (id, uuid, name, 
-      sort, is_delete, create_user, 
-      update_user, create_time, update_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
-      #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.taotao.pojo.RoleUser" >
+    insert into tb_role_user (id, role_id, user_id, 
+      is_delete, create_user, update_user, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department
+  <insert id="insertSelective" parameterType="com.taotao.pojo.RoleUser" >
+    insert into tb_role_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="uuid != null" >
-        uuid,
+      <if test="roleId != null" >
+        role_id,
       </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="sort != null" >
-        sort,
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="isDelete != null" >
         is_delete,
@@ -196,14 +178,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="uuid != null" >
-        #{uuid,jdbcType=VARCHAR},
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        #{sort,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null" >
         #{isDelete,jdbcType=INTEGER},
@@ -222,26 +201,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hp.docker_base.bean.DepartmentExample" resultType="java.lang.Integer" >
-    select count(*) from tb_department
+  <select id="countByExample" parameterType="com.taotao.pojo.RoleUserExample" resultType="java.lang.Integer" >
+    select count(*) from tb_role_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_department
+    update tb_role_user
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.uuid != null" >
-        uuid = #{record.uuid,jdbcType=VARCHAR},
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sort != null" >
-        sort = #{record.sort,jdbcType=INTEGER},
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
       </if>
       <if test="record.isDelete != null" >
         is_delete = #{record.isDelete,jdbcType=INTEGER},
@@ -264,11 +240,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tb_department
+    update tb_role_user
     set id = #{record.id,jdbcType=INTEGER},
-      uuid = #{record.uuid,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      sort = #{record.sort,jdbcType=INTEGER},
+      role_id = #{record.roleId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
       is_delete = #{record.isDelete,jdbcType=INTEGER},
       create_user = #{record.createUser,jdbcType=VARCHAR},
       update_user = #{record.updateUser,jdbcType=VARCHAR},
@@ -278,17 +253,14 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
+  <update id="updateByPrimaryKeySelective" parameterType="com.taotao.pojo.RoleUser" >
+    update tb_role_user
     <set >
-      <if test="uuid != null" >
-        uuid = #{uuid,jdbcType=VARCHAR},
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        sort = #{sort,jdbcType=INTEGER},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=INTEGER},
@@ -308,11 +280,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
-    set uuid = #{uuid,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.taotao.pojo.RoleUser" >
+    update tb_role_user
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=INTEGER},
       create_user = #{createUser,jdbcType=VARCHAR},
       update_user = #{updateUser,jdbcType=VARCHAR},

@@ -2,13 +2,12 @@ package com.hp.docker_base.service.impl;
 
 import com.hp.docker_base.bean.Role;
 import com.hp.docker_base.bean.RoleUser;
-import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.em.EnumOKOrNG;
-import com.hp.docker_base.em.EnumRole;
 import com.hp.docker_base.mapper.RoleMapper;
 import com.hp.docker_base.mapper.RoleUserMapper;
+import com.hp.docker_base.service.IRoleMenuService;
 import com.hp.docker_base.service.IRoleService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.convert.RoleObjectConvert;
@@ -35,9 +34,12 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     private RoleUserMapper roleUserMapper;
 
+    @Autowired
+    private IRoleMenuService roleMenuService;
+
     @Override
-    public List<Role> findAllRoles() {
-        return roleMapper.selectAllRoles();
+    public List<Role> findAllRoles(String keywords) {
+        return roleMapper.selectAllRoles(keywords);
     }
 
     @Override
@@ -46,8 +48,12 @@ public class RoleServiceImpl implements IRoleService {
 
         Role oldRole = this.findRoleByRoleId(roleId);
         if(oldRole != null){
-            oldRole.setIsDelete(EnumDelete.DELETE.getCode());
+            List<String> menuIdList = roleMenuService.findMenuIdListByRoleId(roleId);
+            if(!CollectionUtils.isEmpty(menuIdList)){
+                throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"角色下还有菜单，暂无法删除");
+            }
 
+            oldRole.setIsDelete(EnumDelete.DELETE.getCode());
             return roleMapper.updateRole(oldRole);
         }
         return 0;

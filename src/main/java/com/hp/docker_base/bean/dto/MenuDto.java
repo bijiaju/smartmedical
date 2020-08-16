@@ -22,6 +22,10 @@ public class MenuDto {
     @NotEmpty(message = "菜单不能为空", groups = MiniValidation.class)
     private String name;
 
+
+    @ApiModelProperty(value = "是否已被选中，0未选中，1选中")
+    private Integer isChecked;
+
     private String parentId;
 
     private String fullParh;

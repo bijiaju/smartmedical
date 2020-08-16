@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.Patient;
 import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.PatientDto;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -40,6 +41,7 @@ public class PatientController extends BaseController {
                             "}"),
     })
     @PostMapping("/new")
+    @MyLog("新增病人信息")
     public Map<String,Object> doPostNewPatientInfo(
             @RequestParam(value = "patientJsonStr") String patientJsonStr,
             HttpServletRequest request
@@ -58,8 +60,22 @@ public class PatientController extends BaseController {
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }
 
+    @ApiOperation(value = "查询单个病人信息", notes = "查询单个病人信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uuid", value = "病人编号", paramType = "path", required = true)
+    })
+    @GetMapping("/{uuid}")
+    @MyLog("查询单个病人信息")
+    public Map<String,Object> doGetAccount(
+            @PathVariable(value = "uuid") String uuid,
+            HttpServletRequest request) {
 
-    @ApiOperation(value = "新增病人信息", notes = "新增病人信息")
+        Patient patient = patientService.queryPatientByUUID(uuid);
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),patient);
+    }
+
+    @ApiOperation(value = "编辑病人信息", notes = "编辑病人信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "patientJsonStr", paramType = "query", required = true,
                     value = "账户信息（Json字符串）\n{\n" +
@@ -70,6 +86,7 @@ public class PatientController extends BaseController {
                             "}"),
     })
     @PutMapping("/{uuid}")
+    @MyLog("编辑病人信息")
     public Map<String,Object> doPutPatientInfo(
             @PathVariable(value = "uuid") String uuid,
             @RequestParam(value = "patientJsonStr") String patientJsonStr,
@@ -97,6 +114,7 @@ public class PatientController extends BaseController {
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
+    @MyLog("分页获取病人列表")
     public Map<String,Object> doQueryPatientPageList(@RequestParam(value = "pageNum") int pageNum,
                                                      @RequestParam(value = "keywords",required = false) String keywords ) {
 

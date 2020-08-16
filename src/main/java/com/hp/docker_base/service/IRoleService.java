@@ -15,8 +15,9 @@ public interface IRoleService {
 
     /**
      * 获取所有角色
+     * @param keywords
      */
-    List<Role> findAllRoles();
+    List<Role> findAllRoles(String keywords);
 
     /**
      * 删除角色
