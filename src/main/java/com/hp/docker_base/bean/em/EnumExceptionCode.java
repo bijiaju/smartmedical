@@ -3,7 +3,7 @@ package com.hp.docker_base.bean.em;
 /**
  * @program: idaas
  * @description: 异常错误码定义
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-31 11:50
  **/
 public enum EnumExceptionCode {

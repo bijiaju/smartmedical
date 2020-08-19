@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @program: IDAAS
+ * @program: smart
  * @description: 扩展属性值信息
  * @author: bee
  * @create: 2020-04-20 16:44

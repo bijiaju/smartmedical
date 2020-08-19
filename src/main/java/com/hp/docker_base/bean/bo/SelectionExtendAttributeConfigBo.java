@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @program: idaas
  * @description: 选项类扩展属性的配置信息
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-19 09:12
  **/
 @EqualsAndHashCode(callSuper = true)

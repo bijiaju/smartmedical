@@ -3,7 +3,7 @@ package com.hp.docker_base.em;
 /**
  * @program: idaas
  * @description: 【枚举】是否删除
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-17 11:32
  **/
 public enum EnumDelete {

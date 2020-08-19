@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @program: idaas
  * @description: 选项内容信息
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-19 09:14
  **/
 @AllArgsConstructor

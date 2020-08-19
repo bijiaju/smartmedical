@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 /**
  * @program: idaas
  * @description: 扩展属性配置信息
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-19 09:19
  **/
 @AllArgsConstructor

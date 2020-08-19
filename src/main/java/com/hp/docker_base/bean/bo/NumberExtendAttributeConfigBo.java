@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * @program: idaas
  * @description: 数字类扩展属性的配置信息
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-19 09:03
  **/
 @EqualsAndHashCode(callSuper = true)

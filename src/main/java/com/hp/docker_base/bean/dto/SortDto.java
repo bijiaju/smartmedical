@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * @program: idaas
  * @description: 排序值
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-18 18:07
  **/
 @AllArgsConstructor

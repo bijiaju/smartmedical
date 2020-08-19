@@ -21,9 +21,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @program: IDAAS
+ * @program: smart
  * @description: 扩展属性相关工具方法
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-05-09 11:31
  **/
 public class ExtendAttributeUtils {

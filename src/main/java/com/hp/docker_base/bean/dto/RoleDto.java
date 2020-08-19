@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * @program: idaas
  * @description: 应用角色信息
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-20 16:53
  **/
 @AllArgsConstructor

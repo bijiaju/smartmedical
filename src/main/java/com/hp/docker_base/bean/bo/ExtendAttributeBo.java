@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @program: IDAAS
+ * @program: smart
  * @description: 扩展属性完整信息
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-04-18 15:42
  **/
 @AllArgsConstructor

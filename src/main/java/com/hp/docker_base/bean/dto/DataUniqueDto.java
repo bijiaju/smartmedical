@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * @program: idaas
  * @description: 数据唯一性
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-17 18:18
  **/
 @AllArgsConstructor

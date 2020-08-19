@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @program: idaas
  * @description: 自定义扩展属性相关API服务
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-31 11:41
  **/
 public interface IExtendAttributeApiService {

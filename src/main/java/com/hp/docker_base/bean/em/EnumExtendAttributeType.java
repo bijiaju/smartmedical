@@ -3,7 +3,7 @@ package com.hp.docker_base.bean.em;
 /**
  * @program: idaas
  * @description: 【枚举】自定义扩展属性类型，文本/数字/选项/日期等
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-17 11:32
  **/
 public enum EnumExtendAttributeType {

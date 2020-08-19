@@ -3,7 +3,7 @@ package com.hp.docker_base.em;
 /**
  * @program: idaas
  * @description: 通用是否
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-04-07 15:41
  **/
 public enum EnumOKOrNG {

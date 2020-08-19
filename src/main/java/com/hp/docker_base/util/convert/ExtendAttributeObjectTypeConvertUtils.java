@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @program: IDAAS
+ * @program: smart
  * @description: 扩展属性配置信息实体类型转换工具类
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-04-18 10:32
  **/
 public class ExtendAttributeObjectTypeConvertUtils {

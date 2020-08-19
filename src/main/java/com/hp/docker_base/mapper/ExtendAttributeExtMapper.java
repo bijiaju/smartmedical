@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * @program: idaas
  * @description: 扩展属性增强SQL方法
- * @author: 姬同凯
+ * @author: bee
  * @create: 2020-03-31 15:52
  **/
 @Mapper
