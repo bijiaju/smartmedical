@@ -1,9 +1,12 @@
 package com.hp.docker_base.controller;
 
 
-import com.hp.docker_base.bean.Department;
+import com.hp.docker_base.bean.dto.FeatureCategoryDto;
+import com.hp.docker_base.bean.dto.extend.ExtendAttributeDto;
+import com.hp.docker_base.bean.em.EnumExtendAttributeCategory;
+import com.hp.docker_base.bean.em.EnumExtendAttributeType;
+import com.hp.docker_base.bean.response.ResponseVo;
 import com.hp.docker_base.em.EnumOKOrNG;
-import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IDiagnosticFeatureService;
 import com.hp.docker_base.util.CommonUtil;
 import io.swagger.annotations.Api;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +49,42 @@ public class DiagnosticFeatureController {
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
                 EnumOKOrNG.OK.getValue(),
                 null);
+    }
+
+    /**
+     * 获取所有的账户
+     */
+    @ApiOperation(value = "获取特征分类列表", notes = "获取特征分类列表")
+    @GetMapping("/category/list")
+    public Map<String,Object> doQueryFeatureCategoryList() {
+
+        EnumExtendAttributeType[] values = EnumExtendAttributeType.values();
+
+        List<FeatureCategoryDto> retList = new ArrayList<>();
+        for(int i=0;i<values.length;i++){
+            FeatureCategoryDto categoryDto = new FeatureCategoryDto();
+
+            categoryDto.setCategory(values[i].getCode());
+            categoryDto.setCategoryName(values[i].getDescription());
+            retList.add(categoryDto);
+        }
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(), retList);
+    }
+
+    @ApiOperation(value = "获取的基础病史特征信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = true)
+    })
+    @GetMapping("/{departmentId}/extend/attribute")
+    public ResponseVo<ExtendAttributeDto> doQueryAccountExtendAttributeInfo(
+            @PathVariable(value = "departmentId") String departmentId) {
+
+        // 1、查询账户扩展属性信息
+        List<ExtendAttributeDto> accountExtendAttributeList = featureService.queryAccountExtendAttributeInfo(
+                departmentId, EnumExtendAttributeCategory.BASIC_INFO.getCode()+"");
+
+        return ResponseVo.ok(accountExtendAttributeList);
     }
 
 

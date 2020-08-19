@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.docker_base.mapper.ExtendAttributeExtMapper">
+    <select id="maxSort" resultType="java.lang.Integer">
+        select max(sort) from idaas_extend_attr
+        <where>
+            <if test="tenantId != null and tenantId != ''">
+                tenant_id = #{tenantId}
+            </if>
+        </where>
+    </select>
+</mapper>

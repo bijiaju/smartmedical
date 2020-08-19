@@ -47,6 +47,7 @@ public class BaseController {
        User user = new User();
        user.setUserName("bee");
        user.setPassword("123456");
+       user.setDepartmentId("123456");
        return user;
     }
 
