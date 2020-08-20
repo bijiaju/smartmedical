@@ -70,25 +70,25 @@ public abstract class AbstractExtendAttributeValueService {
     public abstract List<ExtendAttributeBo> findExtendAttributeValueInfoById(String tenantId,
                                                                              String parentId);
 
-    /**
+   /* *//**
      * 查询实体的扩展属性信息
      *
      * @param tenantId     租户编号
      * @param parentIdList 实体编号列表
-     */
+     *//*
     public abstract Map<String, List<ExtendAttributeBo>> findExtendAttributeValueMapByIdList(String tenantId,
-                                                                                             List<String> parentIdList);
+                                                                                             List<String> parentIdList);*/
 
-    /**
+   /* *//**
      * 通过扩展属性字段名和属性值查询父级（组织机构、账户、账户组）编号
      *
      * @param tenantId            租户编号
      * @param attributeFieldName  扩展属性字段名
      * @param attributeFieldValue 扩展属性值
-     */
+     *//*
     public abstract List<String> findParentIdByAttributeNameAndValue(String tenantId,
                                                                      String attributeFieldName,
-                                                                     String attributeFieldValue);
+                                                                     String attributeFieldValue);*/
 
     /**
      * 校验扩展属性的值是否唯一
