@@ -17,4 +17,26 @@ public interface IMedicalRecordService {
      * @param postId 身份证号
      */
     List<MedicalRecord> queryMedicalRecordByPostId(String postId);
+
+    /**
+     * 新增就诊记录
+     */
+    int addMedicalRecordInfo(MedicalRecord disease,
+                             String userName);
+
+
+    int findDefaultSort();
+
+    List<MedicalRecord> queryAllMedicalRecordList();
+
+    MedicalRecord queryMedicalRecordByUUID(String medicalRecordId);
+
+    int editMedicalRecordInfo(String medicalRecordId, MedicalRecord medicalRecord, String userName);
+
+    int deleteMedicalRecordInfo(String medicalRecordId, String userName);
+
+    /**
+     * 分页查询数据
+     */
+    List<MedicalRecord> queryMedicalRecordPageList(String postId, String keywords);
 }
