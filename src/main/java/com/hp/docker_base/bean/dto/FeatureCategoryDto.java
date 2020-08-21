@@ -19,7 +19,7 @@ public class FeatureCategoryDto implements Serializable {
     private static final long serialVersionUID = -695002978383121515L;
 
     @ApiModelProperty(value = "分类id", example = "分类id")
-    private String category;
+    private Integer category;
 
     @ApiModelProperty(value = "分类名称信息", example = "分类名称信息")
     private String categoryName;

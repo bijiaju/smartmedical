@@ -58,7 +58,7 @@ public class DiagnosticFeatureController {
     @GetMapping("/category/list")
     public Map<String,Object> doQueryFeatureCategoryList() {
 
-        EnumExtendAttributeType[] values = EnumExtendAttributeType.values();
+        EnumExtendAttributeCategory[] values = EnumExtendAttributeCategory.values();
 
         List<FeatureCategoryDto> retList = new ArrayList<>();
         for(int i=0;i<values.length;i++){
