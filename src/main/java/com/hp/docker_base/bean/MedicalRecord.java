@@ -5,6 +5,8 @@ import java.util.Date;
 public class MedicalRecord {
     private Integer id;
 
+    private String uuid;
+
     private String patientId;
 
     private String doctorId;
@@ -31,6 +33,14 @@ public class MedicalRecord {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid == null ? null : uuid.trim();
     }
 
     public String getPatientId() {
