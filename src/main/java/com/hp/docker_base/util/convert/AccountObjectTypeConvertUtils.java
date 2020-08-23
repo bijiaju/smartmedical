@@ -19,19 +19,19 @@ public class AccountObjectTypeConvertUtils {
     /**
      * Dto->BO 添加属性
      */
-    public static List<ExtendAttributeValueBo> convertAccountExtendValueDtoToBo(String accountId,
-                                                                                String tenantId,
+    public static List<ExtendAttributeValueBo> convertAccountExtendValueDtoToBo(String medicalRecordId,
+                                                                                String category,
                                                                                 List<ExtendAttributeValueDto> extendAttributeInfoList) {
         List<ExtendAttributeValueBo> extendAttributeValueList = new ArrayList<>();
-        if (StringUtils.isEmpty(accountId)
+        if (StringUtils.isEmpty(medicalRecordId)
                 || CollectionUtils.isEmpty(extendAttributeInfoList)) {
             return extendAttributeValueList;
         }
 
         for (ExtendAttributeValueDto extendAttributeInfo : extendAttributeInfoList) {
             ExtendAttributeValueBo valueInfo = new ExtendAttributeValueBo();
-            valueInfo.setParentId(accountId);
-            valueInfo.setTenantId(tenantId);
+            valueInfo.setParentId(medicalRecordId);
+            valueInfo.setTenantId(category);
             valueInfo.setAttributeId(extendAttributeInfo.getAttributeId());
             valueInfo.setAttributeFieldName(extendAttributeInfo.getAttributeFieldName());
             valueInfo.setAttributeFieldValue(extendAttributeInfo.getAttributeFieldValue());

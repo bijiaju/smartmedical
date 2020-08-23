@@ -106,19 +106,19 @@ public abstract class AbstractExtendAttributeValueService {
     /**
      * 保存实体（组织机构、账户组、账户）的扩展属性信息
      *
-     * @param tenantId                 租户编号
+     * @param category                 租户编号
      * @param parentId                 实体（组织机构、账户组、账户）的编号
      * @param attributeCategory        扩展属性所属分类，组织机构 | 账户组 | 账户
      * @param extendAttributeValueList 扩展属性具体的值信息
      * @param operateUserId            操作人员编号
      */
-    public void saveExtendAttributeValueInfo(String tenantId,
+    public void saveExtendAttributeValueInfo(String category,
                                              String parentId,
                                              EnumExtendAttributeCategory attributeCategory,
                                              List<ExtendAttributeValueBo> extendAttributeValueList,
                                              String operateUserId) {
 
-        if (StringUtils.isEmpty(tenantId)
+        if (StringUtils.isEmpty(category)
                 || StringUtils.isEmpty(parentId)
                 || attributeCategory == null
                 || StringUtils.isEmpty(operateUserId)) {
@@ -127,17 +127,17 @@ public abstract class AbstractExtendAttributeValueService {
 
         // 1、获取该实体有效的扩展属性列表
         List<ExtendAttributeBo> extendAttributeList = extendAttributeService.findExtendAttributeListByCategory(
-                tenantId, attributeCategory.getCode());
+                null, attributeCategory.getCode());
 
         // 2、去除无关的扩展属性
         ExtendAttributeUtils.removeIrrelevantExtendAttributeValue(extendAttributeList, extendAttributeValueList);
 
         // 3、检查扩展属性值的完整性和正确性
-        checkExtendAttributeInfo(tenantId, parentId, extendAttributeList, extendAttributeValueList);
+        checkExtendAttributeInfo(category, parentId, extendAttributeList, extendAttributeValueList);
 
         // 4、识别需要增加、更新的扩展属性值，先进行更新，无更新的数据再增加
         for (ExtendAttributeValueBo extendAttributeValue : extendAttributeValueList) {
-            extendAttributeValue.setTenantId(tenantId);
+            extendAttributeValue.setTenantId(category);
             int count = modifyExtendAttributeValueInfo(parentId, extendAttributeValue, operateUserId);
             if (count == 0) {
                 addExtendAttributeValueInfo(parentId, extendAttributeValue, operateUserId);
@@ -187,7 +187,7 @@ public abstract class AbstractExtendAttributeValueService {
      *
      * @param extendAttributeValueInfo 扩展属性值信息
      */
-    private void checkExtendAttributeInfo(String tenantId,
+    private void checkExtendAttributeInfo(String category,
                                           String parentId,
                                           ExtendAttributeBo extendAttributeValueInfo) {
         if (extendAttributeValueInfo == null) {
@@ -202,7 +202,7 @@ public abstract class AbstractExtendAttributeValueService {
 
         // 3、唯一属性值校验
         if (extendAttributeValueInfo.getIsUnique() == EnumUnique.YES.getCode()
-                && !isExtendAttributeValueUnique(tenantId, parentId, extendAttributeValueInfo.getUuid(),
+                && !isExtendAttributeValueUnique(category, parentId, extendAttributeValueInfo.getUuid(),
                 extendAttributeValueInfo.getAttributeFieldValue())) {
 
             throw new DataException(EnumExceptionCode.ERROR_EXTEND_ATTRIBUTE_VALUE_NOT_UNIQUE.getCode(),

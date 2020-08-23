@@ -130,7 +130,7 @@ public interface IExtendAttributeService {
      * @param attributeCategory 扩展属性所属分类（组织机构、账户组、账户）
      */
     List<ExtendAttributeBo> findExtendAttributeListByCategory(String tenantId,
-                                                              int attributeCategory);
+                                                              Integer attributeCategory);
 
     /**
      * 启用/禁用自定义扩展属性

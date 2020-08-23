@@ -2,10 +2,14 @@ package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.annotation.MyLog;
+import com.hp.docker_base.bean.bo.MedicalRecordBo;
+import com.hp.docker_base.bean.dto.FeatureCategoryDto;
 import com.hp.docker_base.bean.dto.SortDto;
 import com.hp.docker_base.bean.dto.extend.*;
+import com.hp.docker_base.bean.em.EnumExtendAttributeCategory;
 import com.hp.docker_base.bean.em.EnumExtendAttributeType;
 import com.hp.docker_base.bean.response.Page;
 import com.hp.docker_base.bean.response.ResponseTableVo;
@@ -15,6 +19,7 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IExtendAttributeApiService;
 
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.convert.UserObjectConvert;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -62,10 +67,11 @@ public class ExtendAttributeWebApiController extends BaseController {
 
     @ApiOperation(value = "新增特征信息", notes = "由平台租户管理员手动添加特征，支持组织机构、账户组、账户类型的特征")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "departmentId", value = "部门编号", paramType = "query", required = false),
             @ApiImplicitParam(name = "extendAttributeJsonStr", paramType = "query", required = false,
                     value = "特征信息（Json字符串）\n {\n" +
                             "  \"attributeName\": \"特征名称\",\n" +
-                            "  \"attributeCategory\": 1,  // 特征所属分类，0:组织机构 | 1:账户组 | 2:账户\n" +
+                            "  \"attributeCategory\": 1,  // 特征所属分类，0, 基础信息及病史 1, 临床诊断 2, 医学图像特征\n" +
                             "  \"attributeFieldName\": \"特征字段名称\",\n" +
                             "  \"attributeFieldType\": \"特征类型\", /** 单行文本：single-line-text | 多行文本：multiple-line-text | 整数：integer-number | 实数：real-number\" +\n" +
                             "                    \"| 单选：single-selection | 多选：multiple-selection | 下拉选择：dropdown-single-selection\" +\n" +
@@ -146,7 +152,7 @@ public class ExtendAttributeWebApiController extends BaseController {
                     value = "特征信息（Json字符串）\n{\n" +
                             "  \"uuid\": \"特征编号\",\n" +
                             "  \"attributeName\": \"特征名称\",\n" +
-                            "  \"attributeCategory\": 1,  // 特征所属分类，0:组织机构 | 1:账户组 | 2:账户\n" +
+                            "  \"attributeCategory\": 1,  // 特征所属分类，0, 基础信息及病史 1, 临床诊断 2, 医学图像特征\n" +
                             "  \"attributeFieldName\": \"特征字段名称\",\n" +
                             "  \"attributeFieldType\": \"特征类型\", /** 单行文本：single-line-text | 多行文本：multiple-line-text | 整数：integer-number | 实数：real-number\" +\n" +
                             "                    \"| 单选：single-selection | 多选：multiple-selection | 下拉选择：dropdown-single-selection\" +\n" +
@@ -222,7 +228,8 @@ public class ExtendAttributeWebApiController extends BaseController {
 
     @ApiOperation(value = "查询特征列表", notes = "支持通过所属分类(组织机构/账户组/账户)、属性名称关键字快速查询特征列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "category", value = "属性所属分类，-1:全部 | 0:组织机构 | 1:账户组 | 2:账户", paramType = "query", dataType = "int", defaultValue = "-1", required = false),
+            @ApiImplicitParam(name = "departmentId", value = "部门编号", paramType = "query", required = false),
+            @ApiImplicitParam(name = "category", value = "属性所属分类，-1:全部 | 0, 基础信息及病史 1, 临床诊断 2, 医学图像特征", paramType = "query", dataType = "int", defaultValue = "-1", required = false),
             @ApiImplicitParam(name = "keywords", value = "关键字，支持属性名称模糊查询", paramType = "query", required = false),
             @ApiImplicitParam(name = "offset", defaultValue = "0", value = "分页数据偏移量，注意不是页数", paramType = "query", dataType = "int", required = false),
             @ApiImplicitParam(name = "limit", defaultValue = "20", value = "每页数据个数", paramType = "query", dataType = "int", required = false)
@@ -230,7 +237,7 @@ public class ExtendAttributeWebApiController extends BaseController {
     @GetMapping("/list")
     @MyLog("查询特征列表")
     public ResponseVo<ResponseTableVo<ExtendAttributeDto>> doQueryExtendAttributeList(
-            @RequestParam(value = "departmentId") String departmentId,
+            @RequestParam(value = "departmentId",required = false) String departmentId,
             @RequestParam(value = "category", required = false, defaultValue = "-1") int category,
             @RequestParam(value = "keywords", required = false) String keywords,
             @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
@@ -253,7 +260,7 @@ public class ExtendAttributeWebApiController extends BaseController {
 
     @ApiOperation(value = "查询各分类下有效的特征列表", notes = "支持通过所属分类(组织机构/账户组/账户)、属性名称关键字快速查询有效的特征列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "category", value = "属性所属分类，-1:全部 | 0:组织机构 | 1:账户组 | 2:账户", paramType = "query", dataType = "int", defaultValue = "-1", required = false),
+            @ApiImplicitParam(name = "category", value = "属性所属分类，-1:全部 | 0, 基础信息及病史 1, 临床诊断 2, 医学图像特征", paramType = "query", dataType = "int", defaultValue = "-1", required = false),
     })
     @GetMapping("/list/valid")
     public ResponseVo<ExtendAttributeDto> doQueryExtendAttributeList(
@@ -387,6 +394,25 @@ public class ExtendAttributeWebApiController extends BaseController {
         }
 
         return extendAttributeInfo;
+    }
+
+    @ApiOperation(value = "查询特征分类", notes = "查询特征分类")
+    @GetMapping("/category/list")
+    @MyLog("查询特征分类")
+    public  Map<String,Object>  doQueryMedicalRecordPageList() {
+        List<FeatureCategoryDto> ret = new ArrayList<>();
+
+        EnumExtendAttributeCategory[] values = EnumExtendAttributeCategory.values();
+        for(int i=0;i<values.length;i++){
+            FeatureCategoryDto dto = new FeatureCategoryDto();
+            dto.setCategory(values[i].getCode());
+            dto.setCategoryName(values[i].getDescription());
+
+            ret.add(dto);
+        }
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),ret);
+
     }
 
 

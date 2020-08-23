@@ -3,6 +3,7 @@ package com.hp.docker_base.service.impl;
 import com.hp.docker_base.bean.MedicalRecord;
 import com.hp.docker_base.bean.MedicalRecordExample;
 import com.hp.docker_base.bean.MedicalRecord;
+import com.hp.docker_base.bean.bo.MedicalRecordBo;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.mapper.MedicalRecordMapper;
 import com.hp.docker_base.mapper.MedicalRecordMapper;
@@ -27,11 +28,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
     @Autowired
     private MedicalRecordMapper medicalRecordMapper;
 
-    @Override
-    public List<MedicalRecord> queryMedicalRecordByPostId(String postId) {
-        return medicalRecordMapper.selectMedicalRecordByPostId(postId);
-    }
-    
+
 
     @Override
     public int addMedicalRecordInfo(MedicalRecord medicalRecord,
@@ -45,7 +42,10 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
             medicalRecord.setCreateUser(userName);
             medicalRecord.setUpdateUser(userName);
             medicalRecord.setIsDelete(EnumDelete.NOT_DELETE.getCode());
-            medicalRecord.setSort(findDefaultSort());
+            if(medicalRecord.getSort() == null){
+                medicalRecord.setSort(findDefaultSort());
+            }
+
             medicalRecordMapper.insert(medicalRecord);
         }
         return 0;
@@ -115,9 +115,9 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
     }
 
     @Override
-    public List<MedicalRecord> queryMedicalRecordPageList(String postId,
-                                                          String keywords) {
-        return null;
+    public List<MedicalRecordBo> queryMedicalRecordPageList(String postId,
+                                                            String keywords) {
+        return medicalRecordMapper.selectMedicalRecordByPostId(postId,keywords);
     }
 
     private int updateMedicalRecordInfo(MedicalRecord medicalRecord){

@@ -75,7 +75,11 @@ public class SysLogAspect {
                 .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
                 .collect(Collectors.toList());
         String params = JSON.toJSONString(logArgs);
-        sysLog.setParams(params);
+
+        if(params.length() < 200){
+            sysLog.setParams(params);
+        }
+
 
         sysLog.setCreateDate(new Date());
 

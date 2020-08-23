@@ -8,6 +8,7 @@ import com.hp.docker_base.bean.MedicalRecord;
 import com.hp.docker_base.bean.MedicalRecord;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.annotation.MyLog;
+import com.hp.docker_base.bean.bo.MedicalRecordBo;
 import com.hp.docker_base.bean.dto.SortDto;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -50,8 +51,8 @@ public class MedicalRecordController extends BaseController {
                             "就诊记录信息（Json字符串）\n{\n" +
                             "  \"patientId\": \"病人id\",\n" +
                             "  \"doctorId\": \"医生编号\",\n" +
-                            "  \"record\": \"简介\",\n" +
-                            "  \"treatmentPlan\": \"部门编号\",\n" +
+                            "  \"record\": \"记录\",\n" +
+                            "  \"treatmentPlan\": \"治疗方案\",\n" +
                             "  \"sort\": \"排序\"\n" +
                             "}")
     })
@@ -84,7 +85,7 @@ public class MedicalRecordController extends BaseController {
     @ApiOperation(value = "查询分页就诊记录", notes = "查询分页就诊记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "postId", value = "身份证号", paramType = "query", required = true),
-            @ApiImplicitParam(name = "keywords", value = "支持名称、手机号、邮箱", paramType = "query", required = false),
+            @ApiImplicitParam(name = "keywords", value = "支持姓名查询", paramType = "query", required = false),
             @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
                     value = "1 就是查第一页，每页10条记录"),
     })
@@ -98,7 +99,7 @@ public class MedicalRecordController extends BaseController {
         PageUtil.startPage(pageNum);
 
         // 查询所有的就诊记录
-        List<MedicalRecord>  medicalRecordList = medicalRecordService.queryMedicalRecordPageList(postId,keywords);
+        List<MedicalRecordBo>  medicalRecordList = medicalRecordService.queryMedicalRecordPageList(postId,keywords);
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(medicalRecordList));
     }
 
@@ -127,8 +128,8 @@ public class MedicalRecordController extends BaseController {
                             "就诊记录信息（Json字符串）\n{\n" +
                             "  \"patientId\": \"病人id\",\n" +
                             "  \"doctorId\": \"医生编号\",\n" +
-                            "  \"record\": \"简介\",\n" +
-                            "  \"treatmentPlan\": \"部门编号\",\n" +
+                            "  \"record\": \"记录\",\n" +
+                            "  \"treatmentPlan\": \"治疗方案\",\n" +
                             "  \"sort\": \"排序\"\n" +
                             "}")
     })

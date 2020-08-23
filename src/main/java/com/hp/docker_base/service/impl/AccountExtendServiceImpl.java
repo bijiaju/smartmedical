@@ -118,8 +118,8 @@ public class AccountExtendServiceImpl extends AbstractExtendAttributeValueServic
 
         // 1、获取账户分类下的扩展属性列表
         accountExtendAttributeList = extendAttributeService.findExtendAttributeListByCategory(
-                tenantId,
-                Integer.valueOf(accountId)
+                null,
+                null
         );
         if (CollectionUtils.isEmpty(accountExtendAttributeList)) {
             return accountExtendAttributeList;

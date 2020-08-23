@@ -17,10 +17,19 @@
   </resultMap>
 
 
-  <select id="selectMedicalRecordByPostId" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_medical_records
-    WHERE patient_id = #{postId,jdbcType=VARCHAR}
-    AND is_delete=0
+  <select id="selectMedicalRecordByPostId" resultType="com.hp.docker_base.bean.bo.MedicalRecordBo">
+    SELECT record.*,info.`name` FROM tb_medical_records record,tb_patient_info info
+WHERE record.patient_id=info.uuid
+    <if test="postId != null and postId!=''">
+      And info.post_id=#{postId}
+    </if>
+
+    <if test="keywords != null and keywords!=''">
+      AND (name like CONCAT('%',#{keywords},'%'))
+    </if>
+
+AND info.is_delete=0
+AND record.is_delete=0
   </select>
 
   <sql id="Example_Where_Clause" >

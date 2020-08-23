@@ -37,25 +37,22 @@ public class DiagnosticFeatureServiceImpl implements IDiagnosticFeatureService {
     public List<ExtendAttributeDto> queryAccountExtendAttributeInfo(String departmentId,
                                                                     String userId) {
 
-        if(StringUtils.isEmpty(departmentId)){
-            List<ExtendAttributeBo> extendAttributeBoList = featureExtService.findAccountExtendAttributeInfoById(departmentId, userId);
-            return extendAttributeBoList.stream()
-                    .map(ExtendAttributeObjectTypeConvertUtils::convertExtendAttributeBoToDto)
-                    .collect(Collectors.toList());
-        }
-        return null;
+        List<ExtendAttributeBo> extendAttributeBoList = featureExtService.findAccountExtendAttributeInfoById(departmentId, userId);
+        return extendAttributeBoList.stream()
+                .map(ExtendAttributeObjectTypeConvertUtils::convertExtendAttributeBoToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public int addAccountExtendAttribute(String departmentId,
+    public int addAccountExtendAttribute(String medicalRecordId,
                                          String category,
                                          List<ExtendAttributeValueDto> extendAttributeInfoList,
                                          String userName) {
 
         // 1、添加扩展属性
         List<ExtendAttributeValueBo> extendAttributeValueList = AccountObjectTypeConvertUtils.convertAccountExtendValueDtoToBo(
+                medicalRecordId,
                 category,
-                departmentId,
                 extendAttributeInfoList);
 
         EnumExtendAttributeCategory extendAttributeCategory = EnumExtendAttributeCategory.getExtendAttributeCategory(Integer.valueOf(category));
@@ -63,8 +60,8 @@ public class DiagnosticFeatureServiceImpl implements IDiagnosticFeatureService {
         int totalCount = 0;
         if (CollectionUtils.isNotEmpty(extendAttributeInfoList)) {
              accountExtendService.saveExtendAttributeValueInfo(
-                    departmentId,
-                    category,
+                     category,
+                     medicalRecordId,
                     extendAttributeCategory,
                     extendAttributeValueList,
                     userName
@@ -75,22 +72,21 @@ public class DiagnosticFeatureServiceImpl implements IDiagnosticFeatureService {
     }
 
     @Override
-    public List<ExtendAttributeDto> editAccountExtendAttributeInfo(String departmentId,
+    public List<ExtendAttributeDto> editAccountExtendAttributeInfo(String medicalRecordID,
                                                                    String category,
                                                                    List<ExtendAttributeValueDto> extendAttributeInfoList,
                                                                    String userName) {
 
         // 2、类型转换
         List<ExtendAttributeValueBo> extendAttributeValueList = AccountObjectTypeConvertUtils.
-                convertAccountExtendValueDtoToBo(category, departmentId, extendAttributeInfoList);
+                convertAccountExtendValueDtoToBo( medicalRecordID, category,extendAttributeInfoList);
 
         EnumExtendAttributeCategory extendAttributeCategory = EnumExtendAttributeCategory.getExtendAttributeCategory(Integer.valueOf(category));
 
-        int totalCount = 0;
         if (CollectionUtils.isNotEmpty(extendAttributeInfoList)) {
             accountExtendService.saveExtendAttributeValueInfo(
-                    departmentId,
                     category,
+                    medicalRecordID,
                     extendAttributeCategory,
                     extendAttributeValueList,
                     userName
@@ -101,12 +97,12 @@ public class DiagnosticFeatureServiceImpl implements IDiagnosticFeatureService {
     }
 
     @Override
-    public int deleteAccountByAccountId(String category,
+    public int deleteAccountByAccountId(String medicalRecordId,
                                         List<String> memberList,
                                         String userName) {
         // 2、联动删除账户的扩展属性信息
         accountExtendService.removeExtendAttributeValueInfo(
-                category,
+                medicalRecordId,
                 memberList,
                 userName);
         return 0;

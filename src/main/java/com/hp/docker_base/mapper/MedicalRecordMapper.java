@@ -5,6 +5,7 @@ import com.hp.docker_base.bean.MedicalRecord;
 import java.util.List;
 
 import com.hp.docker_base.bean.MedicalRecordExample;
+import com.hp.docker_base.bean.bo.MedicalRecordBo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +13,8 @@ import org.apache.ibatis.annotations.Param;
 public interface MedicalRecordMapper {
 
 
-    List<MedicalRecord> selectMedicalRecordByPostId(@Param("postId") String postId);
+    List<MedicalRecordBo> selectMedicalRecordByPostId(@Param("postId") String postId,
+                                                      @Param("keywords") String keywords);
 
 
     int countByExample(MedicalRecordExample example);

@@ -396,7 +396,7 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
     }
 
     @Override
-    public List<ExtendAttributeBo> findExtendAttributeListByCategory(String tenantId, int attributeCategory) {
+    public List<ExtendAttributeBo> findExtendAttributeListByCategory(String tenantId, Integer attributeCategory) {
         List<ExtendAttributeBo> extendAttributeList = new ArrayList<>();
 
         // 1、查询相应分类下有效的扩展属性基础信息列表
@@ -406,9 +406,12 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
             criteria.andTenantIdEqualTo(tenantId);
         }
 
-        if (EnumExtendAttributeCategory.getExtendAttributeCategory(attributeCategory) != null) {
-            criteria.andCategoryEqualTo(attributeCategory);
+        if(attributeCategory != null){
+            if (EnumExtendAttributeCategory.getExtendAttributeCategory(attributeCategory) != null) {
+                criteria.andCategoryEqualTo(attributeCategory);
+            }
         }
+
         criteria.andIsDeleteEqualTo(EnumDelete.NOT_DELETE.getCode());
         criteria.andIsValidEqualTo(EnumValid.VALID.getValue());
 
