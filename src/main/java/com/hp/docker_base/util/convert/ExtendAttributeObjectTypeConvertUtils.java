@@ -5,6 +5,7 @@ package com.hp.docker_base.util.convert;
  * @Author 24763
  * @Date 2020/8/19 16:28
  */
+import com.hp.docker_base.bean.Department;
 import com.hp.docker_base.bean.bo.*;
 import com.hp.docker_base.bean.dto.extend.*;
 import com.hp.docker_base.bean.extend.ExtendAttribute;
@@ -17,6 +18,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @program: smart
@@ -48,6 +51,8 @@ public class ExtendAttributeObjectTypeConvertUtils {
         extendAttributeDao.setRemark(dto.getRemark());
         extendAttributeDao.setSort(dto.getSort());
 
+    //    extendAttributeDao.setTenantId(dto.getDepartmentId());
+
         return extendAttributeDao;
     }
 
@@ -56,7 +61,7 @@ public class ExtendAttributeObjectTypeConvertUtils {
      *
      * @param dao 【DAO】扩展属性信息
      */
-    public static ExtendAttributeDto convertExtendAttributeDaoToDto(@NonNull ExtendAttribute dao) {
+    public static ExtendAttributeDto convertExtendAttributeDaoToDto(@NonNull ExtendAttribute dao, List<Department> departmentList) {
 
         ExtendAttributeDto extendAttributeDto = new ExtendAttributeDto();
         extendAttributeDto.setUuid(dao.getUuid());
@@ -70,8 +75,36 @@ public class ExtendAttributeObjectTypeConvertUtils {
         extendAttributeDto.setValid(dao.getIsValid());
         extendAttributeDto.setRemark(dao.getRemark());
         extendAttributeDto.setSort(dao.getSort());
+        // 设置科室编号
+       /* extendAttributeDto.setDepartmentId(dao.getTenantId());
+
+        if(!CollectionUtils.isEmpty(departmentList)){
+            Map<String,Department> departmentMap = departmentList.stream().collect(Collectors.toMap(Department::getUuid, Department->Department));
+            Department department = departmentMap.get(extendAttributeDto.getDepartmentId());
+            if(department != null){
+                extendAttributeDto.setDepartmentName(department.getName());
+            }
+
+        }*/
 
         return extendAttributeDto;
+    }
+
+    public static List<ExtendAttributeDto> convertExtendAttributeBoToDtoList(List<ExtendAttributeBo> extendAttributeBoList,
+                                                                             List<Department> departmentList) {
+        List<ExtendAttributeDto> retList = new ArrayList<>();
+        if(CollectionUtils.isEmpty(extendAttributeBoList)){
+            return new ArrayList<>();
+        }
+
+
+        for(ExtendAttributeBo extendAttributeBo:extendAttributeBoList){
+            ExtendAttributeDto extendAttributeDto = convertExtendAttributeBoToDto(extendAttributeBo, departmentList);
+
+            retList.add(extendAttributeDto);
+        }
+
+        return retList;
     }
 
     /**
@@ -91,10 +124,12 @@ public class ExtendAttributeObjectTypeConvertUtils {
      * 类型转换，BO -> DTO
      *
      * @param bo 【BO】扩展属性信息
+     * @param departmentList
      */
-    public static ExtendAttributeDto convertExtendAttributeBoToDto(@NonNull ExtendAttributeBo bo) {
+    public static ExtendAttributeDto convertExtendAttributeBoToDto(@NonNull ExtendAttributeBo bo,
+                                                                   List<Department> departmentList) {
 
-        ExtendAttributeDto dto = convertExtendAttributeDaoToDto(bo);
+        ExtendAttributeDto dto = convertExtendAttributeDaoToDto(bo,departmentList);
         dto.setAttributeFieldValue(bo.getAttributeFieldValue());
         if (bo.getAttributeConfigInfo() != null) {
             dto.setAttributeConfigInfo(convertExtendAttributeConfigBoToDto(bo.getAttributeConfigInfo()));
@@ -489,5 +524,6 @@ public class ExtendAttributeObjectTypeConvertUtils {
 
         return bo;
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.hp.docker_base.bean.dto.extend;
 
+import com.hp.docker_base.bean.dto.DepartmentDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @program: idaas
@@ -65,4 +67,7 @@ public class ExtendAttributeDto implements Serializable {
 
     @ApiModelProperty(value = "扩展属性配置信息，支持文本类、数字类和选项类扩展属性的配置")
     private AbstractExtendAttributeConfigDto attributeConfigInfo;
+
+    @ApiModelProperty(value = "部门列表")
+    private List<DepartmentDto> departmentList;
 }

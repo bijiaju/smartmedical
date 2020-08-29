@@ -1,6 +1,7 @@
 package com.hp.docker_base.service.impl;
 
 
+import com.hp.docker_base.bean.Department;
 import com.hp.docker_base.bean.bo.AbstractExtendAttributeConfigBo;
 import com.hp.docker_base.bean.bo.ExtendAttributeBo;
 import com.hp.docker_base.bean.dto.extend.AbstractExtendAttributeConfigDto;
@@ -11,6 +12,7 @@ import com.hp.docker_base.bean.em.EnumExtendAttributeType;
 import com.hp.docker_base.bean.exception.DataException;
 import com.hp.docker_base.bean.extend.ExtendAttribute;
 import com.hp.docker_base.bean.response.Page;
+import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IExtendAttributeApiService;
 import com.hp.docker_base.service.IExtendAttributeService;
 import com.hp.docker_base.util.CommonUtil;
@@ -35,6 +37,9 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
     @Autowired
     private IExtendAttributeService extendAttributeConfigService;
 
+    @Autowired
+    private IDepartmentService departmentService;
+
 
     // region 新增扩展属性信息
     @Override
@@ -42,7 +47,7 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
     public ExtendAttributeDto addExtendAttributeInfo(String tenantId,
                                                      ExtendAttributeDto extendAttributeInfo,
                                                      String createUserId) {
-        if (StringUtils.isEmpty(tenantId) || extendAttributeInfo == null || StringUtils.isEmpty(createUserId)) {
+        if (extendAttributeInfo == null || StringUtils.isEmpty(createUserId)) {
             return null;
         }
 
@@ -120,7 +125,8 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
     // region 编辑扩展属性信息
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ExtendAttributeDto editExtendAttributeInfo(ExtendAttributeDto extendAttributeInfo,
+    public ExtendAttributeDto editExtendAttributeInfo(String departmentId,
+                                                      ExtendAttributeDto extendAttributeInfo,
                                                       String updateUserId) {
         if (StringUtils.isEmpty(updateUserId)
                 || extendAttributeInfo == null
@@ -135,7 +141,7 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
         checkExtendAttributeInfoValidity(extendAttributeInfo);
 
         // 3、更新扩展属性的基础信息
-        updateExtendAttributeBaseInfo(extendAttributeInfo, updateUserId);
+        updateExtendAttributeBaseInfo(departmentId,extendAttributeInfo, updateUserId);
 
         // 4、更新扩展属性的配置信息（文本类、数字类和选型类的扩展属性）
         updateExtendAttributeConfigInfo(extendAttributeInfo.getUuid(), extendAttributeInfo.getAttributeConfigInfo(), updateUserId);
@@ -147,12 +153,15 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
     /**
      * 更新扩展属性的基础信息，不包括文本类、数字类和选项类扩展属性的个性化配置信息
      *
+     * @param departmentId
      * @param extendAttributeBaseInfo 扩展属性的基础信息
      * @param updateUserId            更新人员编号
      */
-    private void updateExtendAttributeBaseInfo(ExtendAttributeDto extendAttributeBaseInfo,
+    private void updateExtendAttributeBaseInfo(String departmentId,
+                                               ExtendAttributeDto extendAttributeBaseInfo,
                                                String updateUserId) {
         // 类型转换，DTO -> DAO
+      //  extendAttributeBaseInfo.setDepartmentId(departmentId);
         ExtendAttribute record = ExtendAttributeObjectTypeConvertUtils
                 .convertExtendAttributeDtoToDao(extendAttributeBaseInfo);
 
@@ -271,12 +280,15 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
      * @param attributeId 扩展属性编号
      */
     private ExtendAttributeDto queryExtendAttributeBaseInfo(String attributeId) {
+        // 获取所有的科室
+        List<Department> departmentList = departmentService.queryAllDepartmentList(null);
+
         ExtendAttribute extendAttribute = extendAttributeConfigService.findExtendAttributeBaseInfoById(attributeId);
         if (extendAttribute == null) {
             return null;
         }
 
-        return ExtendAttributeObjectTypeConvertUtils.convertExtendAttributeDaoToDto(extendAttribute);
+        return ExtendAttributeObjectTypeConvertUtils.convertExtendAttributeDaoToDto(extendAttribute,departmentList);
     }
 
     /**
@@ -304,6 +316,7 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
                                                                    String keywords,
                                                                    int offset,
                                                                    int limit) {
+        List<Department> departmentList = departmentService.queryAllDepartmentList(null);
 
         Page<ExtendAttributeBo> boPage = extendAttributeConfigService.findExtendAttributeListByPage(
                 tenantId,
@@ -318,7 +331,7 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
         dtoPage.setTotal(boPage.getTotal());
         dtoPage.setRecords(boPage.getRecords()
                 .stream()
-                .map(ExtendAttributeObjectTypeConvertUtils::convertExtendAttributeBoToDto)
+                .map(bo -> ExtendAttributeObjectTypeConvertUtils.convertExtendAttributeBoToDto(bo, departmentList))
                 .collect(Collectors.toList()));
 
         return dtoPage;
@@ -327,13 +340,16 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
     @Override
     public List<ExtendAttributeDto> queryExtendAttributeListByCategory(String tenantId,
                                                                        int attributeCategory) {
+
+        List<Department> departmentList = departmentService.queryAllDepartmentList(null);
+
         if (StringUtils.isEmpty(tenantId)) {
             return new ArrayList<>();
         }
 
         return extendAttributeConfigService.findExtendAttributeListByCategory(tenantId, attributeCategory)
                 .stream()
-                .map(ExtendAttributeObjectTypeConvertUtils::convertExtendAttributeBoToDto)
+                .map(bo -> ExtendAttributeObjectTypeConvertUtils.convertExtendAttributeBoToDto(bo, departmentList))
                 .collect(Collectors.toList());
     }
 

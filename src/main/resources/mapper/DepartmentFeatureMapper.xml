@@ -1,75 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hp.docker_base.mapper.DepartmentMapper" >
-  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.Department" >
+<mapper namespace="com.hp.docker_base.mapper.DepartmentFeatureMapper" >
+  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.DepartmentFeature" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="feature_id" property="featureId" jdbcType="VARCHAR" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
-
-
-
-  <sql id="Base_Column_List" >
-    id, uuid, name, sort, is_delete, create_user, update_user, create_time, update_time,remark
-  </sql>
-
-  <select id="findDepartmentListByIdList" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_department
-    WHERE uuid IN
-    <foreach collection="departmentIdList" open="(" close=")" separator="," item="item">
-      #{item}
-    </foreach>
-    AND  is_delete=0;
-  </select>
-
-  <select id="selectAllDepartmentList" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_department
-    WHERE is_delete=0
-    <if test="keywords != null and keywords!=''">
-      AND (name like CONCAT('%',#{keywords},'%'))
-    </if>
-  </select>
-
-
-  <select id="selectDepartmentByUUID" resultMap="BaseResultMap">
-    SELECT  <include refid="Base_Column_List" /> FROM tb_department
-    WHERE is_delete=0
-    AND uuid=#{uuid,jdbcType=VARCHAR}
-  </select>
-
-  <insert id="insertDepartmentInfo" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department (id, uuid, name,
-    sort, is_delete, create_user,
-    update_user, create_time, update_time,remark
-    )
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-    #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
-    #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-    )
-  </insert>
-
-
-  <update id="updateDepartmentInfo" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
-    set
-    name = #{name,jdbcType=VARCHAR},
-    sort = #{sort,jdbcType=INTEGER},
-    is_delete = #{isDelete,jdbcType=INTEGER},
-    create_user = #{createUser,jdbcType=VARCHAR},
-    update_user = #{updateUser,jdbcType=VARCHAR},
-    create_time = #{createTime,jdbcType=TIMESTAMP},
-    update_time = #{updateTime,jdbcType=TIMESTAMP},
-    remark = #{remark,jdbcType=VARCHAR}
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
-  <!--<sql id="Example_Where_Clause" >
+  <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -128,15 +70,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, uuid, name, sort, is_delete, create_user, update_user, create_time, update_time
+    id, department_id, feature_id, is_delete, create_user, update_user, create_time, 
+    update_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.DepartmentExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.DepartmentFeatureExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_department
+    from tb_department_feature
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -147,43 +90,38 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from tb_department
+    from tb_department_feature
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_department
+    delete from tb_department_feature
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.DepartmentExample" >
-    delete from tb_department
+  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.DepartmentFeatureExample" >
+    delete from tb_department_feature
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department (id, uuid, name, 
-      sort, is_delete, create_user, 
-      update_user, create_time, update_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
-      #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.hp.docker_base.bean.DepartmentFeature" >
+    insert into tb_department_feature (id, department_id, feature_id, 
+      is_delete, create_user, update_user, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{departmentId,jdbcType=VARCHAR}, #{featureId,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.Department" >
-    insert into tb_department
+  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.DepartmentFeature" >
+    insert into tb_department_feature
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="uuid != null" >
-        uuid,
+      <if test="departmentId != null" >
+        department_id,
       </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="sort != null" >
-        sort,
+      <if test="featureId != null" >
+        feature_id,
       </if>
       <if test="isDelete != null" >
         is_delete,
@@ -205,14 +143,11 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="uuid != null" >
-        #{uuid,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        #{sort,jdbcType=INTEGER},
+      <if test="featureId != null" >
+        #{featureId,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null" >
         #{isDelete,jdbcType=INTEGER},
@@ -231,26 +166,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hp.docker_base.bean.DepartmentExample" resultType="java.lang.Integer" >
-    select count(*) from tb_department
+  <select id="countByExample" parameterType="com.hp.docker_base.bean.DepartmentFeatureExample" resultType="java.lang.Integer" >
+    select count(*) from tb_department_feature
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_department
+    update tb_department_feature
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.uuid != null" >
-        uuid = #{record.uuid,jdbcType=VARCHAR},
+      <if test="record.departmentId != null" >
+        department_id = #{record.departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sort != null" >
-        sort = #{record.sort,jdbcType=INTEGER},
+      <if test="record.featureId != null" >
+        feature_id = #{record.featureId,jdbcType=VARCHAR},
       </if>
       <if test="record.isDelete != null" >
         is_delete = #{record.isDelete,jdbcType=INTEGER},
@@ -273,11 +205,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tb_department
+    update tb_department_feature
     set id = #{record.id,jdbcType=INTEGER},
-      uuid = #{record.uuid,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      sort = #{record.sort,jdbcType=INTEGER},
+      department_id = #{record.departmentId,jdbcType=VARCHAR},
+      feature_id = #{record.featureId,jdbcType=VARCHAR},
       is_delete = #{record.isDelete,jdbcType=INTEGER},
       create_user = #{record.createUser,jdbcType=VARCHAR},
       update_user = #{record.updateUser,jdbcType=VARCHAR},
@@ -287,17 +218,14 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
+  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.DepartmentFeature" >
+    update tb_department_feature
     <set >
-      <if test="uuid != null" >
-        uuid = #{uuid,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        sort = #{sort,jdbcType=INTEGER},
+      <if test="featureId != null" >
+        feature_id = #{featureId,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=INTEGER},
@@ -317,16 +245,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.Department" >
-    update tb_department
-    set uuid = #{uuid,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.DepartmentFeature" >
+    update tb_department_feature
+    set department_id = #{departmentId,jdbcType=VARCHAR},
+      feature_id = #{featureId,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=INTEGER},
       create_user = #{createUser,jdbcType=VARCHAR},
       update_user = #{updateUser,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-  </update>-->
+  </update>
 </mapper>

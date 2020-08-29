@@ -50,7 +50,7 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
     public void addExtendAttributeBaseInfo(String tenantId,
                                            ExtendAttribute extendAttributeBaseInfo,
                                            String createUserId) {
-        if (StringUtils.isEmpty(tenantId) || extendAttributeBaseInfo == null || StringUtils.isEmpty(createUserId)) {
+        if ( extendAttributeBaseInfo == null || StringUtils.isEmpty(createUserId)) {
             return;
         }
 
@@ -255,13 +255,16 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
     public ExtendAttribute findExtendAttributeConfigInfoByFiledName(String tenantId,
                                                                     int attributeCategory,
                                                                     String attributeFieldName) {
-        if (StringUtils.isEmpty(attributeFieldName) || StringUtils.isEmpty(tenantId)) {
+        if (StringUtils.isEmpty(attributeFieldName) ) {
             return null;
         }
 
         ExtendAttributeExample example = new ExtendAttributeExample();
         ExtendAttributeExample.Criteria criteria = example.createCriteria();
-        criteria.andTenantIdEqualTo(tenantId);
+        if(StringUtils.isNotEmpty(tenantId)){
+            criteria.andTenantIdEqualTo(tenantId);
+        }
+
         criteria.andCategoryEqualTo(attributeCategory);
         criteria.andFieldNameEqualTo(attributeFieldName);
         criteria.andIsDeleteEqualTo(EnumDelete.NOT_DELETE.getCode());
@@ -307,9 +310,6 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
                                                                  int limit) {
         Page<ExtendAttributeBo> page = PageUtils.makePage(offset, limit);
 
-        if (StringUtils.isEmpty(tenantId)) {
-            return page;
-        }
 
         // 1、分页获取扩展属性的基础信息
         page = PageQueryTemplate.selectByPage(
@@ -317,7 +317,9 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
                 pagingBounds -> {
                     ExtendAttributeExample example = new ExtendAttributeExample();
                     ExtendAttributeExample.Criteria criteria = example.createCriteria();
-                    criteria.andTenantIdEqualTo(tenantId);
+                    if(StringUtils.isNotEmpty(tenantId)){
+                        criteria.andTenantIdEqualTo(tenantId);
+                    }
 
                     if (EnumExtendAttributeCategory.getExtendAttributeCategory(attributeCategory) != null) {
                         criteria.andCategoryEqualTo(attributeCategory);

@@ -1,10 +1,12 @@
 package com.hp.docker_base.service.impl;
 
+import com.hp.docker_base.bean.Department;
 import com.hp.docker_base.bean.bo.ExtendAttributeBo;
 import com.hp.docker_base.bean.bo.ExtendAttributeValueBo;
 import com.hp.docker_base.bean.dto.extend.ExtendAttributeDto;
 import com.hp.docker_base.bean.dto.extend.ExtendAttributeValueDto;
 import com.hp.docker_base.bean.em.EnumExtendAttributeCategory;
+import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IDiagnosticFeatureExtService;
 import com.hp.docker_base.service.IDiagnosticFeatureService;
 import com.hp.docker_base.util.convert.AccountObjectTypeConvertUtils;
@@ -31,16 +33,21 @@ public class DiagnosticFeatureServiceImpl implements IDiagnosticFeatureService {
     @Autowired
     private AccountExtendServiceImpl accountExtendService;
 
+    @Autowired
+    private IDepartmentService departmentService;
+
 
 
     @Override
     public List<ExtendAttributeDto> queryAccountExtendAttributeInfo(String departmentId,
                                                                     String userId) {
+        List<Department> departmentList = departmentService.queryAllDepartmentList(null);
 
         List<ExtendAttributeBo> extendAttributeBoList = featureExtService.findAccountExtendAttributeInfoById(departmentId, userId);
-        return extendAttributeBoList.stream()
-                .map(ExtendAttributeObjectTypeConvertUtils::convertExtendAttributeBoToDto)
-                .collect(Collectors.toList());
+
+        List<ExtendAttributeDto> extendAttributeDtoList = ExtendAttributeObjectTypeConvertUtils.convertExtendAttributeBoToDtoList(extendAttributeBoList,departmentList);
+
+        return extendAttributeDtoList;
     }
 
     @Override

@@ -32,6 +32,14 @@ public class DepartmentServiceImpl implements IDepartmentService {
     private IUserService userService;
 
     @Override
+    public List<Department> queryDepartmentList(List<String> departmentIdList) {
+        if(!CollectionUtils.isEmpty(departmentIdList)){
+            return departmentMapper.findDepartmentListByIdList(departmentIdList);
+        }
+        return null;
+    }
+
+    @Override
     public List<Department> queryAllDepartmentList(String keywords) {
         return departmentMapper.selectAllDepartmentList(keywords);
     }

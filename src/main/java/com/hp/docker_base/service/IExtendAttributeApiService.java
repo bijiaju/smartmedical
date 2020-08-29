@@ -33,10 +33,11 @@ public interface IExtendAttributeApiService {
     /**
      * 更新自定义扩展属性信息
      *
+     * @param departmentId
      * @param extendAttributeDto 扩展属性信息
      * @param updateUserId       更新人员编号
      */
-    ExtendAttributeDto editExtendAttributeInfo(ExtendAttributeDto extendAttributeDto,
+    ExtendAttributeDto editExtendAttributeInfo(String departmentId, ExtendAttributeDto extendAttributeDto,
                                                String updateUserId);
 
     /**

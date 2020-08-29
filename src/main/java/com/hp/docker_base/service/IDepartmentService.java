@@ -10,6 +10,11 @@ import java.util.List;
  * @Date 2020/7/6 16:58
  */
 public interface IDepartmentService {
+
+    /**
+     * 查询所有的科室
+     */
+    List<Department> queryDepartmentList(List<String> departmentIdList);
     /**
      * 查询所有的科室
      * @param keywords

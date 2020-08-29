@@ -3,9 +3,11 @@ package com.hp.docker_base.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.hp.docker_base.bean.Department;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.bo.MedicalRecordBo;
+import com.hp.docker_base.bean.dto.DepartmentDto;
 import com.hp.docker_base.bean.dto.FeatureCategoryDto;
 import com.hp.docker_base.bean.dto.SortDto;
 import com.hp.docker_base.bean.dto.extend.*;
@@ -16,10 +18,14 @@ import com.hp.docker_base.bean.response.ResponseTableVo;
 import com.hp.docker_base.bean.response.ResponseVo;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
+import com.hp.docker_base.service.IDepartmentFeatureService;
+import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IExtendAttributeApiService;
 
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
+import com.hp.docker_base.util.convert.CommonObjectTypeConvertUtils;
+import com.hp.docker_base.util.convert.DepartmentObjectConvert;
 import com.hp.docker_base.util.convert.UserObjectConvert;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -51,6 +57,12 @@ public class ExtendAttributeWebApiController extends BaseController {
     @Autowired
     private IExtendAttributeApiService extendAttributeApiService;
 
+    @Autowired
+    private IDepartmentFeatureService departmentFeatureService;
+
+    @Autowired
+    private IDepartmentService departmentService;
+
     private static final String TEXT_EXTEND_ATTRIBUTE_JSON = "textExtendAttributeConfig";
     private static final String TEXT_EXTEND_ATTRIBUTE_MAX_CHARACTER_COUNT = "maxCharacterCount";
     private static final String NUMBER_EXTEND_ATTRIBUTE_JSON = "numberExtendAttributeConfig";
@@ -67,8 +79,8 @@ public class ExtendAttributeWebApiController extends BaseController {
 
     @ApiOperation(value = "新增特征信息", notes = "由平台租户管理员手动添加特征，支持组织机构、账户组、账户类型的特征")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "departmentId", value = "部门编号", paramType = "query", required = false),
-            @ApiImplicitParam(name = "extendAttributeJsonStr", paramType = "query", required = false,
+          //  @ApiImplicitParam(name = "departmentId", value = "部门编号", paramType = "query", required = false),
+            @ApiImplicitParam(name = "extendAttributeJsonStr", paramType = "query", required = true,
                     value = "特征信息（Json字符串）\n {\n" +
                             "  \"attributeName\": \"特征名称\",\n" +
                             "  \"attributeCategory\": 1,  // 特征所属分类，0, 基础信息及病史 1, 临床诊断 2, 医学图像特征\n" +
@@ -106,7 +118,7 @@ public class ExtendAttributeWebApiController extends BaseController {
     @MyLog("新增特征信息")
     public ResponseVo<ExtendAttributeDto> doPostNewExtendAttribute(
             @RequestParam(value = "extendAttributeJsonStr") String extendAttributeJsonStr,
-            @RequestParam(value = "departmentId") String departmentId,
+          //  @RequestParam(value = "departmentId") String departmentId,
             HttpServletRequest request) {
         // 1、获取用户信息
         User currentUser = getCurrentUser(request);
@@ -119,13 +131,21 @@ public class ExtendAttributeWebApiController extends BaseController {
 
         // 3、添加特征记录
         extendAttributeInfo = extendAttributeApiService.addExtendAttributeInfo(
-                departmentId,
+                null,
                 extendAttributeInfo,
                 currentUser.getUserName()
         );
 
+        // 4、新增特征科室关系
+      /*  departmentFeatureService.addDepartmentFeature(departmentId,
+                extendAttributeInfo.getUuid(),
+                currentUser.getUserName());*/
+
         return ResponseVo.ok(extendAttributeInfo);
     }
+
+
+
 
     @ApiOperation(value = "删除单个特征")
     @ApiImplicitParams({
@@ -145,8 +165,13 @@ public class ExtendAttributeWebApiController extends BaseController {
         return ResponseVo.ok();
     }
 
+
+
+
+
     @ApiOperation(value = "编辑单个特征的信息", notes = "由平台租户管理员手动更新特征的选项，其中特征的字段名、所属分类、字段类型不允许编辑，不同字段类型（文本、数字、选项）的配置可以修改")
     @ApiImplicitParams({
+        //    @ApiImplicitParam(name = "departmentId", value = "部门编号", paramType = "query", required = false),
             @ApiImplicitParam(name = "attributeId", value = "特征的编号", paramType = "path", required = true),
             @ApiImplicitParam(name = "extendAttributeJsonStr", paramType = "query", required = true,
                     value = "特征信息（Json字符串）\n{\n" +
@@ -188,6 +213,7 @@ public class ExtendAttributeWebApiController extends BaseController {
     @MyLog("编辑单个特征的信息")
     public ResponseVo<ExtendAttributeDto> doPutExtendAttribute(
             @PathVariable(value = "attributeId") String attributeId,
+      //      @RequestParam(value = "departmentId") String departmentId,
             @RequestParam(value = "extendAttributeJsonStr") String extendAttributeJsonStr,
             HttpServletRequest request) {
         // 1、获取用户信息
@@ -201,7 +227,17 @@ public class ExtendAttributeWebApiController extends BaseController {
 
         // 3、更新特征信息
         extendAttributeInfo.setUuid(attributeId);
-        extendAttributeInfo = extendAttributeApiService.editExtendAttributeInfo(extendAttributeInfo, currentUser.getUserName());
+        extendAttributeInfo = extendAttributeApiService.editExtendAttributeInfo(null,
+                extendAttributeInfo,
+                currentUser.getUserName());
+
+        // 4、查询特征下的科室
+        List<String> featureDepartmentIdList = departmentFeatureService.findFeatureDepartmentIdList(attributeId);
+        List<Department> departmentList = departmentService.queryDepartmentList(featureDepartmentIdList);
+        List<DepartmentDto> departmentDtos = DepartmentObjectConvert.convertDepartmentList2Dto(departmentList);
+
+        extendAttributeInfo.setDepartmentList(departmentDtos);
+
         return ResponseVo.ok(extendAttributeInfo);
     }
 
@@ -228,7 +264,7 @@ public class ExtendAttributeWebApiController extends BaseController {
 
     @ApiOperation(value = "查询特征列表", notes = "支持通过所属分类(组织机构/账户组/账户)、属性名称关键字快速查询特征列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "departmentId", value = "部门编号", paramType = "query", required = false),
+         //   @ApiImplicitParam(name = "departmentId", value = "部门编号", paramType = "query", required = false),
             @ApiImplicitParam(name = "category", value = "属性所属分类，-1:全部 | 0, 基础信息及病史 1, 临床诊断 2, 医学图像特征", paramType = "query", dataType = "int", defaultValue = "-1", required = false),
             @ApiImplicitParam(name = "keywords", value = "关键字，支持属性名称模糊查询", paramType = "query", required = false),
             @ApiImplicitParam(name = "offset", defaultValue = "0", value = "分页数据偏移量，注意不是页数", paramType = "query", dataType = "int", required = false),
@@ -237,7 +273,7 @@ public class ExtendAttributeWebApiController extends BaseController {
     @GetMapping("/list")
     @MyLog("查询特征列表")
     public ResponseVo<ResponseTableVo<ExtendAttributeDto>> doQueryExtendAttributeList(
-            @RequestParam(value = "departmentId",required = false) String departmentId,
+          //  @RequestParam(value = "departmentId",required = false) String departmentId,
             @RequestParam(value = "category", required = false, defaultValue = "-1") int category,
             @RequestParam(value = "keywords", required = false) String keywords,
             @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
@@ -245,7 +281,7 @@ public class ExtendAttributeWebApiController extends BaseController {
 
         // 2、通过特征所属分类和名称关键字，分页查询特征列表
         Page<ExtendAttributeDto> extendAttributePage = extendAttributeApiService.queryExtendAttributeListByPage(
-                departmentId,
+                null,
                 category,
                 true,
                 keywords,
@@ -264,13 +300,13 @@ public class ExtendAttributeWebApiController extends BaseController {
     })
     @GetMapping("/list/valid")
     public ResponseVo<ExtendAttributeDto> doQueryExtendAttributeList(
-            @RequestParam(value = "departmentId") String departmentId,
+          //  @RequestParam(value = "departmentId") String departmentId,
             @RequestParam(value = "category", required = false, defaultValue = "-1") int category) {
 
 
         // 1、通过特征所属分类和名称关键字，分页查询特征列表
         List<ExtendAttributeDto> extendAttributeList = extendAttributeApiService.queryExtendAttributeListByCategory(
-                departmentId, category);
+                null, category);
 
         return ResponseVo.ok(extendAttributeList);
     }
@@ -291,9 +327,11 @@ public class ExtendAttributeWebApiController extends BaseController {
 
     @ApiOperation(value = "获取新增特征的默认排序值", notes = "获取新增特征的默认排序值，首先获取当前租户下的所有特征的最大排序值，然后+1返回")
     @GetMapping("/sort")
-    public ResponseVo<SortDto> doQueryExtendAttributeDefaultSort(@RequestParam(value = "departmentId") String departmentId) {
+    public ResponseVo<SortDto> doQueryExtendAttributeDefaultSort(
+            //@RequestParam(value = "departmentId") String departmentId
+    ) {
 
-        return ResponseVo.ok(new SortDto(extendAttributeApiService.queryDefaultSort(departmentId)));
+        return ResponseVo.ok(new SortDto(extendAttributeApiService.queryDefaultSort(null)));
     }
 
     /**

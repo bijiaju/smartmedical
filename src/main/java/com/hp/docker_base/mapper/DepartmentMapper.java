@@ -26,4 +26,6 @@ public interface DepartmentMapper {
     Department selectDepartmentByUUID(@Param("uuid") String uuid);
 
     int updateDepartmentInfo(Department department);
+
+    List<Department> findDepartmentListByIdList(@Param("departmentIdList")List<String> departmentIdList);
 }
