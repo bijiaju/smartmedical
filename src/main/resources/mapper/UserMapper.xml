@@ -44,26 +44,22 @@
 
 
     <select id="selectUserByUserName" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE user_name=#{userName,jdbcType=VARCHAR}
+        SELECT  <include refid="Base_Column_List" /> FROM tb_user WHERE user_name=#{userName,jdbcType=VARCHAR}
         AND is_delete=0
     </select>
 
     <select id="selectUserByPhone" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE phone=#{phone,jdbcType=VARCHAR}
+        SELECT  <include refid="Base_Column_List" /> FROM tb_user WHERE phone=#{phone,jdbcType=VARCHAR}
         AND is_delete=0
     </select>
 
     <select id="selectUserByEmail" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE email=#{email,jdbcType=VARCHAR}
+        SELECT  <include refid="Base_Column_List" /> FROM tb_user WHERE email=#{email,jdbcType=VARCHAR}
         AND is_delete=0
     </select>
 
     <select id="findUserByNameAndPassword" resultMap="BaseResultMap">
-        SELECT id, uuid, user_name, password, phone, email, sort, is_delete, create_user, update_user,
-        create_time, update_time FROM tb_user WHERE user_name=#{userName,jdbcType=VARCHAR}
+        SELECT  <include refid="Base_Column_List" /> FROM tb_user WHERE user_name=#{userName,jdbcType=VARCHAR}
         AND password=#{password,jdbcType=VARCHAR}
          AND is_delete=0
     </select>

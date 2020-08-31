@@ -1,6 +1,10 @@
 package com.hp.docker_base.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.hp.docker_base.bean.algorithm.DataInDto;
+import com.hp.docker_base.bean.algorithm.FidInDto;
+import com.hp.docker_base.bean.algorithm.FidOutDto;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.DignosticClassificaitionDto;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -50,18 +54,47 @@ public class DiagnosticReportController {
        // return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }*/
 
+   /* @ApiOperation(value = "获取诊断结果", notes = "获取诊断结果")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "RecId", value = "诊断编号", paramType = "query", required = true),
+            @ApiImplicitParam(name = "DeptId", value = "科室编号", paramType = "query", required = true),
+            @ApiImplicitParam(name = "DataIn", value = "科室编号", paramType = "query", required = true)
+    })
+    @GetMapping("/base/{departmentId}")
+    public  Map<String,Object>  doQueryDiagnosticFeatureList(@PathVariable(value = "departmentId")
+                                                                         String departmentId) {
+
+        // 查询所有的科室
+       /// List<Department>  departmentList = departmentService.queryAllDepartmentList();
+       // return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
+    }*/
 
 
     @ApiOperation(value = "获取诊断结果", notes = "获取诊断结果")
-   /* @ApiImplicitParams({
-            @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = true)
-    })*/
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "RecId", value = "诊断编号", paramType = "query", required = true),
+            @ApiImplicitParam(name = "DeptId", value = "科室编号", paramType = "query", required = true),
+            @ApiImplicitParam(name = "DataIn", value = "{FidIn:\"输入特征Id1\", Value:\"特征数值\"}, \n" +
+                    "               {FidIn:\"输入特征Id2\", Value:\"特征数值\"}, \n" +
+                    "               {FidIn:\"输入特征Id3\", Value:\"特征数值\"}", paramType = "query", required = true)
+    })
     @GetMapping("/diagnostic/result")
     @MyLog("获取诊断结果")
-    public  Map<String,Object>  doQueryDiagnosticFeatureList() {
+    public  Map<String,Object>  doQueryDiagnosticFeatureList(@RequestParam(value = "RecId") String RecId,
+                                                             @RequestParam(value = "DeptId") String DeptId,
+                                                             @RequestParam(value = "DataIn") String DataIn) {
 
         // 查询诊断结果
-        List<DignosticClassificaitionDto> retList = new ArrayList();
+       // List<DignosticClassificaitionDto> retList = new ArrayList();
+        // 构建输入参数
+        FidInDto inDto = new FidInDto();
+        inDto.setRecId(RecId);
+        inDto.setDeptId(DeptId);
+
+        List<DataInDto> dataInDtos = JSON.parseArray(DataIn, DataInDto.class);
+        inDto.setDataIn(dataInDtos);
+
+        FidOutDto retList = reportService.queryDignosticResultInfo(inDto);
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }
 

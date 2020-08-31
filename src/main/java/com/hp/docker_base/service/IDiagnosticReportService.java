@@ -1,5 +1,7 @@
 package com.hp.docker_base.service;
 
+import com.hp.docker_base.bean.algorithm.FidInDto;
+import com.hp.docker_base.bean.algorithm.FidOutDto;
 import org.apache.poi.ss.usermodel.Workbook;
 
 /**
@@ -14,4 +16,9 @@ public interface IDiagnosticReportService {
      * @param date 日期
      */
     Workbook exportDiagnosticSampleData(String date);
+
+    /**
+     * 获取诊断结果
+     */
+    FidOutDto queryDignosticResultInfo(FidInDto inDto);
 }
