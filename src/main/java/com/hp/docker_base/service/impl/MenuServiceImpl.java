@@ -60,6 +60,10 @@ public class MenuServiceImpl implements IMenuService{
             menu.setLevel(CommonUtil.getLevel(menu.getFullParh()));
             menu.setSort(findDefaultMenuSort(menu.getParentId()));
 
+            if(StringUtils.isEmpty(menuDto.getParentId())){
+                menu.setParentId("-1");
+            }
+
             menu.setCreateTime(new Date());
             menu.setUpdateTime(new Date());
             menu.setCreateUser(userName);
@@ -182,7 +186,7 @@ public class MenuServiceImpl implements IMenuService{
     private String getFullPath(String parentId,
                                String Id) {
         if (StringUtils.isEmpty(parentId)) {//"" 表示是父亲节点
-            return "-1";
+            return Id;
         } else {
             Menu applicationResource = this.findMenuByUUID(parentId);
             if(applicationResource == null){

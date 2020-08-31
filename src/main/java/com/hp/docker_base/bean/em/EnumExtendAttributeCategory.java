@@ -7,6 +7,7 @@ package com.hp.docker_base.bean.em;
  **/
 public enum EnumExtendAttributeCategory {
 
+ //   ALL(-1, "全部"),
     BASIC_INFO(0, "基础信息及病史"),
     DIAGNOSIS(1, "临床诊断"),
     IMAGE(2, "医学图像特征");

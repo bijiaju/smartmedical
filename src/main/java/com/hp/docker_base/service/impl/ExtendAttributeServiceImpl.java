@@ -85,6 +85,9 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
         extendAttributeBaseInfo.setUpdateTime(new Date());
         extendAttributeBaseInfo.setUpdateNumber(createUserId);
 
+        // 后期可以删除
+        extendAttributeBaseInfo.setTenantId("temp");
+
         extendAttributeMapper.insert(extendAttributeBaseInfo);
     }
 

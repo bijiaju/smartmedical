@@ -343,9 +343,9 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
 
         List<Department> departmentList = departmentService.queryAllDepartmentList(null);
 
-        if (StringUtils.isEmpty(tenantId)) {
+    /*    if (StringUtils.isEmpty(tenantId)) {
             return new ArrayList<>();
-        }
+        }*/
 
         return extendAttributeConfigService.findExtendAttributeListByCategory(tenantId, attributeCategory)
                 .stream()

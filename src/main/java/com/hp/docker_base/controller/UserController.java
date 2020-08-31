@@ -165,6 +165,27 @@ public class UserController extends BaseController{
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retAccountInfo);
     }
 
+    @ApiOperation(value = "重置密码", notes = "重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "accountId", value = "账户编号", paramType = "path", required = true),
+    })
+    @PutMapping("/{accountId}/password")
+    @MyLog("重置密码")
+    public Map<String,Object> doPutAccountAllInfo(
+            @PathVariable(value = "accountId") String accountId,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 3、编辑账户基础属性信息记录
+        userService.editAccountPassword(
+                accountId,
+                currentUser.getUserName()
+        );
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
+    }
 
     @ApiOperation(value = "删除单个账户信息", notes = "管理员手动删除单个账户信息")
     @ApiImplicitParams({

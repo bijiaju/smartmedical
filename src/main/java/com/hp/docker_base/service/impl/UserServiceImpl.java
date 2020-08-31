@@ -189,6 +189,21 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public void editAccountPassword(String accountId, String userName) {
+        User oldUser = userMapper.selectUserByUUID(accountId);
+        if(oldUser != null){
+
+            oldUser.setPassword(MD5Utils.string2MD5("123465"));
+            oldUser.setUpdateUser(userName);
+            oldUser.setUpdateTime(new Date());
+
+            userMapper.updateUser(oldUser);
+            return ;
+        }
+        return ;
+    }
+
+    @Override
     public int queryUserSort() {
         List<User> allUsers = findAllUsers(null, null);
         if(!CollectionUtils.isEmpty(allUsers)){

@@ -204,9 +204,9 @@ public class DiseaseController extends BaseController{
         int count = diseaseService.deleteDiseaseInfo(diseaseId,
                 currentUser.getUserName());
 
-        if (count == 0) {
+       /* if (count == 0) {
             return CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),"删除疾病信息失败",null);
-        }
+        }*/
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }
 

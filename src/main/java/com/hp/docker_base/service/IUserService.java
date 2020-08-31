@@ -76,4 +76,12 @@ public interface IUserService {
      * 查询用户信息
      */
     User findUserByUUID(String accountId);
+
+    /**
+     * 重置密码
+     * @param accountId
+     * @param userName
+     */
+    void editAccountPassword(String accountId,
+                             String userName);
 }

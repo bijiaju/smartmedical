@@ -32,6 +32,9 @@ public class UserDto implements Serializable {
     @NotEmpty(message = "科室不能为空", groups = MiniValidation.class)
     private String departmentId;
 
+    @ApiModelProperty(value = "部门名称", example = "部门名称")
+    private String departmentName;
+
     @ApiModelProperty(value = "账户手机号", example = "账户手机号")
     @Pattern(regexp = "1\\d{10}", message = "手机号是1开头的11位数字", groups = MiniValidation.class)
     private String phone;
