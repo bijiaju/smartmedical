@@ -68,6 +68,10 @@ public interface IDepartmentFeatureService {
                                   String userName);
 
 
+    int addFeatureDepartmentList(String attributeId,
+                                 List<String> departmentIds,
+                                 String userName);
+
 
     /**
      * 批量添加部门特征
@@ -78,4 +82,5 @@ public interface IDepartmentFeatureService {
 
     int deleteDepartmentFeature(List<String> departmentIdList,
                                 String featureId);
+
 }

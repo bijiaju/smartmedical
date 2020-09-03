@@ -190,6 +190,24 @@ public class DepartmentFeatureServiceImpl implements IDepartmentFeatureService {
     }
 
     @Override
+    public int addFeatureDepartmentList(String attributeId, List<String> departmentIds, String userName) {
+        if(CollectionUtils.isEmpty(departmentIds)
+                || StringUtils.isEmpty(attributeId) ){
+            return 0;
+        }
+
+        int addCount = 0;
+        for(String departmentId : departmentIds){
+            if(StringUtils.isEmpty(findDepartmentFeatureDetail(departmentId,attributeId))){
+                addCount += addDepartmentFeature(departmentId,attributeId,userName);
+            }
+
+        }
+
+        return addCount;
+    }
+
+    @Override
     public int addDepartmentFeatureList(String departmentId,
                                         List<String> featureIds,
                                         String userName) {

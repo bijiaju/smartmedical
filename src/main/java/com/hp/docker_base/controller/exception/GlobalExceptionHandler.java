@@ -8,6 +8,7 @@ package com.hp.docker_base.controller.exception;
 
 
 
+import com.hp.docker_base.bean.exception.DataException;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.validate.ErrorParamException;
@@ -41,6 +42,19 @@ class GlobalExceptionHandler {
     @ExceptionHandler(ErrorParamException.class)
     @ResponseBody
     public Object handleServiceArgumentNotValidException(ErrorParamException e) {
+        System.out.println("###出现异常！");
+        Map<String,Object> map=new HashMap<>();
+        map.put("msg",e.getMessage());
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),e.getMessage(),null);
+    }
+
+    /**
+     * 方法参数校验
+     */
+    @ExceptionHandler(DataException.class)
+    @ResponseBody
+    public Object handleServiceDataArgumentNotValidException(ErrorParamException e) {
         System.out.println("###出现异常！");
         Map<String,Object> map=new HashMap<>();
         map.put("msg",e.getMessage());

@@ -327,8 +327,17 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
                 limit
         );
 
+
+
         Page<ExtendAttributeDto> dtoPage = Page.makePageByOffsetRecord(offset, limit);
-        dtoPage.setTotal(boPage.getTotal());
+        dtoPage.setTotal(extendAttributeConfigService.findExtendAttributeListByPage(
+                tenantId,
+                attributeCategory,
+                includeInvalidAttribute,
+                keywords,
+                0,
+                Integer.MAX_VALUE
+        ).getRecords().size());
         dtoPage.setRecords(boPage.getRecords()
                 .stream()
                 .map(bo -> ExtendAttributeObjectTypeConvertUtils.convertExtendAttributeBoToDto(bo, departmentList))

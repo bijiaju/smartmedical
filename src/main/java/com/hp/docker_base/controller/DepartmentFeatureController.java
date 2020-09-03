@@ -7,8 +7,10 @@ import com.hp.docker_base.bean.DepartmentFeature;
 import com.hp.docker_base.bean.DepartmentFeature;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.annotation.MyLog;
+import com.hp.docker_base.bean.dto.CategoryExtendAttributeDto;
 import com.hp.docker_base.bean.dto.SortDto;
 import com.hp.docker_base.bean.dto.extend.ExtendAttributeDto;
+import com.hp.docker_base.bean.em.EnumExtendAttributeCategory;
 import com.hp.docker_base.bean.response.Page;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -54,48 +56,51 @@ public class DepartmentFeatureController extends BaseController{
     @ApiOperation(value = "查询分页科室特征", notes = "查询分页科室特征")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "query", required = true),
-            @ApiImplicitParam(name = "category", value = "分类", paramType = "query", required = false),
+          //  @ApiImplicitParam(name = "category", value = "分类", paramType = "query", required = false),
             @ApiImplicitParam(name = "keywords", value = "支持名称、手机号、邮箱", paramType = "query", required = false),
-            @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
-                    value = "1 就是查第一页，每页10条记录"),
+           /* @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
+                    value = "1 就是查第一页，每页10条记录"),*/
     })
-    @GetMapping("/page/list")
+    @GetMapping("/category/featureId/list")
     @MyLog("查询分页科室特征")
     public  Map<String,Object>  doQueryDepartmentFeaturePageList(
             @RequestParam(value = "departmentId") String departmentId,
-            @RequestParam(value = "category") Integer category,
-            @RequestParam(value = "keywords",required = false) String keywords,
-            @RequestParam(value = "pageNum") int pageNum) {
+         //   @RequestParam(value = "category") Integer category,
+            @RequestParam(value = "keywords",required = false) String keywords/*,
+            @RequestParam(value = "pageNum") int pageNum*/) {
 
-        PageUtil.startPage(pageNum);
 
-        // 查询所有的科室特征
-       // List<DepartmentFeature>  departmentFeatureList = departmentFeatureService.queryAllDepartmentFeatureList(departmentId, keywords);
+        // 1/查询所有的科室特征
         List<ExtendAttributeDto> extendAttributeList = extendAttributeApiService.queryExtendAttributeListByPage(
                 null,
-                category,
-                true,
+                -1,//全部
+                false,//只获取有效的
                 keywords,
                 0,
                 Integer.MAX_VALUE
         ).getRecords();
 
         // 定义结果集
-        List<ExtendAttributeDto> boys = new ArrayList<>();
+        CategoryExtendAttributeDto retList = new CategoryExtendAttributeDto();
 
+        //2 获取科室下的所有特征
+        List<ExtendAttributeDto> departAtrrList = new ArrayList<>();
         // 获取科室所有特征编号
         List<String> departmentFeatureIdList = departmentFeatureService.findDepartmentFeatureIdList(departmentId);
-        if(!CollectionUtils.isEmpty(extendAttributeList)){
 
+        if(!CollectionUtils.isEmpty(extendAttributeList)){
             for(String featureId:departmentFeatureIdList){
                 List<ExtendAttributeDto> tmpList =  extendAttributeList.stream().filter(s->s.getUuid().equals(featureId)).collect(Collectors.toList());
-
-                boys.addAll(tmpList);
+                departAtrrList.addAll(tmpList);
             }
-
         }
 
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(boys));
+        // 3 分类
+        retList.setBasicInfoList(departAtrrList.stream().filter(s->s.getAttributeCategory().intValue() == (EnumExtendAttributeCategory.BASIC_INFO.getCode())).collect(Collectors.toList()));
+        retList.setDiagnosisList(departAtrrList.stream().filter(s->s.getAttributeCategory().intValue() == (EnumExtendAttributeCategory.DIAGNOSIS.getCode())).collect(Collectors.toList()));
+        retList.setImageList(departAtrrList.stream().filter(s->s.getAttributeCategory().intValue() == (EnumExtendAttributeCategory.IMAGE.getCode())).collect(Collectors.toList()));
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }
 
     @ApiOperation(value = "查询单个科室特征信息详情", notes = "查询单个科室特征信息详情")
@@ -139,6 +144,37 @@ public class DepartmentFeatureController extends BaseController{
         int addCount = departmentFeatureService.addDepartmentFeatureList(
                 departmentId,
                 attrbuteIdList,
+                currentUser.getUserName()
+        );
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                addCount);
+    }
+
+    @ApiOperation(value = "新增输入特征下的科室", notes = "新增输入特征下的科室")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "attributeId", value = "属性编号", paramType = "query", required = true),
+            @ApiImplicitParam(name = "departmentJsonStr", paramType = "query", required = true,
+                    value = " ,号分割")
+    })
+    @PostMapping("/new/attributeId/department")
+    @MyLog("新增输入特征下的科室")
+    public Map<String,Object> doPostNewDepartmentFeatureInfo2(
+            @RequestParam(value = "attributeId") String attributeId,
+            @RequestParam(value = "departmentJsonStr") String departmentJsonStr,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 2、解析组Json字符串参数
+        List<String> departmentIds = CommonObjectTypeConvertUtils.convertStrToStrList(departmentJsonStr);
+
+        // 3、新增科室特征信息
+        int addCount = departmentFeatureService.addFeatureDepartmentList(
+                attributeId,
+                departmentIds,
                 currentUser.getUserName()
         );
 
