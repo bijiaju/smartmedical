@@ -3,6 +3,7 @@ package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.hp.docker_base.bean.Department;
 import com.hp.docker_base.bean.DepartmentFeature;
 import com.hp.docker_base.bean.DepartmentFeature;
 import com.hp.docker_base.bean.User;
@@ -16,10 +17,12 @@ import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IDepartmentFeatureService;
 import com.hp.docker_base.service.IDepartmentFeatureService;
+import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IExtendAttributeApiService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.convert.CommonObjectTypeConvertUtils;
+import com.hp.docker_base.util.convert.DepartmentObjectConvert;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
 import io.swagger.annotations.Api;
@@ -52,6 +55,8 @@ public class DepartmentFeatureController extends BaseController{
     @Autowired
     private IExtendAttributeApiService extendAttributeApiService;
 
+    @Autowired
+    private IDepartmentService departmentService;
 
     @ApiOperation(value = "查询分页科室特征", notes = "查询分页科室特征")
     @ApiImplicitParams({
@@ -80,6 +85,9 @@ public class DepartmentFeatureController extends BaseController{
                 Integer.MAX_VALUE
         ).getRecords();
 
+        // 补充部门信息
+        addDepartmentList(extendAttributeList);
+
         // 定义结果集
         CategoryExtendAttributeDto retList = new CategoryExtendAttributeDto();
 
@@ -103,6 +111,23 @@ public class DepartmentFeatureController extends BaseController{
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }
 
+    // 补充部门信息
+    private  List<ExtendAttributeDto> addDepartmentList(List<ExtendAttributeDto> extendAttributeList){
+        if(CollectionUtils.isEmpty(extendAttributeList)){
+            return new ArrayList<>();
+        }
+
+        for(ExtendAttributeDto extendAttributeDto:extendAttributeList){
+            List<String> featureDepartmentIdList = departmentFeatureService.findFeatureDepartmentIdList(extendAttributeDto.getUuid());
+            if(!CollectionUtils.isEmpty(featureDepartmentIdList)){
+
+                List<Department> departmentList = departmentService.queryDepartmentList(featureDepartmentIdList);
+                extendAttributeDto.setDepartmentList(DepartmentObjectConvert.convertDepartmentList2Dto(departmentList));
+            }
+        }
+        return  extendAttributeList;
+    }
+
     @ApiOperation(value = "查询单个科室特征信息详情", notes = "查询单个科室特征信息详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "query", required = true),
@@ -117,6 +142,15 @@ public class DepartmentFeatureController extends BaseController{
             HttpServletRequest request) {
 
         ExtendAttributeDto extendAttributeDto = extendAttributeApiService.queryExtendAttributeInfoById(attributeId);
+
+        // 查询属性下的科室
+        List<String> featureDepartmentIdList = departmentFeatureService.findFeatureDepartmentIdList(attributeId);
+        if(!CollectionUtils.isEmpty(featureDepartmentIdList)){
+
+            List<Department> departmentList = departmentService.queryDepartmentList(featureDepartmentIdList);
+            extendAttributeDto.setDepartmentList(DepartmentObjectConvert.convertDepartmentList2Dto(departmentList));
+        }
+
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),extendAttributeDto);
     }

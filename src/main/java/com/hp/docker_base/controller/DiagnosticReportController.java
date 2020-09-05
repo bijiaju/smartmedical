@@ -2,9 +2,7 @@ package com.hp.docker_base.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.hp.docker_base.bean.algorithm.DataInDto;
-import com.hp.docker_base.bean.algorithm.FidInDto;
-import com.hp.docker_base.bean.algorithm.FidOutDto;
+import com.hp.docker_base.bean.algorithm.*;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.DignosticClassificaitionDto;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -74,7 +72,7 @@ public class DiagnosticReportController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "RecId", value = "诊断编号", paramType = "query", required = true),
             @ApiImplicitParam(name = "DeptId", value = "科室编号", paramType = "query", required = true),
-            @ApiImplicitParam(name = "DataIn", value = "{FidIn:\"输入特征Id1\", Value:\"特征数值\"}, \n" +
+            @ApiImplicitParam(name = "DataIn", value = "[{FidIn:\"输入特征Id1\", Value:\"特征数值\"}, \n" +
                     "               {FidIn:\"输入特征Id2\", Value:\"特征数值\"}, \n" +
                     "               {FidIn:\"输入特征Id3\", Value:\"特征数值\"}", paramType = "query", required = true)
     })
@@ -94,7 +92,47 @@ public class DiagnosticReportController {
         List<DataInDto> dataInDtos = JSON.parseArray(DataIn, DataInDto.class);
         inDto.setDataIn(dataInDtos);
 
-        FidOutDto retList = reportService.queryDignosticResultInfo(inDto);
+         //FidOutDto retList = reportService.queryDignosticResultInfo(inDto);
+         FidOutDto retList = new FidOutDto();
+         retList.setDeptId(DeptId);
+         retList.setRecId(RecId);
+
+        List<ActivedRulesDto> activedRulesDtoList = new ArrayList<>();
+        ActivedRulesDto rulesDto = new ActivedRulesDto();
+        rulesDto.setRId("11");
+        rulesDto.setWeight("0.1");
+        activedRulesDtoList.add(rulesDto);
+
+        ActivedRulesDto rulesDto1 = new ActivedRulesDto();
+        rulesDto1.setRId("12");
+        rulesDto1.setWeight("0.4");
+        activedRulesDtoList.add(rulesDto1);
+
+        ActivedRulesDto rulesDto2 = new ActivedRulesDto();
+        rulesDto2.setRId("13");
+        rulesDto2.setWeight("0.5");
+        activedRulesDtoList.add(rulesDto2);
+
+         retList.setActivedRules(activedRulesDtoList);
+
+
+        List<DataOutDto> rulesDtos = new ArrayList<>();
+        DataOutDto data1 = new DataOutDto();
+        data1.setFidOut("1");
+        data1.setValue("0.1");
+        rulesDtos.add(data1);
+
+        DataOutDto data2 = new DataOutDto();
+        data2.setFidOut("2");
+        data2.setValue("0.4");
+        rulesDtos.add(data2);
+
+        DataOutDto data3 = new DataOutDto();
+        data3.setFidOut("3");
+        data3.setValue("0.5");
+        rulesDtos.add(data3);
+
+         retList.setResult(rulesDtos);
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }
 

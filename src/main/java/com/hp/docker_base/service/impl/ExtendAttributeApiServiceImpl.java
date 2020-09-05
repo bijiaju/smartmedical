@@ -327,8 +327,6 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
                 limit
         );
 
-
-
         Page<ExtendAttributeDto> dtoPage = Page.makePageByOffsetRecord(offset, limit);
         dtoPage.setTotal(extendAttributeConfigService.findExtendAttributeListByPage(
                 tenantId,

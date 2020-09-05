@@ -1,6 +1,10 @@
 package com.hp.docker_base.bean.algorithm;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -9,7 +13,10 @@ import java.util.List;
  * @author: biyangqiang
  * @time: 2020/8/31 17:39
  */
-
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+@Data
 public class FidOutDto {
 
     @ApiModelProperty(value = "诊疗记录Id", example = "诊疗记录Id")

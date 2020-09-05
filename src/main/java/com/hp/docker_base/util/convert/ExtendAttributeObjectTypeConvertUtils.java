@@ -129,6 +129,7 @@ public class ExtendAttributeObjectTypeConvertUtils {
     public static ExtendAttributeDto convertExtendAttributeBoToDto(@NonNull ExtendAttributeBo bo,
                                                                    List<Department> departmentList) {
 
+        // 过滤每一个属性下的部门
         ExtendAttributeDto dto = convertExtendAttributeDaoToDto(bo,departmentList);
         dto.setAttributeFieldValue(bo.getAttributeFieldValue());
         if (bo.getAttributeConfigInfo() != null) {
