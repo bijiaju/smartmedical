@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hp.docker_base.mapper.MedicalRecordMapper" >
   <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.MedicalRecord" >
+  <id column="id" property="id" jdbcType="INTEGER" />
+  <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+  <result column="patient_id" property="patientId" jdbcType="VARCHAR" />
+  <result column="doctor_id" property="doctorId" jdbcType="VARCHAR" />
+  <result column="record" property="record" jdbcType="VARCHAR" />
+  <result column="treatment_plan" property="treatmentPlan" jdbcType="VARCHAR" />
+  <result column="sort" property="sort" jdbcType="INTEGER" />
+  <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+  <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+</resultMap>
+
+
+  <resultMap id="BaseResultBoMap" type="com.hp.docker_base.bean.bo.MedicalRecordBo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
     <result column="patient_id" property="patientId" jdbcType="VARCHAR" />
@@ -14,11 +30,23 @@
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
 
+  <sql id="Base_Column_List" >
+    id, uuid, patient_id, doctor_id, record, treatment_plan, sort, is_delete, create_user,
+    update_user, create_time, update_time
+  </sql>
 
-  <select id="selectMedicalRecordByPostId" resultType="com.hp.docker_base.bean.bo.MedicalRecordBo">
-    SELECT record.*,info.`name` FROM tb_medical_records record,tb_patient_info info
+  <select id="findMedicalRecordByUUID" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM tb_medical_records
+    WHERE uuid=#{uuid,jdbcType=VARCHAR}
+
+    AND is_delete=0
+  </select>
+
+  <select id="selectMedicalRecordByPostId" resultMap="BaseResultBoMap">
+    SELECT record.*,info.`name` as name FROM tb_medical_records record,tb_patient_info info
 WHERE record.patient_id=info.uuid
     <if test="postId != null and postId!=''">
       And info.post_id=#{postId}
@@ -90,10 +118,7 @@ AND record.is_delete=0
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, uuid, patient_id, doctor_id, record, treatment_plan, sort, is_delete, create_user,
-    update_user, create_time, update_time
-  </sql>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.MedicalRecordExample" >
     select
     <if test="distinct" >

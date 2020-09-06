@@ -1,7 +1,16 @@
 package com.hp.docker_base.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
+/*@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder*/
 public class MedicalRecord {
     private Integer id;
 
@@ -122,4 +131,6 @@ public class MedicalRecord {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+
 }

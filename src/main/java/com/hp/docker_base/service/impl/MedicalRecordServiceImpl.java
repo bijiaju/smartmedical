@@ -31,7 +31,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 
     @Override
-    public int addMedicalRecordInfo(MedicalRecord medicalRecord,
+    public MedicalRecord addMedicalRecordInfo(MedicalRecord medicalRecord,
                               String userName) {
         if(medicalRecord != null){
 
@@ -48,7 +48,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
             medicalRecordMapper.insert(medicalRecord);
         }
-        return 0;
+        return this.queryMedicalRecordByUUID(medicalRecord.getUuid());
     }
 
     @Override
@@ -86,15 +86,8 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
     @Override
     public MedicalRecord queryMedicalRecordByUUID(String medicalRecordId) {
         if(StringUtils.isNotEmpty(medicalRecordId)){
-            MedicalRecordExample example = new MedicalRecordExample();
-            MedicalRecordExample.Criteria criteria = example.createCriteria();
-            criteria.andUuidEqualTo(medicalRecordId);
-            criteria.andIsDeleteEqualTo(EnumDelete.NOT_DELETE.getCode());
-
-            List<MedicalRecord> medicalRecords = medicalRecordMapper.selectByExample(example);
-            if(!CollectionUtils.isEmpty(medicalRecords)){
-                return medicalRecords.get(0);
-            }
+            MedicalRecord medicalRecord = medicalRecordMapper.findMedicalRecordByUUID(medicalRecordId);
+            return medicalRecord;
         }
         return null;
     }

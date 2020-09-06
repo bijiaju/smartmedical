@@ -87,6 +87,8 @@ public class ExtendSelectionAttributeConfig implements Serializable {
      */
     private String updateNumber;
 
+    private String selectValue;
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -105,6 +107,7 @@ public class ExtendSelectionAttributeConfig implements Serializable {
         sb.append(", createNumber=").append(createNumber);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", updateNumber=").append(updateNumber);
+        sb.append(", selectValue=").append(selectValue);
         sb.append("]");
         return sb.toString();
     }

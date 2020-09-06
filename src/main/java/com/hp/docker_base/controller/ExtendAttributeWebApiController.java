@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +75,7 @@ public class ExtendAttributeWebApiController extends BaseController {
     private static final String SELECTION_EXTEND_ATTRIBUTE_SELECTION_UUID = "uuid";
     private static final String SELECTION_EXTEND_ATTRIBUTE_CONTENT = "content";
     private static final String SELECTION_EXTEND_ATTRIBUTE_DEFAULT_SECTION = "defaultSelection";
+    private static final String SELECTION_EXTEND_ATTRIBUTE_SELECT_VALUE = "selectValue";
 
     private static final String EXTEND_ATTRIBUTE_DEFAULT_VALUE = "defaultValue";
 
@@ -135,11 +137,6 @@ public class ExtendAttributeWebApiController extends BaseController {
                 extendAttributeInfo,
                 currentUser.getUserName()
         );
-
-        // 4、新增特征科室关系
-      /*  departmentFeatureService.addDepartmentFeature(departmentId,
-                extendAttributeInfo.getUuid(),
-                currentUser.getUserName());*/
 
         return ResponseVo.ok(extendAttributeInfo);
     }
@@ -203,6 +200,7 @@ public class ExtendAttributeWebApiController extends BaseController {
                             "         {\n" +
                             "            \"uuid\":\"选项编号，可为空\",\n" +
                             "            \"content\":\"选项内容\",\n" +
+                            "            \"selectValue\":\"王博添加\",\n" +
                             "            \"defaultSelection\":0 // 是否默认选中\n" +
                             "         }\n" +
                             "      ]\n" +
@@ -322,6 +320,14 @@ public class ExtendAttributeWebApiController extends BaseController {
         // 1、查询单个特征的详情信息
         ExtendAttributeDto extendAttributeInfo = extendAttributeApiService.queryExtendAttributeInfoById(attributeId);
 
+        // 查询属性下的科室
+        List<String> featureDepartmentIdList = departmentFeatureService.findFeatureDepartmentIdList(attributeId);
+        if(!CollectionUtils.isEmpty(featureDepartmentIdList)){
+
+            List<Department> departmentList = departmentService.queryDepartmentList(featureDepartmentIdList);
+            extendAttributeInfo.setDepartmentList(DepartmentObjectConvert.convertDepartmentList2Dto(departmentList));
+        }
+
         return ResponseVo.ok(extendAttributeInfo);
     }
 
@@ -420,6 +426,11 @@ public class ExtendAttributeWebApiController extends BaseController {
                         // 选项类特征，选项是否默认选中
                         if (selectionContentJson.containsKey(SELECTION_EXTEND_ATTRIBUTE_DEFAULT_SECTION)) {
                             selectionContentInfo.setDefaultSelection(selectionContentJson.getInteger(SELECTION_EXTEND_ATTRIBUTE_DEFAULT_SECTION));
+                        }
+
+                        // 设置选项值
+                        if (selectionContentJson.containsKey(SELECTION_EXTEND_ATTRIBUTE_SELECT_VALUE)) {
+                            selectionContentInfo.setSelectValue(selectionContentJson.getString(SELECTION_EXTEND_ATTRIBUTE_SELECT_VALUE));
                         }
 
                         selectionContentList.add(selectionContentInfo);

@@ -70,21 +70,21 @@ public class MedicalRecordController extends BaseController {
         ValidateUtils.validateGroup(medicalRecord, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
 
         // 3、新增就诊记录信息
-        int addCount = medicalRecordService.addMedicalRecordInfo(
+        MedicalRecord ret = medicalRecordService.addMedicalRecordInfo(
                 medicalRecord,
                 currentUser.getUserName()
         );
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
                 EnumOKOrNG.OK.getValue(),
-                null);
+                ret);
     }
 
 
 
     @ApiOperation(value = "查询分页就诊记录", notes = "查询分页就诊记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "postId", value = "身份证号", paramType = "query", required = true),
+            @ApiImplicitParam(name = "postId", value = "身份证号", paramType = "query"),
             @ApiImplicitParam(name = "keywords", value = "支持姓名查询", paramType = "query", required = false),
             @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
                     value = "1 就是查第一页，每页10条记录"),
@@ -92,7 +92,7 @@ public class MedicalRecordController extends BaseController {
     @GetMapping("/page/list")
     @MyLog("查询分页就诊记录")
     public  Map<String,Object>  doQueryMedicalRecordPageList(
-            @RequestParam(value = "postId") String postId,
+            @RequestParam(value = "postId",required = false) String postId,
             @RequestParam(value = "keywords",required = false) String keywords,
             @RequestParam(value = "pageNum") int pageNum) {
 
@@ -193,9 +193,9 @@ public class MedicalRecordController extends BaseController {
         int count = medicalRecordService.deleteMedicalRecordInfo(medicalRecordId,
                 currentUser.getUserName());
 
-        if (count == 0) {
+       /* if (count == 0) {
             return CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),"删除就诊记录信息失败",null);
-        }
+        }*/
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }
 

@@ -217,47 +217,6 @@ public class DepartmentFeatureController extends BaseController{
                 addCount);
     }
 
-   /* @ApiOperation(value = "编辑科室特征", notes = "编辑科室特征")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "departmentFeatureId", value = "科室特征编号", paramType = "path", required = true),
-            @ApiImplicitParam(name = "departmentFeatureJsonStr", paramType = "query", required = true,
-                    value = "" +
-                            "科室特征信息（Json字符串）\n{\n" +
-                            "  \"name\": \"名称\",\n" +
-                            "  \"treatment\": \"治疗方案\",\n" +
-                            "  \"introduction\": \"简介\",\n" +
-                            "  \"departmentFeatureId\": \"部门编号\",\n" +
-                            "  \"sort\": \"排序\",\n" +
-                            "  \"remark\": \"备注\"\n" +
-                            "}")
-    })
-    @PutMapping("/{departmentFeatureId}")
-    @MyLog("编辑科室特征")
-    public Map<String,Object> doPutAccountAllInfo(
-            @PathVariable(value = "departmentFeatureId") String departmentFeatureId,
-            @RequestParam(value = "departmentFeatureJsonStr") String departmentFeatureJsonStr,
-            HttpServletRequest request) {
-
-        // 1、获取用户信息
-        User currentUser = getCurrentUser(request);
-
-        // 2、解析组Json字符串参数
-        DepartmentFeature departmentFeature = JSONObject.parseObject(departmentFeatureJsonStr,DepartmentFeature.class);
-        ValidateUtils.validateGroup(departmentFeature, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
-
-        // 3、编辑账户基础属性信息记录
-        int retAccountInfo = departmentFeatureService.editDepartmentFeatureInfo(
-                departmentFeatureId,
-                departmentFeature,
-                currentUser.getUserName()
-        );
-
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
-                EnumOKOrNG.OK.getValue(),
-                retAccountInfo);
-    }*/
-
-
 
 
     @ApiOperation(value = "删除科室特征信息", notes = "删除科室特征信息")

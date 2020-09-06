@@ -5,6 +5,7 @@ package com.hp.docker_base.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.annotation.MyLog;
+import com.hp.docker_base.bean.annotation.SysLog;
 import com.hp.docker_base.bean.dto.DataUniqueDto;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.UserDto;
@@ -12,8 +13,10 @@ import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.em.EnumYesOrNo;
 import com.hp.docker_base.service.IRoleUserService;
+import com.hp.docker_base.service.ISysLogService;
 import com.hp.docker_base.service.IUserService;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.IPUtils;
 import com.hp.docker_base.util.MD5Utils;
 import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.convert.UserObjectConvert;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +50,9 @@ public class UserController extends BaseController{
 
     @Autowired
     private IRoleUserService roleUserService;
+
+    @Autowired
+    public ISysLogService sysLogService;
 
     /**
      * 获取所有的账户
@@ -304,9 +311,22 @@ public class UserController extends BaseController{
 
     @ApiOperation(value = "退出登录" , notes = "退出登录")
     @PostMapping("/loginout")
-    @MyLog("退出平台")
     public Map<String,Object> loginout(HttpServletRequest request){
         HttpSession session=request.getSession();
+
+        User user = (User) session.getAttribute("user");
+        if(user != null){
+            // 插入退出日志
+            SysLog sysLog = new SysLog();
+            sysLog.setUsername(user.getUserName());
+            sysLog.setCreateDate(new Date());
+            sysLog.setOperation("退出平台");
+            sysLog.setMethod("loginut");
+            sysLog.setIp(IPUtils.getIpAddress(request));
+            sysLog.setParams("[]");
+            sysLogService.save(sysLog);
+        }
+
         session.removeAttribute("user");
         session.invalidate();
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);

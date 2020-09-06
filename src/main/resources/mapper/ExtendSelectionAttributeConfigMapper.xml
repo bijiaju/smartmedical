@@ -1,39 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hp.docker_base.mapper.ExtendSelectionAttributeConfigMapper">
-  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="attr_id" jdbcType="VARCHAR" property="attrId" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="is_default" jdbcType="INTEGER" property="isDefault" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="extend" jdbcType="VARCHAR" property="extend" />
-    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_number" jdbcType="VARCHAR" property="createNumber" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_number" jdbcType="VARCHAR" property="updateNumber" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hp.docker_base.mapper.ExtendSelectionAttributeConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="attr_id" property="attrId" jdbcType="VARCHAR" />
+    <result column="select_value" property="selectValue" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="is_default" property="isDefault" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="extend" property="extend" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_number" property="createNumber" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_number" property="updateNumber" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -44,25 +45,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -73,240 +74,256 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
-    id, uuid, attr_id, content, is_default, sort, extend, is_delete, create_time, create_number, 
-    update_time, update_number
+  <sql id="Base_Column_List" >
+    id, uuid, attr_id, select_value, content, is_default, sort, extend, is_delete, create_time, 
+    create_number, update_time, update_number
   </sql>
-  <select id="selectByExample" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfigExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfigExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
     from idaas_extend_attr_config_selection
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
     <include refid="Base_Column_List" />
     from idaas_extend_attr_config_selection
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from idaas_extend_attr_config_selection
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfigExample">
+  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfigExample" >
     delete from idaas_extend_attr_config_selection
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into idaas_extend_attr_config_selection (uuid, attr_id, content, 
-      is_default, sort, extend, 
-      is_delete, create_time, create_number, 
-      update_time, update_number)
-    values (#{uuid,jdbcType=VARCHAR}, #{attrId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{isDefault,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{extend,jdbcType=VARCHAR}, 
-      #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createNumber,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateNumber,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig" >
+    insert into idaas_extend_attr_config_selection (id, uuid, attr_id, 
+      select_value, content, is_default, 
+      sort, extend, is_delete, 
+      create_time, create_number, update_time, 
+      update_number)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{attrId,jdbcType=VARCHAR}, 
+      #{selectValue,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{isDefault,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER}, #{extend,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createNumber,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateNumber,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig" >
     insert into idaas_extend_attr_config_selection
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
         uuid,
       </if>
-      <if test="attrId != null">
+      <if test="attrId != null" >
         attr_id,
       </if>
-      <if test="content != null">
+      <if test="selectValue != null" >
+        select_value,
+      </if>
+      <if test="content != null" >
         content,
       </if>
-      <if test="isDefault != null">
+      <if test="isDefault != null" >
         is_default,
       </if>
-      <if test="sort != null">
+      <if test="sort != null" >
         sort,
       </if>
-      <if test="extend != null">
+      <if test="extend != null" >
         extend,
       </if>
-      <if test="isDelete != null">
+      <if test="isDelete != null" >
         is_delete,
       </if>
-      <if test="createTime != null">
+      <if test="createTime != null" >
         create_time,
       </if>
-      <if test="createNumber != null">
+      <if test="createNumber != null" >
         create_number,
       </if>
-      <if test="updateTime != null">
+      <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="updateNumber != null">
+      <if test="updateNumber != null" >
         update_number,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
         #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="attrId != null">
+      <if test="attrId != null" >
         #{attrId,jdbcType=VARCHAR},
       </if>
-      <if test="content != null">
+      <if test="selectValue != null" >
+        #{selectValue,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="isDefault != null">
+      <if test="isDefault != null" >
         #{isDefault,jdbcType=INTEGER},
       </if>
-      <if test="sort != null">
+      <if test="sort != null" >
         #{sort,jdbcType=INTEGER},
       </if>
-      <if test="extend != null">
+      <if test="extend != null" >
         #{extend,jdbcType=VARCHAR},
       </if>
-      <if test="isDelete != null">
+      <if test="isDelete != null" >
         #{isDelete,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
+      <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createNumber != null">
+      <if test="createNumber != null" >
         #{createNumber,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null">
+      <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateNumber != null">
+      <if test="updateNumber != null" >
         #{updateNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfigExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfigExample" resultType="java.lang.Long" >
     select count(*) from idaas_extend_attr_config_selection
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map" >
     update idaas_extend_attr_config_selection
-    <set>
-      <if test="record.id != null">
+    <set >
+      <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.uuid != null">
+      <if test="record.uuid != null" >
         uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.attrId != null">
+      <if test="record.attrId != null" >
         attr_id = #{record.attrId,jdbcType=VARCHAR},
       </if>
-      <if test="record.content != null">
+      <if test="record.selectValue != null" >
+        select_value = #{record.selectValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
         content = #{record.content,jdbcType=VARCHAR},
       </if>
-      <if test="record.isDefault != null">
+      <if test="record.isDefault != null" >
         is_default = #{record.isDefault,jdbcType=INTEGER},
       </if>
-      <if test="record.sort != null">
+      <if test="record.sort != null" >
         sort = #{record.sort,jdbcType=INTEGER},
       </if>
-      <if test="record.extend != null">
+      <if test="record.extend != null" >
         extend = #{record.extend,jdbcType=VARCHAR},
       </if>
-      <if test="record.isDelete != null">
+      <if test="record.isDelete != null" >
         is_delete = #{record.isDelete,jdbcType=INTEGER},
       </if>
-      <if test="record.createTime != null">
+      <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.createNumber != null">
+      <if test="record.createNumber != null" >
         create_number = #{record.createNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.updateTime != null">
+      <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.updateNumber != null">
+      <if test="record.updateNumber != null" >
         update_number = #{record.updateNumber,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByExample" parameterType="map" >
     update idaas_extend_attr_config_selection
     set id = #{record.id,jdbcType=INTEGER},
-      uuid = #{record.uuid,jdbcType=VARCHAR},
-      attr_id = #{record.attrId,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      is_default = #{record.isDefault,jdbcType=INTEGER},
-      sort = #{record.sort,jdbcType=INTEGER},
-      extend = #{record.extend,jdbcType=VARCHAR},
-      is_delete = #{record.isDelete,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      create_number = #{record.createNumber,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      update_number = #{record.updateNumber,jdbcType=VARCHAR}
-    <if test="_parameter != null">
+    uuid = #{record.uuid,jdbcType=VARCHAR},
+    attr_id = #{record.attrId,jdbcType=VARCHAR},
+    select_value = #{record.selectValue,jdbcType=VARCHAR},
+    content = #{record.content,jdbcType=VARCHAR},
+    is_default = #{record.isDefault,jdbcType=INTEGER},
+    sort = #{record.sort,jdbcType=INTEGER},
+    extend = #{record.extend,jdbcType=VARCHAR},
+    is_delete = #{record.isDelete,jdbcType=INTEGER},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    create_number = #{record.createNumber,jdbcType=VARCHAR},
+    update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+    update_number = #{record.updateNumber,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig">
+  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig" >
     update idaas_extend_attr_config_selection
-    <set>
-      <if test="uuid != null">
+    <set >
+      <if test="uuid != null" >
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="attrId != null">
+      <if test="attrId != null" >
         attr_id = #{attrId,jdbcType=VARCHAR},
       </if>
-      <if test="content != null">
+      <if test="selectValue != null" >
+        select_value = #{selectValue,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="isDefault != null">
+      <if test="isDefault != null" >
         is_default = #{isDefault,jdbcType=INTEGER},
       </if>
-      <if test="sort != null">
+      <if test="sort != null" >
         sort = #{sort,jdbcType=INTEGER},
       </if>
-      <if test="extend != null">
+      <if test="extend != null" >
         extend = #{extend,jdbcType=VARCHAR},
       </if>
-      <if test="isDelete != null">
+      <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
+      <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createNumber != null">
+      <if test="createNumber != null" >
         create_number = #{createNumber,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null">
+      <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateNumber != null">
+      <if test="updateNumber != null" >
         update_number = #{updateNumber,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig">
+  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig" >
     update idaas_extend_attr_config_selection
     set uuid = #{uuid,jdbcType=VARCHAR},
       attr_id = #{attrId,jdbcType=VARCHAR},
+      select_value = #{selectValue,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       is_default = #{isDefault,jdbcType=INTEGER},
       sort = #{sort,jdbcType=INTEGER},

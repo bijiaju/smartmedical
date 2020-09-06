@@ -41,22 +41,6 @@ public class DiagnosticFeatureController extends BaseController {
     @Autowired
     private IDiagnosticFeatureService featureService;
 
-  /*  @ApiOperation(value = "根据科室查诊断特征", notes = "查询科室的通用诊断特征")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = true)
-    })
-    @GetMapping("/base/{departmentId}")
-    public  Map<String,Object>  doQueryDiagnosticFeatureList(@PathVariable(value = "departmentId")
-                                                                         String departmentId) {
-
-        // 查询所有的科室
-       /// List<Department>  departmentList = departmentService.queryAllDepartmentList();
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
-                EnumOKOrNG.OK.getValue(),
-                null);
-    }*/
-
-
 
     @ApiOperation(value = "获取的就诊记录特征值")
     @ApiImplicitParams({

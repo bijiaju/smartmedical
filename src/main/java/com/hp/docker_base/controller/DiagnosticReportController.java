@@ -76,7 +76,7 @@ public class DiagnosticReportController {
                     "               {FidIn:\"输入特征Id2\", Value:\"特征数值\"}, \n" +
                     "               {FidIn:\"输入特征Id3\", Value:\"特征数值\"}", paramType = "query", required = true)
     })
-    @GetMapping("/diagnostic/result")
+    @PostMapping("/diagnostic/result")
     @MyLog("获取诊断结果")
     public  Map<String,Object>  doQueryDiagnosticFeatureList(@RequestParam(value = "RecId") String RecId,
                                                              @RequestParam(value = "DeptId") String DeptId,
@@ -92,7 +92,6 @@ public class DiagnosticReportController {
         List<DataInDto> dataInDtos = JSON.parseArray(DataIn, DataInDto.class);
         inDto.setDataIn(dataInDtos);
 
-         //FidOutDto retList = reportService.queryDignosticResultInfo(inDto);
          FidOutDto retList = new FidOutDto();
          retList.setDeptId(DeptId);
          retList.setRecId(RecId);

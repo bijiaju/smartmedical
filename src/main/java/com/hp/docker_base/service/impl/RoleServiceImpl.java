@@ -5,6 +5,7 @@ import com.hp.docker_base.bean.RoleUser;
 import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.em.EnumOKOrNG;
+import com.hp.docker_base.em.EnumRole;
 import com.hp.docker_base.mapper.RoleMapper;
 import com.hp.docker_base.mapper.RoleUserMapper;
 import com.hp.docker_base.service.IRoleMenuService;
@@ -48,6 +49,11 @@ public class RoleServiceImpl implements IRoleService {
 
         Role oldRole = this.findRoleByRoleId(roleId);
         if(oldRole != null){
+            if(oldRole.getUuid().equals(EnumRole.DOCTOR.getCode())
+                    || oldRole.getUuid().equals(EnumRole.ADMIN.getCode())){
+                throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"该角色不可删除！");
+            }
+
             List<String> menuIdList = roleMenuService.findMenuIdListByRoleId(roleId);
             if(!CollectionUtils.isEmpty(menuIdList)){
                 throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"角色下还有菜单，暂无法删除");

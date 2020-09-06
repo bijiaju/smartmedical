@@ -18,7 +18,7 @@ public interface IMedicalRecordService {
     /**
      * 新增就诊记录
      */
-    int addMedicalRecordInfo(MedicalRecord disease,
+    MedicalRecord addMedicalRecordInfo(MedicalRecord disease,
                              String userName);
 
 

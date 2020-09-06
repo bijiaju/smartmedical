@@ -84,7 +84,12 @@ public class ExtendAttributeApiServiceImpl implements IExtendAttributeApiService
                                               String createUserId) {
         // 类型转换，DTO -> DAO
         ExtendAttribute record = ExtendAttributeObjectTypeConvertUtils.convertExtendAttributeDtoToDao(extendAttributeBaseInfo);
-        record.setUuid(CommonUtil.generateUUID());
+       // record.setUuid(CommonUtil.generateUUID());
+        if(StringUtils.isEmpty(record.getUuid())){
+            throw new DataException(EnumExceptionCode.ERROR_EXTEND_ATTRIBUTE_UUID_NULL.getCode(),
+                    EnumExceptionCode.ERROR_EXTEND_ATTRIBUTE_UUID_NULL.getMessage());
+        }
+
         record.setTenantId(tenantId);
         extendAttributeConfigService.addExtendAttributeBaseInfo(tenantId, record, createUserId);
 

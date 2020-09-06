@@ -323,6 +323,9 @@ public class ExtendAttributeObjectTypeConvertUtils {
         bo.setDefaultSelection(dto.getDefaultSelection());
         bo.setSort(dto.getSort());
 
+        // 王博
+        bo.setSelectValue(dto.getSelectValue());
+
         return bo;
     }
 
@@ -337,6 +340,9 @@ public class ExtendAttributeObjectTypeConvertUtils {
         dto.setContent(bo.getContent());
         dto.setDefaultSelection(bo.getDefaultSelection());
         dto.setSort(bo.getSort());
+
+        // 王博
+        dto.setSelectValue(bo.getSelectValue());
 
         return dto;
     }
@@ -447,6 +453,9 @@ public class ExtendAttributeObjectTypeConvertUtils {
         dao.setIsDefault(bo.getDefaultSelection());
         dao.setSort(bo.getSort());
 
+        // 王博
+        dao.setSelectValue(bo.getSelectValue());
+
         return dao;
     }
 
@@ -462,6 +471,9 @@ public class ExtendAttributeObjectTypeConvertUtils {
         dto.setDefaultSelection(dao.getIsDefault());
         dto.setSort(dao.getSort());
 
+        // 王博
+        dto.setSelectValue(dao.getSelectValue());
+
         return dto;
     }
 
@@ -476,6 +488,9 @@ public class ExtendAttributeObjectTypeConvertUtils {
         bo.setContent(dao.getContent());
         bo.setDefaultSelection(dao.getIsDefault());
         bo.setSort(dao.getSort());
+
+        // 王博
+        bo.setSelectValue(dao.getSelectValue());
 
         return bo;
     }

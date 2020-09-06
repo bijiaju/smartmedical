@@ -12,6 +12,8 @@ public enum EnumExceptionCode {
     ERROR_USER_ID_NULL("100001", "用户编号为空！"),
 
     // 自定义特征相关异常Code定义
+
+    ERROR_EXTEND_ATTRIBUTE_UUID_NULL("200001", "特征的ID为空！"),
     ERROR_EXTEND_ATTRIBUTE_NAME_NULL("200001", "特征的名称为空！"),
     ERROR_EXTEND_ATTRIBUTE_FIELD_NAME_NULL("2000002", "特征的字段名称为空！"),
     ERROR_EXTEND_ATTRIBUTE_CATEGORY_NULL("200003", "未选择特征的所属分类！"),

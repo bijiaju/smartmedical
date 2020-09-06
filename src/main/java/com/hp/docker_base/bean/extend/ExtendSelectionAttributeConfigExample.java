@@ -305,6 +305,76 @@ public class ExtendSelectionAttributeConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andSelectValueIsNull() {
+            addCriterion("select_value is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueIsNotNull() {
+            addCriterion("select_value is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueEqualTo(String value) {
+            addCriterion("select_value =", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueNotEqualTo(String value) {
+            addCriterion("select_value <>", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueGreaterThan(String value) {
+            addCriterion("select_value >", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueGreaterThanOrEqualTo(String value) {
+            addCriterion("select_value >=", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueLessThan(String value) {
+            addCriterion("select_value <", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueLessThanOrEqualTo(String value) {
+            addCriterion("select_value <=", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueLike(String value) {
+            addCriterion("select_value like", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueNotLike(String value) {
+            addCriterion("select_value not like", value, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueIn(List<String> values) {
+            addCriterion("select_value in", values, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueNotIn(List<String> values) {
+            addCriterion("select_value not in", values, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueBetween(String value1, String value2) {
+            addCriterion("select_value between", value1, value2, "selectValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectValueNotBetween(String value1, String value2) {
+            addCriterion("select_value not between", value1, value2, "selectValue");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("content is null");
             return (Criteria) this;

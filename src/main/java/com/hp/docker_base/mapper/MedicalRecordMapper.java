@@ -16,6 +16,8 @@ public interface MedicalRecordMapper {
     List<MedicalRecordBo> selectMedicalRecordByPostId(@Param("postId") String postId,
                                                       @Param("keywords") String keywords);
 
+    MedicalRecord findMedicalRecordByUUID(@Param("uuid")String medicalRecordId);
+
 
     int countByExample(MedicalRecordExample example);
 
@@ -38,4 +40,6 @@ public interface MedicalRecordMapper {
     int updateByPrimaryKeySelective(MedicalRecord record);
 
     int updateByPrimaryKey(MedicalRecord record);
+
+
 }

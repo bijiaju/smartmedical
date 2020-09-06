@@ -40,4 +40,7 @@ public class SelectionContentBo implements Serializable {
      * 排序值
      */
     private Integer sort;
+
+    //王博添加
+    private String selectValue;
 }
