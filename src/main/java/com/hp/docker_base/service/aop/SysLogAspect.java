@@ -91,7 +91,7 @@ public class SysLogAspect {
         if(user != null){
             sysLog.setUsername(user.getUserName());
         }else{
-            sysLog.setUsername(IPUtils.getIpAddress(request));
+            sysLog.setUsername("bee");
         }
 
         //获取用户ip地址
