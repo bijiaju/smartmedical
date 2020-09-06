@@ -96,10 +96,9 @@ public class MenuController extends BaseController{
     @MyLog("查询所有的菜单(树形)")
     public  Map<String,Object>  doQueryMenuTreeList() {
 
-        List<Menu> menuList = menuService.queryAllMenuList();
-        List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuList);
-        List<MenuDto> menuDtos = MenuObjectConvert.buildMenuTreeList(menuDtos1);
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos);
+        List<MenuDto> menuDtos = MenuObjectConvert.convertMenu2DtoList(menuService.queryAllMenuList());
+        List<MenuDto> menuTreeList = MenuObjectConvert.buildMenuTreeList(menuDtos);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuTreeList);
     }
 
     @ApiOperation(value = "查询所有的菜单（列表）", notes = "查询所有的菜单")
@@ -107,8 +106,7 @@ public class MenuController extends BaseController{
     @MyLog("查询所有的菜单（列表）")
     public  Map<String,Object>  doQueryMenuList() {
 
-        List<Menu> menuList = menuService.queryAllMenuList();
-        List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuList);
+        List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuService.queryAllMenuList());
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos1);
     }
 

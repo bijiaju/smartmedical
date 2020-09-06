@@ -43,7 +43,6 @@ public class MedicalRecordController extends BaseController {
     private IMedicalRecordService medicalRecordService;
 
 
-
     @ApiOperation(value = "新增就诊记录信息", notes = "新增就诊记录信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordJsonStr", paramType = "query", required = true,

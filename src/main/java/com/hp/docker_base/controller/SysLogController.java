@@ -49,7 +49,7 @@ public class SysLogController extends BaseController{
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/list")
-    @MyLog("查询操作日志")
+   // @MyLog("查询操作日志")
     public  Map<String,Object>  doQuerySysLogList(
             @RequestParam(value = "startDate",required = false) String startDate,
             @RequestParam(value = "endDate",required = false) String endDate,

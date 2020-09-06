@@ -321,7 +321,7 @@ public class UserController extends BaseController{
             sysLog.setUsername(user.getUserName());
             sysLog.setCreateDate(new Date());
             sysLog.setOperation("退出平台");
-            sysLog.setMethod("loginut");
+            sysLog.setMethod("loginOut");
             sysLog.setIp(IPUtils.getIpAddress(request));
             sysLog.setParams("[]");
             sysLogService.save(sysLog);
