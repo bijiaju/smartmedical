@@ -79,8 +79,6 @@ public class SysLogAspect {
         if(params.length() < 200){
             sysLog.setParams(params);
         }
-
-
         sysLog.setCreateDate(new Date());
 
         //获取用户名
