@@ -142,7 +142,7 @@
                     <!-- docker私服的地址 -->
                     <dockerHost>http://39.98.147.216:2375</dockerHost>
                     <!--最终生成 镜像名称以及版本号-->
-                    <imageName>39.98.147.216:5000/medical:1.0.0</imageName>
+                    <imageName>smartmedical:1.0.0</imageName>
                     <!--依赖的基础镜像-->
                     <!--  <baseImage>hub.c.163.com/r00txx/java8</baseImage>-->
                      <!--Dockerfile的位置 -->
