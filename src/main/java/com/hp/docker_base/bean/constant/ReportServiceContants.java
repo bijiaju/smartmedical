@@ -11,5 +11,5 @@ public class ReportServiceContants {
     /**
      * 调用url
      */
-    public static  final String baseUrl = "";
+    public static  final String BASE_URL = "http://39.98.147.216:8802/smart-medical/diagnostic/result";
 }

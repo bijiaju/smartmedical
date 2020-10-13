@@ -9,6 +9,9 @@ package com.hp.docker_base.bean.em;
 public enum EnumExceptionCode {
     OK("0", "成功"),
 
+    ERROR_NET_NULL("700001", "远程服务调用错误！"),
+    ERROR_IDAAS_ACCESS_ERROR("700001", "远程服务调用失败！"),
+
     ERROR_USER_ID_NULL("100001", "用户编号为空！"),
 
     // 自定义特征相关异常Code定义

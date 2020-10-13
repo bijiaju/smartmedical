@@ -3,6 +3,7 @@ package com.hp.docker_base.service;
 import com.hp.docker_base.bean.algorithm.FidInDto;
 import com.hp.docker_base.bean.algorithm.FidOutDto;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Desc 诊断报告
@@ -20,5 +21,7 @@ public interface IDiagnosticReportService {
     /**
      * 获取诊断结果
      */
-    FidOutDto queryDignosticResultInfo(FidInDto inDto);
+    FidOutDto queryDignosticResultInfo( String RecId,
+                                       String DeptId,
+                                        String DataIn);
 }

@@ -82,10 +82,13 @@ public class DiagnosticReportController {
                                                              @RequestParam(value = "DeptId") String DeptId,
                                                              @RequestParam(value = "DataIn") String DataIn) {
 
+
+
+        FidOutDto retList = reportService.queryDignosticResultInfo(RecId,DeptId,DataIn);
         // 查询诊断结果
        // List<DignosticClassificaitionDto> retList = new ArrayList();
         // 构建输入参数
-        FidInDto inDto = new FidInDto();
+      /*  FidInDto inDto = new FidInDto();
         inDto.setRecId(RecId);
         inDto.setDeptId(DeptId);
 
@@ -131,7 +134,7 @@ public class DiagnosticReportController {
         data3.setValue("0.5");
         rulesDtos.add(data3);
 
-         retList.setResult(rulesDtos);
+         retList.setResult(rulesDtos);*/
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }
 
