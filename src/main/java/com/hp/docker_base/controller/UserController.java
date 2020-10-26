@@ -8,6 +8,7 @@ import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.annotation.SysLog;
 import com.hp.docker_base.bean.dto.DataUniqueDto;
 import com.hp.docker_base.bean.User;
+import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.bean.dto.UserDto;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -26,6 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,9 +80,19 @@ public class UserController extends BaseController{
             @PathVariable(value = "accountId") String accountId,
             HttpServletRequest request) {
 
+        // 1、查询用户信息
         User user = userService.findUserByUUID(accountId);
 
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),user);
+        // 2、查询用户的角色
+        RoleDto role = roleUserService.queryRoleIdByUserId(user.getUuid());
+
+        //3、类型转换
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(user,userDto);
+        userDto.setRoleId(role.getRoleCode());
+        userDto.setRoleName(role.getRoleName());
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),userDto);
     }
 
 
@@ -114,6 +126,7 @@ public class UserController extends BaseController{
                             "  \"email\": \"账户邮箱\",\n" +
                             "  \"departmentId\": \"科室编号\",\n" +
                             "  \"phone\": \"账户手机号\",\n" +
+                            "  \"roleId\": \"角色编号，1是医生 2是管理员，默认不传参数是医生，\",\n" +
                             "}"),
     })
     @PostMapping("/new")
@@ -145,6 +158,7 @@ public class UserController extends BaseController{
                             "  \"email\": \"账户邮箱\",\n" +
                             "  \"departmentId\": \"科室编号\",\n" +
                             "  \"phone\": \"账户手机号\",\n" +
+                            "  \"roleId\": \"角色编号，1是医生 2是管理员，默认不传参数是医生，\",\n" +
                             "}"),
     })
     @PutMapping("/{accountId}")

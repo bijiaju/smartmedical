@@ -29,6 +29,16 @@ public class Disease {
 
     private Date updateTime;
 
+    private String foreignId;
+
+    public String getForeignId() {
+        return foreignId;
+    }
+
+    public void setForeignId(String foreignId) {
+        this.foreignId = foreignId;
+    }
+
     public Integer getId() {
         return id;
     }

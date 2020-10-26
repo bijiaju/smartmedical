@@ -2,10 +2,12 @@ package com.hp.docker_base.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.hp.docker_base.bean.Disease;
 import com.hp.docker_base.bean.algorithm.*;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.DignosticClassificaitionDto;
 import com.hp.docker_base.em.EnumOKOrNG;
+import com.hp.docker_base.mapper.DiseaseMapper;
 import com.hp.docker_base.service.IDiagnosticFeatureService;
 import com.hp.docker_base.service.IDiagnosticReportService;
 import com.hp.docker_base.util.CommonUtil;
@@ -38,6 +40,9 @@ public class DiagnosticReportController {
 
     @Autowired
     private IDiagnosticReportService reportService;
+
+    @Autowired
+    private DiseaseMapper diseaseMapper;
 
     /*@ApiOperation(value = "查询科室的通用诊断特征", notes = "查询科室的通用诊断特征")
     @ApiImplicitParams({

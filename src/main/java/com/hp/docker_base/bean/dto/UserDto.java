@@ -46,5 +46,10 @@ public class UserDto implements Serializable {
     @ApiModelProperty(value = "排序号", example = "排序号")
     private Integer sort;
 
+    @ApiModelProperty(value = "角色id", example = "角色id")
+    private String roleId;
+
+    @ApiModelProperty(value = "角色名称", example = "角色名称")
+    private String roleName;
 
 }

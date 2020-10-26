@@ -70,9 +70,20 @@ public class UserServiceImpl implements IUserService {
         user.setSort(queryUserSort());
 
         // 新增账户角色
-        roleService.addRoleMemberInfo(uuid,
-                EnumRole.DOCTOR.getCode(),
-                userInfo.getUserName());
+        if(StringUtils.isEmpty(userInfo.getRoleId())){
+            roleService.addRoleMemberInfo(uuid,
+                    EnumRole.DOCTOR.getCode(),
+                    userInfo.getUserName());
+        }else if(userInfo.getRoleId().equals(EnumRole.DOCTOR.getCode())){
+            roleService.addRoleMemberInfo(uuid,
+                    EnumRole.DOCTOR.getCode(),
+                    userInfo.getUserName());
+        }else if(userInfo.getRoleId().equals(EnumRole.ADMIN.getCode())){
+            roleService.addRoleMemberInfo(uuid,
+                    EnumRole.ADMIN.getCode(),
+                    userInfo.getUserName());
+        }
+
 
         return userMapper.insertUserInfo(user);
     }
@@ -175,6 +186,9 @@ public class UserServiceImpl implements IUserService {
             oldUser.setUpdateTime(new Date());
 
             userMapper.updateUser(oldUser);
+
+            // 修改账户的角色
+           // roleUserMapper.updateRoleUserByUserId()
             return UserObjectConvert.convertUser2Dto(userMapper.selectUserByUUID(accountId));
         }
         return null;

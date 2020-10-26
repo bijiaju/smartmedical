@@ -1,5 +1,7 @@
 package com.hp.docker_base.service;
 
+import com.hp.docker_base.bean.dto.RoleDto;
+
 import java.util.List;
 
 /**
@@ -16,4 +18,7 @@ public interface IRoleUserService {
      * @return 账户id
      */
     List<String> queryRoleUserByRoleId(String roleId);
+
+
+    RoleDto queryRoleIdByUserId(String uuid);
 }

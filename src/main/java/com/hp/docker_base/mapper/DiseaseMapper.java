@@ -10,6 +10,9 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface DiseaseMapper {
+
+    Disease selectDieaseByForeignId(@Param("foreignId") String foreignId);
+
     int countByExample(DiseaseExample example);
 
     int deleteByExample(DiseaseExample example);

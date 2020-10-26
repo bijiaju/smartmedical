@@ -15,7 +15,17 @@
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="foreign_id" property="foreignId" jdbcType="VARCHAR" />
   </resultMap>
+
+
+  <select id="selectDiseaseByUserId" resultMap="BaseResultMap" >
+    SELECT *
+    FROM tb_disease
+    WHERE user_id=#{foreignId,jdbcType=VARCHAR}
+      AND is_delete=0
+  </select>
+
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

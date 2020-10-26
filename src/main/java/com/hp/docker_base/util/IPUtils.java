@@ -1,5 +1,7 @@
 package com.hp.docker_base.util;
 
+import cn.hutool.core.date.DateUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -60,5 +62,12 @@ public class IPUtils {
             ip = request.getRemoteAddr();
         }
         return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
+    }
+
+
+    public static void main(String args[]) {
+
+        String chineseZodiac = DateUtil.getChineseZodiac(1991);
+        System.out.println(chineseZodiac);
     }
 }

@@ -15,4 +15,12 @@ public interface RoleUserMapper {
 
 
     int insertRoleUser(RoleUser roleUser);
+
+    RoleUser  selectRoleUserByUserId(@Param("userId") String userId);
+
+
+    int updateRoleUserByUserId(RoleUser roleUser);
+
+
+
 }

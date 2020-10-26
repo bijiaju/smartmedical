@@ -24,6 +24,8 @@ public class DiseaseServiceImpl implements IDiseaseService {
     @Autowired
     private DiseaseMapper diseaseMapper;
 
+
+
     @Override
     public int addDiseaseInfo(Disease disease,
                               String userName) {
