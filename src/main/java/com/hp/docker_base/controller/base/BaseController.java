@@ -37,18 +37,18 @@ public class BaseController {
 
 
     protected User getCurrentUser(HttpServletRequest request){
-       /* HttpSession session=request.getSession();
+        HttpSession session=request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
             throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"用户信息过期,请重新登录！");
         }
-        return user;*/
+        return user;
         // TODO: 2020/8/4  上线修改
-       User user = new User();
+    /*   User user = new User();
        user.setUserName("bee");
        user.setPassword("123456");
        user.setDepartmentId("123456");
-       return user;
+       return user;*/
     }
 
 
