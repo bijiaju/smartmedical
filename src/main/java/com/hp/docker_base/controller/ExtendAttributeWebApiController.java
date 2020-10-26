@@ -269,7 +269,7 @@ public class ExtendAttributeWebApiController extends BaseController {
             @ApiImplicitParam(name = "limit", defaultValue = "20", value = "每页数据个数", paramType = "query", dataType = "int", required = false)
     })
     @GetMapping("/list")
-    @MyLog("查询特征列表")
+  //  @MyLog("查询特征列表")
     public ResponseVo<ResponseTableVo<ExtendAttributeDto>> doQueryExtendAttributeList(
           //  @RequestParam(value = "departmentId",required = false) String departmentId,
             @RequestParam(value = "category", required = false, defaultValue = "-1") int category,

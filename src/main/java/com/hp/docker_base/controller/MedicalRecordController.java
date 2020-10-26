@@ -89,7 +89,7 @@ public class MedicalRecordController extends BaseController {
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
-    @MyLog("查询分页就诊记录")
+  //  @MyLog("查询分页就诊记录")
     public  Map<String,Object>  doQueryMedicalRecordPageList(
             @RequestParam(value = "postId",required = false) String postId,
             @RequestParam(value = "keywords",required = false) String keywords,
@@ -107,7 +107,7 @@ public class MedicalRecordController extends BaseController {
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = false),
     })
     @GetMapping("/{medicalRecordId}")
-    @MyLog("查询单个账户信息")
+ //   @MyLog("查询单个账户信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "medicalRecordId") String medicalRecordId,
             HttpServletRequest request) {

@@ -61,7 +61,7 @@ public class UserController extends BaseController{
      */
     @ApiOperation(value = "获取账户列表", notes = "获取账户列表")
     @GetMapping("/list")
-    @MyLog("获取账户列表")
+   // @MyLog("获取账户列表")
     public Map<String,Object> doQueryAccountList() {
 
         List<User> allUsers = userService.findAllUsers(null,
@@ -75,7 +75,7 @@ public class UserController extends BaseController{
             @ApiImplicitParam(name = "accountId", value = "账户编号", paramType = "path", required = true)
     })
     @GetMapping("/{accountId}")
-    @MyLog("查询单个账户信息")
+   // @MyLog("查询单个账户信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "accountId") String accountId,
             HttpServletRequest request) {
@@ -104,7 +104,7 @@ public class UserController extends BaseController{
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
-    @MyLog("分页获取账户列表")
+   // @MyLog("分页获取账户列表")
     public Map<String,Object> doQueryAccountPageList(
             @RequestParam(value = "departmentId",required = false) String departmentId,
             @RequestParam(value = "keywords",required = false) String keywords,

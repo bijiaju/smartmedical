@@ -67,7 +67,7 @@ public class DepartmentFeatureController extends BaseController{
                     value = "1 就是查第一页，每页10条记录"),*/
     })
     @GetMapping("/category/featureId/list")
-    @MyLog("查询分页科室特征")
+    //@MyLog("查询分页科室特征")
     public  Map<String,Object>  doQueryDepartmentFeaturePageList(
             @RequestParam(value = "departmentId") String departmentId,
          //   @RequestParam(value = "category") Integer category,
@@ -135,7 +135,7 @@ public class DepartmentFeatureController extends BaseController{
                     value = " ,号分割")
     })
     @GetMapping("/{departmentId}")
-    @MyLog("查询单个科室特征信息")
+   // @MyLog("查询单个科室特征信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "departmentId") String departmentId,
             @RequestParam(value = "attributeId") String attributeId,

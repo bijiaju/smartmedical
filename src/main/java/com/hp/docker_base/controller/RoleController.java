@@ -37,7 +37,7 @@ public class RoleController extends BaseController{
 
     @ApiOperation(value = "获取所有的角色", notes = "获取所有的角色")
     @GetMapping("/list")
-    @MyLog("获取所有的角色")
+   // @MyLog("获取所有的角色")
     public Map<String,Object> doQueryRoleList() {
 
         List<Role> allRoles = roleService.findAllRoles(null);
@@ -50,7 +50,7 @@ public class RoleController extends BaseController{
             @ApiImplicitParam(name = "keywords", value = "关键字，支持角色名称查询", paramType = "query", required = false)
     })
     @GetMapping("/page/list")
-    @MyLog("获取分页角色")
+ //   @MyLog("获取分页角色")
     public Map<String,Object> doQueryRolePageList(
             @RequestParam(value = "keywords",required = false) String keywords,
             @RequestParam(value = "pageNum") int pageNum) {
@@ -66,7 +66,7 @@ public class RoleController extends BaseController{
             @ApiImplicitParam(name = "roleId", value = "角色编号", paramType = "path", required = true)
     })
     @GetMapping("/{roleId}")
-    @MyLog("查询单个角色信息")
+ //   @MyLog("查询单个角色信息")
     public Map<String,Object> doGetRole(
             @PathVariable(value = "roleId") String roleId,
             HttpServletRequest request) {

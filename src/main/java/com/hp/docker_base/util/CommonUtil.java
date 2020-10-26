@@ -4,6 +4,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,11 +17,27 @@ import java.util.regex.Pattern;
 public class CommonUtil {
 
     /**
-     * 设置返回JSON数据
-     * @param returncode
-     * @param returnmessage
-     * @return Map<String, Object>
+     *
+     * @param d
+     * @param IntegerDigits
+     * @param FractionDigits
+     * @return String
+     * @time 2018年10月1日 上午11:09:35
      */
+    public static String getPercentFormat(double d,int IntegerDigits,int FractionDigits) {
+        NumberFormat nf = java.text.NumberFormat.getPercentInstance();
+        nf.setMaximumIntegerDigits(IntegerDigits);//小数点前保留几位
+        nf.setMinimumFractionDigits(FractionDigits);// 小数点后保留几位
+        String str = nf.format(d);
+        return str;
+
+    }
+        /**
+         * 设置返回JSON数据
+         * @param returncode
+         * @param returnmessage
+         * @return Map<String, Object>
+         */
     public static Map<String, Object> setReturnMap(String returncode,
                                                    String returnmessage,
                                                    Object object) {

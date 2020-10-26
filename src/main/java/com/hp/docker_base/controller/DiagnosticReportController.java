@@ -90,6 +90,28 @@ public class DiagnosticReportController {
 
 
         FidOutDto retList = reportService.queryDignosticResultInfo(RecId,DeptId,DataIn);
+
+        retList.setRecId(RecId);
+        retList.setDeptId(DeptId);
+
+        // 1、保证百分数
+        List<DataOutDto> result = retList.getResult();
+        if(result !=null && result.size() > 0){
+
+            double total = 0;
+            for(int i = 0;i<result.size() -1 ;i++){
+                DataOutDto data = result.get(i);
+
+                String percentFormat = CommonUtil.getPercentFormat(Double.parseDouble(data.getValue()), 2, 2);
+                total+=Double.parseDouble(percentFormat.substring(0,percentFormat.length()-1));
+
+                data.setValue(percentFormat);
+            }
+            total = Double.parseDouble(String.valueOf(total));
+            result.get(result.size()-1).setValue(String.valueOf((100-total))+"%");
+        }
+
+
         // 查询诊断结果
        // List<DignosticClassificaitionDto> retList = new ArrayList();
         // 构建输入参数

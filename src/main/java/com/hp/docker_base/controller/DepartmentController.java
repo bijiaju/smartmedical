@@ -40,7 +40,7 @@ public class DepartmentController extends BaseController{
 
     @ApiOperation(value = "查询所有的科室", notes = "查询所有的科室")
     @GetMapping("/list")
-    @MyLog("查询所有的科室")
+  //  @MyLog("查询所有的科室")
     public  Map<String,Object>  doQueryDepartmentList() {
 
         // 查询所有的科室
@@ -56,7 +56,7 @@ public class DepartmentController extends BaseController{
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
-    @MyLog("查询分页科室")
+ //   @MyLog("查询分页科室")
     public  Map<String,Object>  doQueryDepartmentPageList(
             @RequestParam(value = "keywords",required = false) String keywords,
             @RequestParam(value = "pageNum") int pageNum) {
@@ -73,7 +73,7 @@ public class DepartmentController extends BaseController{
             @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = false),
     })
     @GetMapping("/{departmentId}")
-    @MyLog("查询单个账户信息")
+ //   @MyLog("查询单个账户信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "departmentId") String departmentId,
             HttpServletRequest request) {

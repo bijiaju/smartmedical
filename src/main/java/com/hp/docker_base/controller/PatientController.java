@@ -65,7 +65,7 @@ public class PatientController extends BaseController {
             @ApiImplicitParam(name = "uuid", value = "病人编号", paramType = "path", required = true)
     })
     @GetMapping("/{uuid}")
-    @MyLog("查询单个病人信息")
+   // @MyLog("查询单个病人信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "uuid") String uuid,
             HttpServletRequest request) {
@@ -114,7 +114,7 @@ public class PatientController extends BaseController {
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
-    @MyLog("分页获取病人列表")
+   // @MyLog("分页获取病人列表")
     public Map<String,Object> doQueryPatientPageList(@RequestParam(value = "pageNum") int pageNum,
                                                      @RequestParam(value = "keywords",required = false) String keywords ) {
 

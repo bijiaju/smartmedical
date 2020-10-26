@@ -43,7 +43,7 @@ public class DiseaseController extends BaseController{
             @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "query", required = true),
     })
     @GetMapping("/list")
-    @MyLog("查询所有的疾病")
+   // @MyLog("查询所有的疾病")
     public  Map<String,Object>  doQueryDiseaseList(
             @RequestParam(value = "departmentId") String departmentId
     ) {
@@ -61,7 +61,7 @@ public class DiseaseController extends BaseController{
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
-    @MyLog("查询分页疾病")
+  //  @MyLog("查询分页疾病")
     public  Map<String,Object>  doQueryDiseasePageList(
             @RequestParam(value = "departmentId") String departmentId,
             @RequestParam(value = "keywords",required = false) String keywords,
@@ -79,7 +79,7 @@ public class DiseaseController extends BaseController{
             @ApiImplicitParam(name = "diseaseId", value = "疾病编号", paramType = "path", required = false),
     })
     @GetMapping("/{diseaseId}")
-    @MyLog("查询单个账户信息")
+   // @MyLog("查询单个账户信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "diseaseId") String diseaseId,
             HttpServletRequest request) {

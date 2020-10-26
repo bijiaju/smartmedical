@@ -45,7 +45,7 @@ public class MenuController extends BaseController{
             @ApiImplicitParam(name = "userId", value = "账户编号", paramType = "path", required = true),
     })
     @GetMapping("/user/{userId}/tree/list")
-    @MyLog("查询账户对应的菜单")
+   // @MyLog("查询账户对应的菜单")
     public  Map<String,Object>  doQueryUserMenuTreeList(
             @PathVariable(value = "userId") String userId) {
 
@@ -62,7 +62,7 @@ public class MenuController extends BaseController{
             @ApiImplicitParam(name = "roleId", value = "角色编号", paramType = "path", required = true),
     })
     @GetMapping("/role/{roleId}/tree/list")
-    @MyLog("查询角色对应的菜单")
+  //  @MyLog("查询角色对应的菜单")
     public  Map<String,Object>  doQueryRoleMenuTreeList(
             @PathVariable(value = "roleId") String roleId) {
 
@@ -78,7 +78,7 @@ public class MenuController extends BaseController{
             @ApiImplicitParam(name = "roleId", value = "角色编号", paramType = "path", required = true),
     })
     @GetMapping("/{roleId}/check/tree/list")
-    @MyLog("查询角色对应的有选择状态的菜单")
+   // @MyLog("查询角色对应的有选择状态的菜单")
     public  Map<String,Object>  doQueryRoleMenuStatusTreeList(
             @PathVariable(value = "roleId") String roleId) {
 
@@ -93,7 +93,7 @@ public class MenuController extends BaseController{
 
     @ApiOperation(value = "查询所有的菜单(树形)", notes = "查询所有的菜单")
     @GetMapping("/tree/list")
-    @MyLog("查询所有的菜单(树形)")
+  //  @MyLog("查询所有的菜单(树形)")
     public  Map<String,Object>  doQueryMenuTreeList() {
 
         List<MenuDto> menuDtos = MenuObjectConvert.convertMenu2DtoList(menuService.queryAllMenuList());
@@ -103,7 +103,7 @@ public class MenuController extends BaseController{
 
     @ApiOperation(value = "查询所有的菜单（列表）", notes = "查询所有的菜单")
     @GetMapping("/list")
-    @MyLog("查询所有的菜单（列表）")
+  //  @MyLog("查询所有的菜单（列表）")
     public  Map<String,Object>  doQueryMenuList() {
 
         List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuService.queryAllMenuList());
@@ -115,7 +115,7 @@ public class MenuController extends BaseController{
             @ApiImplicitParam(name = "menuId", value = "菜单编号", paramType = "path", required = true)
     })
     @GetMapping("/{menuId}")
-    @MyLog("查询单个菜单信息")
+  //  @MyLog("查询单个菜单信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "menuId") String menuId,
             HttpServletRequest request) {
@@ -131,7 +131,7 @@ public class MenuController extends BaseController{
             @ApiImplicitParam(name = "menuIdStr", value = "资源编号，多个编号间以','隔开", paramType = "query", required = true)
     })
     @PostMapping("/{roleId}/menu")
-    @MyLog("保存角色和菜单关系")
+    @MyLog("新增角色和菜单关系")
     public Map<String,Object> doPostApplicationRoleResource(
             @PathVariable(value = "roleId") String roleId,
             @RequestParam(value = "menuIdStr") String menuIdStr,
