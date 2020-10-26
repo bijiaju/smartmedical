@@ -1,5 +1,6 @@
 package com.hp.docker_base.service.impl;
 
+import com.hp.docker_base.bean.RoleUser;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.condition.UserCondition;
 import com.hp.docker_base.bean.dto.UserDto;
@@ -188,7 +189,13 @@ public class UserServiceImpl implements IUserService {
             userMapper.updateUser(oldUser);
 
             // 修改账户的角色
-           // roleUserMapper.updateRoleUserByUserId()
+            RoleUser roleUser = new RoleUser();
+            roleUser.setRoleId(userInfo.getRoleId());
+            roleUser.setUserId(accountId);
+            roleUser.setUpdateTime(new Date());
+
+            roleUserMapper.updateRoleUserByUserId(roleUser);
+
             return UserObjectConvert.convertUser2Dto(userMapper.selectUserByUUID(accountId));
         }
         return null;

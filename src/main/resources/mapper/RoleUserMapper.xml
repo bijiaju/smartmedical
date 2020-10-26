@@ -39,6 +39,14 @@
     #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
 
+  <update id="updateRoleUserByUserId" parameterType="com.hp.docker_base.bean.RoleUser" >
+    update tb_role_user
+    set role_id = #{roleId,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=VARCHAR},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
   <!--<sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
