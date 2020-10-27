@@ -13,6 +13,10 @@ import org.apache.ibatis.annotations.Param;
 public interface MedicalRecordMapper {
 
 
+
+    List<MedicalRecordBo> selectMedicalRecordByDoctorId(@Param("doctorId") String doctorId,
+                                                      @Param("keywords") String keywords);
+
     List<MedicalRecordBo> selectMedicalRecordByPostId(@Param("postId") String postId,
                                                       @Param("keywords") String keywords);
 

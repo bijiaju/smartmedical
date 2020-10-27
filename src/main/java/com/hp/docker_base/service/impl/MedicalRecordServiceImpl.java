@@ -113,6 +113,11 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
         return medicalRecordMapper.selectMedicalRecordByPostId(postId,keywords);
     }
 
+    @Override
+    public List<MedicalRecordBo> queryDoctorMedicalRecordPageList(String uuid, String keywords) {
+        return medicalRecordMapper.selectMedicalRecordByDoctorId(uuid,keywords);
+    }
+
     private int updateMedicalRecordInfo(MedicalRecord medicalRecord){
         medicalRecord.setUpdateTime( new Date());
 

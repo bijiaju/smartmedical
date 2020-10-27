@@ -18,9 +18,13 @@ import lombok.experimental.SuperBuilder;
 
 public class DataOutDto {
 
-    @ApiModelProperty(value = "输chu特征", example = "输chu特征")
+    @ApiModelProperty(value = "病id", example = "病id")
     private String FidOut;
 
     @ApiModelProperty(value = "值", example = "值")
     private String Value;
+
+    @ApiModelProperty(value = "病的名称", example = "病的名称")
+    private String fidOutName;
+
 }

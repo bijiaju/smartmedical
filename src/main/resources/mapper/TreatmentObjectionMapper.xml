@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hp.docker_base.mapper.TreatmentObjectionMapper" >
+  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.TreatmentObjection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="diagnosis_result" property="diagnosisResult" jdbcType="VARCHAR" />
+    <result column="treatment_id" property="treatmentId" jdbcType="VARCHAR" />
+    <result column="out_feature_json" property="outFeatureJson" jdbcType="VARCHAR" />
+    <result column="active_rule_json" property="activeRuleJson" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uuid, diagnosis_result, treatment_id, out_feature_json, active_rule_json, reason, 
+    is_delete, create_user, update_user, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.TreatmentObjectionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_treatment_objection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_treatment_objection
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_treatment_objection
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.TreatmentObjectionExample" >
+    delete from tb_treatment_objection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hp.docker_base.bean.TreatmentObjection" >
+    insert into tb_treatment_objection (id, uuid, diagnosis_result, 
+      treatment_id, out_feature_json, active_rule_json, 
+      reason, is_delete, create_user, 
+      update_user, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{diagnosisResult,jdbcType=VARCHAR}, 
+      #{treatmentId,jdbcType=VARCHAR}, #{outFeatureJson,jdbcType=VARCHAR}, #{activeRuleJson,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.TreatmentObjection" >
+    insert into tb_treatment_objection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="diagnosisResult != null" >
+        diagnosis_result,
+      </if>
+      <if test="treatmentId != null" >
+        treatment_id,
+      </if>
+      <if test="outFeatureJson != null" >
+        out_feature_json,
+      </if>
+      <if test="activeRuleJson != null" >
+        active_rule_json,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisResult != null" >
+        #{diagnosisResult,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentId != null" >
+        #{treatmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="outFeatureJson != null" >
+        #{outFeatureJson,jdbcType=VARCHAR},
+      </if>
+      <if test="activeRuleJson != null" >
+        #{activeRuleJson,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hp.docker_base.bean.TreatmentObjectionExample" resultType="java.lang.Integer" >
+    select count(*) from tb_treatment_objection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_treatment_objection
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uuid != null" >
+        uuid = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diagnosisResult != null" >
+        diagnosis_result = #{record.diagnosisResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.treatmentId != null" >
+        treatment_id = #{record.treatmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outFeatureJson != null" >
+        out_feature_json = #{record.outFeatureJson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activeRuleJson != null" >
+        active_rule_json = #{record.activeRuleJson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_treatment_objection
+    set id = #{record.id,jdbcType=INTEGER},
+      uuid = #{record.uuid,jdbcType=VARCHAR},
+      diagnosis_result = #{record.diagnosisResult,jdbcType=VARCHAR},
+      treatment_id = #{record.treatmentId,jdbcType=VARCHAR},
+      out_feature_json = #{record.outFeatureJson,jdbcType=VARCHAR},
+      active_rule_json = #{record.activeRuleJson,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.TreatmentObjection" >
+    update tb_treatment_objection
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisResult != null" >
+        diagnosis_result = #{diagnosisResult,jdbcType=VARCHAR},
+      </if>
+      <if test="treatmentId != null" >
+        treatment_id = #{treatmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="outFeatureJson != null" >
+        out_feature_json = #{outFeatureJson,jdbcType=VARCHAR},
+      </if>
+      <if test="activeRuleJson != null" >
+        active_rule_json = #{activeRuleJson,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.TreatmentObjection" >
+    update tb_treatment_objection
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      diagnosis_result = #{diagnosisResult,jdbcType=VARCHAR},
+      treatment_id = #{treatmentId,jdbcType=VARCHAR},
+      out_feature_json = #{outFeatureJson,jdbcType=VARCHAR},
+      active_rule_json = #{activeRuleJson,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

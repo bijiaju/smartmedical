@@ -58,6 +58,23 @@ WHERE record.patient_id=info.uuid
 
 AND info.is_delete=0
 AND record.is_delete=0
+    order by record.create_time desc
+  </select>
+
+  <select id="selectMedicalRecordByDoctorId" resultMap="BaseResultBoMap">
+    SELECT record.*,info.`name` as name FROM tb_medical_records record,tb_patient_info info
+    WHERE record.patient_id=info.uuid
+    <if test="doctorId != null and doctorId!=''">
+      And record.doctor_id=#{doctorId}
+    </if>
+
+    <if test="keywords != null and keywords!=''">
+      AND (name like CONCAT('%',#{keywords},'%'))
+    </if>
+
+    AND info.is_delete=0
+    AND record.is_delete=0
+    order by record.create_time desc
   </select>
 
   <sql id="Example_Where_Clause" >

@@ -3,17 +3,17 @@ package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.hp.docker_base.bean.Department;
+import com.hp.docker_base.bean.*;
 import com.hp.docker_base.bean.MedicalRecord;
-import com.hp.docker_base.bean.MedicalRecord;
-import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.bo.MedicalRecordBo;
 import com.hp.docker_base.bean.dto.SortDto;
+import com.hp.docker_base.bean.dto.TreatmentResultDto;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IMedicalRecordService;
+import com.hp.docker_base.service.ITreatmentService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.validate.ValidateUtils;
@@ -41,6 +41,7 @@ public class MedicalRecordController extends BaseController {
 
     @Autowired
     private IMedicalRecordService medicalRecordService;
+
 
 
     @ApiOperation(value = "新增就诊记录信息", notes = "新增就诊记录信息")
@@ -102,6 +103,31 @@ public class MedicalRecordController extends BaseController {
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(medicalRecordList));
     }
 
+    @ApiOperation(value = "查询医生分页就诊记录", notes = "查询医生看了几个病人记录")
+    @ApiImplicitParams({
+           // @ApiImplicitParam(name = "postId", value = "身份证号", paramType = "query"),
+            @ApiImplicitParam(name = "keywords", value = "支持姓名查询", paramType = "query", required = false),
+            @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
+                    value = "1 就是查第一页，每页10条记录"),
+    })
+    @GetMapping("/user/page/list")
+    //  @MyLog("查询分页就诊记录")
+    public  Map<String,Object>  doQueryUserMedicalRecordPageList(
+          //  @RequestParam(value = "postId",required = false) String postId,
+            @RequestParam(value = "keywords",required = false) String keywords,
+            @RequestParam(value = "pageNum") int pageNum,
+            HttpServletRequest request
+          ) {
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        PageUtil.startPage(pageNum);
+
+        // 查询所有的就诊记录
+        List<MedicalRecordBo>  medicalRecordList = medicalRecordService.queryDoctorMedicalRecordPageList(currentUser.getUuid(),keywords);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(medicalRecordList));
+    }
+
     @ApiOperation(value = "查询单个就诊记录信息", notes = "查询单个就诊记录信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = false),
@@ -116,6 +142,7 @@ public class MedicalRecordController extends BaseController {
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),medicalRecord);
     }
+
 
   
 

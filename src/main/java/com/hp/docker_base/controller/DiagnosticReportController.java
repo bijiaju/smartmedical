@@ -2,15 +2,23 @@ package com.hp.docker_base.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hp.docker_base.bean.Disease;
+import com.hp.docker_base.bean.MDC1;
+import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.algorithm.*;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.dto.DignosticClassificaitionDto;
+import com.hp.docker_base.bean.dto.TreatmentObjectionDto;
+import com.hp.docker_base.bean.dto.TreatmentResultDto;
+import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.mapper.DiseaseMapper;
-import com.hp.docker_base.service.IDiagnosticFeatureService;
-import com.hp.docker_base.service.IDiagnosticReportService;
+import com.hp.docker_base.service.*;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.validate.ValidateUtils;
+import com.hp.docker_base.util.validate.group.MiniValidation;
+import com.sun.xml.internal.rngom.parse.host.Base;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,6 +27,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.net.URLEncoder;
@@ -27,6 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: bee
@@ -36,7 +46,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/report")
 @Api(tags = "【前端开放】诊断报告API", description = "诊断报告API")
-public class DiagnosticReportController {
+public class DiagnosticReportController extends BaseController {
 
     @Autowired
     private IDiagnosticReportService reportService;
@@ -44,33 +54,90 @@ public class DiagnosticReportController {
     @Autowired
     private DiseaseMapper diseaseMapper;
 
-    /*@ApiOperation(value = "查询科室的通用诊断特征", notes = "查询科室的通用诊断特征")
+    @Autowired
+    private IMDC1Service imdc1Service;
+
+    @Autowired
+    private ITreatmentService treatmentService;
+
+    @Autowired
+    private ITreatmentObjectionService treatmentObjectionService;
+
+    @ApiOperation(value = "确认自动诊断记录", notes = "确认自动诊断记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "departmentId", value = "科室编号", paramType = "path", required = true)
+            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
+            @ApiImplicitParam(name = "treatmentJsonStr", paramType = "query", required = true,
+                    value = "" +
+                            "就诊结果信息（Json字符串）\n{\n" +
+                            "  \"diagnosisResult\": \"诊断结果\",\n" +
+                            "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
+                            "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
+                            "  \"reason\": \"修改理由\"\n" +
+                            "}")
     })
-    @GetMapping("/base/{departmentId}")
-    public  Map<String,Object>  doQueryDiagnosticFeatureList(@PathVariable(value = "departmentId")
-                                                                         String departmentId) {
+    @PostMapping("/negative/{medicalRecordId}")
+    @MyLog("否定诊断记录")
+    public Map<String,Object> doPostNegativeMedicalInfo(
+            @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            @RequestParam(value = "treatmentJsonStr") String treatmentJsonStr,
+            HttpServletRequest request) {
 
-        // 查询所有的科室
-       /// List<Department>  departmentList = departmentService.queryAllDepartmentList();
-       // return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
-    }*/
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
 
-   /* @ApiOperation(value = "获取诊断结果", notes = "获取诊断结果")
+        // 2、解析组Json字符串参数
+        TreatmentObjectionDto treatmentResult = JSONObject.parseObject(treatmentJsonStr, TreatmentObjectionDto.class);
+        ValidateUtils.validateGroup(treatmentJsonStr, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
+
+        // 3、编辑账户基础属性信息记录
+        int retAccountInfo = treatmentObjectionService.addTreatmentObjectInfo(
+                medicalRecordId,
+                treatmentResult,
+                currentUser.getUserName()
+        );
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                retAccountInfo);
+    }
+
+    @ApiOperation(value = "确认自动诊断记录", notes = "确认自动诊断记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "RecId", value = "诊断编号", paramType = "query", required = true),
-            @ApiImplicitParam(name = "DeptId", value = "科室编号", paramType = "query", required = true),
-            @ApiImplicitParam(name = "DataIn", value = "科室编号", paramType = "query", required = true)
+            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
+            @ApiImplicitParam(name = "treatmentJsonStr", paramType = "query", required = true,
+                    value = "" +
+                            "就诊结果信息（Json字符串）\n{\n" +
+                            "  \"diagnosisResult\": \"诊断结果\",\n" +
+                            "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
+                            "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
+                            "}")
     })
-    @GetMapping("/base/{departmentId}")
-    public  Map<String,Object>  doQueryDiagnosticFeatureList(@PathVariable(value = "departmentId")
-                                                                         String departmentId) {
+    @PostMapping("/sure/{medicalRecordId}")
+    @MyLog("认可自动诊断记录")
+    public Map<String,Object> doPostSureMedicalInfo(
+            @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            @RequestParam(value = "treatmentJsonStr") String treatmentJsonStr,
+            HttpServletRequest request) {
 
-        // 查询所有的科室
-       /// List<Department>  departmentList = departmentService.queryAllDepartmentList();
-       // return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
-    }*/
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 2、解析组Json字符串参数
+        TreatmentResultDto treatmentResult = JSONObject.parseObject(treatmentJsonStr, TreatmentResultDto.class);
+        ValidateUtils.validateGroup(treatmentJsonStr, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
+
+        // 3、编辑账户基础属性信息记录
+        int retAccountInfo = treatmentService.addTreatmentResultInfo(
+                medicalRecordId,
+                treatmentResult,
+                currentUser.getUserName()
+        );
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                retAccountInfo);
+    }
+
 
 
     @ApiOperation(value = "获取诊断结果", notes = "获取诊断结果")
@@ -87,7 +154,12 @@ public class DiagnosticReportController {
                                                              @RequestParam(value = "DeptId") String DeptId,
                                                              @RequestParam(value = "DataIn") String DataIn) {
 
-
+        // 获取某个科室下的疾病
+        List<MDC1> sickList = imdc1Service.querySickList(DeptId);
+        Map<String, String> sickMap = null;
+        if(sickList != null && sickList.size() > 0){
+            sickMap = sickList.stream().collect(Collectors.toMap(MDC1::getId, MDC1::getFeature));
+        }
 
         FidOutDto retList = reportService.queryDignosticResultInfo(RecId,DeptId,DataIn);
 
@@ -105,63 +177,19 @@ public class DiagnosticReportController {
                 String percentFormat = CommonUtil.getPercentFormat(Double.parseDouble(data.getValue()), 2, 2);
                 total+=Double.parseDouble(percentFormat.substring(0,percentFormat.length()-1));
 
+                // 设置百分数
                 data.setValue(percentFormat);
+
+                // 设置疾病的名称
+                if(sickList != null && sickList.size() > 0){
+                    data.setFidOutName(sickMap.get(data.getFidOut()));
+                }
+
             }
             total = Double.parseDouble(String.valueOf(total));
             result.get(result.size()-1).setValue(String.valueOf((100-total))+"%");
         }
 
-
-        // 查询诊断结果
-       // List<DignosticClassificaitionDto> retList = new ArrayList();
-        // 构建输入参数
-      /*  FidInDto inDto = new FidInDto();
-        inDto.setRecId(RecId);
-        inDto.setDeptId(DeptId);
-
-        List<DataInDto> dataInDtos = JSON.parseArray(DataIn, DataInDto.class);
-        inDto.setDataIn(dataInDtos);
-
-         FidOutDto retList = new FidOutDto();
-         retList.setDeptId(DeptId);
-         retList.setRecId(RecId);
-
-        List<ActivedRulesDto> activedRulesDtoList = new ArrayList<>();
-        ActivedRulesDto rulesDto = new ActivedRulesDto();
-        rulesDto.setRId("11");
-        rulesDto.setWeight("0.1");
-        activedRulesDtoList.add(rulesDto);
-
-        ActivedRulesDto rulesDto1 = new ActivedRulesDto();
-        rulesDto1.setRId("12");
-        rulesDto1.setWeight("0.4");
-        activedRulesDtoList.add(rulesDto1);
-
-        ActivedRulesDto rulesDto2 = new ActivedRulesDto();
-        rulesDto2.setRId("13");
-        rulesDto2.setWeight("0.5");
-        activedRulesDtoList.add(rulesDto2);
-
-         retList.setActivedRules(activedRulesDtoList);
-
-
-        List<DataOutDto> rulesDtos = new ArrayList<>();
-        DataOutDto data1 = new DataOutDto();
-        data1.setFidOut("1");
-        data1.setValue("0.1");
-        rulesDtos.add(data1);
-
-        DataOutDto data2 = new DataOutDto();
-        data2.setFidOut("2");
-        data2.setValue("0.4");
-        rulesDtos.add(data2);
-
-        DataOutDto data3 = new DataOutDto();
-        data3.setFidOut("3");
-        data3.setValue("0.5");
-        rulesDtos.add(data3);
-
-         retList.setResult(rulesDtos);*/
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }
 
