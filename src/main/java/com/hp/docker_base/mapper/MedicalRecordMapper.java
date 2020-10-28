@@ -15,7 +15,9 @@ public interface MedicalRecordMapper {
 
 
     List<MedicalRecordBo> selectMedicalRecordByDoctorId(@Param("doctorId") String doctorId,
-                                                      @Param("keywords") String keywords);
+                                                        @Param("keywords") String keywords,
+                                                        @Param("startDate") String startDate,
+                                                        @Param("endDate") String endDate);
 
     List<MedicalRecordBo> selectMedicalRecordByPostId(@Param("postId") String postId,
                                                       @Param("keywords") String keywords);

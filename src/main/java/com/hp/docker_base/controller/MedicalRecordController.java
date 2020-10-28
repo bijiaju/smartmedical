@@ -105,7 +105,10 @@ public class MedicalRecordController extends BaseController {
 
     @ApiOperation(value = "查询医生分页就诊记录", notes = "查询医生看了几个病人记录")
     @ApiImplicitParams({
-           // @ApiImplicitParam(name = "postId", value = "身份证号", paramType = "query"),
+            @ApiImplicitParam(name = "startDate", paramType = "query", required = false,
+                    value = "开始日期 2020-08-15 02:39:53"),
+            @ApiImplicitParam(name = "endDate", paramType = "query", required = false,
+                    value = "结束日期 2020-08-15 02:39:53"),
             @ApiImplicitParam(name = "keywords", value = "支持姓名查询", paramType = "query", required = false),
             @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
                     value = "1 就是查第一页，每页10条记录"),
@@ -113,7 +116,8 @@ public class MedicalRecordController extends BaseController {
     @GetMapping("/user/page/list")
     //  @MyLog("查询分页就诊记录")
     public  Map<String,Object>  doQueryUserMedicalRecordPageList(
-          //  @RequestParam(value = "postId",required = false) String postId,
+            @RequestParam(value = "startDate",required = false) String startDate,
+            @RequestParam(value = "endDate",required = false) String endDate,
             @RequestParam(value = "keywords",required = false) String keywords,
             @RequestParam(value = "pageNum") int pageNum,
             HttpServletRequest request
@@ -124,7 +128,10 @@ public class MedicalRecordController extends BaseController {
         PageUtil.startPage(pageNum);
 
         // 查询所有的就诊记录
-        List<MedicalRecordBo>  medicalRecordList = medicalRecordService.queryDoctorMedicalRecordPageList(currentUser.getUuid(),keywords);
+        List<MedicalRecordBo>  medicalRecordList = medicalRecordService.queryDoctorMedicalRecordPageList(currentUser.getUuid(),
+                keywords,
+                startDate,
+                endDate);
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(medicalRecordList));
     }
 

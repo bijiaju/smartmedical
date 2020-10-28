@@ -1,11 +1,13 @@
 package com.hp.docker_base.service.impl;
 
 import com.hp.docker_base.bean.Department;
+import com.hp.docker_base.bean.Disease;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.mapper.DepartmentMapper;
 import com.hp.docker_base.service.IDepartmentService;
+import com.hp.docker_base.service.IDiseaseService;
 import com.hp.docker_base.service.IUserService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.validate.ErrorParamException;
@@ -30,6 +32,9 @@ public class DepartmentServiceImpl implements IDepartmentService {
     
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IDiseaseService diseaseService;
 
     @Override
     public List<Department> queryDepartmentList(List<String> departmentIdList) {
@@ -81,6 +86,12 @@ public class DepartmentServiceImpl implements IDepartmentService {
             List<User> allUsers = userService.findAllUsers(departmentId, null);
             if(!CollectionUtils.isEmpty(allUsers)){
                 throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"科室下有医生，暂不能删除");
+            }
+
+            // 查询科室下疾病
+            List<Disease> diseases = diseaseService.queryAllDiseaseList(departmentId, null);
+            if(!CollectionUtils.isEmpty(diseases)){
+                throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"科室下有疾病，暂不能删除");
             }
 
             department.setUpdateUser(userName);

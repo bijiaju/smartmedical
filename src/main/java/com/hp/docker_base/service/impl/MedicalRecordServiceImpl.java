@@ -2,10 +2,8 @@ package com.hp.docker_base.service.impl;
 
 import com.hp.docker_base.bean.MedicalRecord;
 import com.hp.docker_base.bean.MedicalRecordExample;
-import com.hp.docker_base.bean.MedicalRecord;
 import com.hp.docker_base.bean.bo.MedicalRecordBo;
 import com.hp.docker_base.em.EnumDelete;
-import com.hp.docker_base.mapper.MedicalRecordMapper;
 import com.hp.docker_base.mapper.MedicalRecordMapper;
 import com.hp.docker_base.service.IMedicalRecordService;
 import com.hp.docker_base.util.CommonUtil;
@@ -114,8 +112,11 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
     }
 
     @Override
-    public List<MedicalRecordBo> queryDoctorMedicalRecordPageList(String uuid, String keywords) {
-        return medicalRecordMapper.selectMedicalRecordByDoctorId(uuid,keywords);
+    public List<MedicalRecordBo> queryDoctorMedicalRecordPageList(String uuid,
+                                                                  String keywords,
+                                                                  String startDate,
+                                                                  String endDate) {
+        return medicalRecordMapper.selectMedicalRecordByDoctorId(uuid,keywords,startDate,endDate);
     }
 
     private int updateMedicalRecordInfo(MedicalRecord medicalRecord){

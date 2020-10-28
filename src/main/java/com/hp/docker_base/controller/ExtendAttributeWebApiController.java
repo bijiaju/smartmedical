@@ -447,7 +447,7 @@ public class ExtendAttributeWebApiController extends BaseController {
 
     @ApiOperation(value = "查询特征分类", notes = "查询特征分类")
     @GetMapping("/category/list")
-    @MyLog("查询特征分类")
+    //@MyLog("查询特征分类")
     public  Map<String,Object>  doQueryMedicalRecordPageList() {
         List<FeatureCategoryDto> ret = new ArrayList<>();
 

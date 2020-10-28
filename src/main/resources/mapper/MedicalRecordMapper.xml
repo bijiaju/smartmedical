@@ -56,6 +56,8 @@ WHERE record.patient_id=info.uuid
       AND (name like CONCAT('%',#{keywords},'%'))
     </if>
 
+
+
 AND info.is_delete=0
 AND record.is_delete=0
     order by record.create_time desc
@@ -70,6 +72,13 @@ AND record.is_delete=0
 
     <if test="keywords != null and keywords!=''">
       AND (name like CONCAT('%',#{keywords},'%'))
+    </if>
+
+    <if test="startDate != null and startDate !=''">
+      AND record.create_time &gt;= #{startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="endDate != null and endDate !=''">
+      AND  record.create_time &lt;= #{endDate,jdbcType=VARCHAR}
     </if>
 
     AND info.is_delete=0

@@ -40,5 +40,5 @@ public interface IMedicalRecordService {
     /**
      * 查看医生看了多少病人
      */
-    List<MedicalRecordBo> queryDoctorMedicalRecordPageList(String uuid, String keywords);
+    List<MedicalRecordBo> queryDoctorMedicalRecordPageList(String uuid, String keywords, String startDate, String endDate);
 }
