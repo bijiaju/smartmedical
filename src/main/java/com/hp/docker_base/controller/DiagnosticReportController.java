@@ -63,7 +63,7 @@ public class DiagnosticReportController extends BaseController {
     @Autowired
     private ITreatmentObjectionService treatmentObjectionService;
 
-    @ApiOperation(value = "确认自动诊断记录", notes = "确认自动诊断记录")
+    @ApiOperation(value = "否定自动诊断记录", notes = "否定自动诊断记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
             @ApiImplicitParam(name = "treatmentJsonStr", paramType = "query", required = true,
