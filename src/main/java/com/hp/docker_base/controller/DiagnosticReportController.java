@@ -24,6 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,6 +65,9 @@ public class DiagnosticReportController extends BaseController {
 
     @Autowired
     private ITreatmentObjectionService treatmentObjectionService;
+
+    @Autowired
+    private IExtendAttributeService extendAttributeService;
 
     @ApiOperation(value = "否定自动诊断记录", notes = "否定自动诊断记录")
     @ApiImplicitParams({
@@ -155,14 +160,30 @@ public class DiagnosticReportController extends BaseController {
                                                              @RequestParam(value = "DeptId") String DeptId,
                                                              @RequestParam(value = "DataIn") String DataIn) {
 
-        // 获取某个科室下的疾病
+        // 1、获取某个科室下的疾病
         List<MDC1> sickList = imdc1Service.querySickList(null);
         Map<String, String> sickMap = null;
         if(sickList != null && sickList.size() > 0){
             sickMap = sickList.stream().collect(Collectors.toMap(MDC1::getId, MDC1::getFeature));
         }
 
-        FidOutDto retList = reportService.queryDignosticResultInfo(RecId,DeptId,DataIn);
+        // 2、转换请求参数
+        Map<String, String> attrMap = extendAttributeService.queryAttrTransMap();
+        List<DataInDto> dataInDtos = JSON.parseArray(DataIn, DataInDto.class);
+        if(!dataInDtos.isEmpty()){
+            for(DataInDto dataInDto:dataInDtos){
+                String fidId = attrMap.get(dataInDto.getFidIn());
+                if(StringUtils.isNotEmpty(fidId)){
+                    dataInDto.setFidIn(fidId);
+                }
+
+            }
+        }
+
+        // 2-1、转参数为字符串
+        String transDataIn = JSON.toJSONString(dataInDtos);
+
+        FidOutDto retList = reportService.queryDignosticResultInfo(RecId,DeptId,transDataIn);
         if(retList == null){
             throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"未获得诊断结果！");
         }

@@ -1,5 +1,6 @@
 package com.hp.docker_base.service.impl;
 
+import com.hp.docker_base.bean.TranAttr;
 import com.hp.docker_base.bean.bo.*;
 import com.hp.docker_base.bean.em.EnumExtendAttributeCategory;
 import com.hp.docker_base.bean.em.EnumExtendAttributeType;
@@ -131,6 +132,15 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
         }
 
         return maxSort + 1;
+    }
+
+    @Override
+    public Map<String, String> queryAttrTransMap() {
+        List<TranAttr> tranAttrs = extendAttributeExtMapper.selectTransFeignMap();
+        if(tranAttrs != null && tranAttrs.size() > 0){
+            return tranAttrs.stream().collect(Collectors.toMap(TranAttr::getUuid, TranAttr::getForeignId));
+        }
+        return null;
     }
     // endregion
 

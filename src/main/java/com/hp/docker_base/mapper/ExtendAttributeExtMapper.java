@@ -1,7 +1,10 @@
 package com.hp.docker_base.mapper;
 
+import com.hp.docker_base.bean.TranAttr;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @program: idaas
@@ -15,4 +18,10 @@ public interface ExtendAttributeExtMapper {
      * 获取最大排序值
      */
     Integer maxSort(@Param("tenantId") String tenantId);
+
+
+    /**
+     * 获取转换数据
+     */
+    List<TranAttr> selectTransFeignMap();
 }

@@ -7,6 +7,7 @@ import com.hp.docker_base.bean.extend.ExtendAttribute;
 import com.hp.docker_base.bean.response.Page;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Desc TODO
@@ -150,6 +151,11 @@ public interface IExtendAttributeService {
      * @param tenantId 租户编号
      */
     int findDefaultSort(String tenantId);
+
+    /**
+     * 获取转换的map
+     */
+    Map<String,String> queryAttrTransMap();
 
 
 }

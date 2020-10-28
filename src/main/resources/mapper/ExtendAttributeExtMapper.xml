@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hp.docker_base.mapper.ExtendAttributeExtMapper">
+
+    <resultMap id="attrResultMap" type="com.hp.docker_base.bean.TranAttr">
+        <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+        <result column="foreign_id" jdbcType="VARCHAR" property="foreignId" />
+    </resultMap>
+
+
     <select id="maxSort" resultType="java.lang.Integer">
         select max(sort) from idaas_extend_attr
         <where>
@@ -9,4 +16,11 @@
             </if>
         </where>
     </select>
+
+    <select id="selectTransFeignMap" resultMap="attrResultMap">
+        SELECT uuid,foreign_id FROM idaas_extend_attr
+        WHERE is_delete=0
+    </select>
+
+
 </mapper>
