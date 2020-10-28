@@ -25,9 +25,9 @@ public class MDC1ServiceImpl implements IMDC1Service {
 
     @Override
     public List<MDC1> querySickList(String departmentId) {
-        if(StringUtils.isEmpty(departmentId)){
+       /* if(StringUtils.isEmpty(departmentId)){
             return null;
-        }
+        }*/
 
         return mdc1Mapper.selectSickList(departmentId);
       /*  MDC1Example example = new MDC1Example();

@@ -15,7 +15,10 @@
     SELECT *
     FROM mdc1
     WHERE type='output'
+
+    <if test="departmentId != null and departmentId!=''">
       and department=#{departmentId,jdbcType=VARCHAR}
+    </if>
   </select>
 
 

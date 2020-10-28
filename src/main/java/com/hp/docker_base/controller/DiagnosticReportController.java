@@ -16,6 +16,7 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.mapper.DiseaseMapper;
 import com.hp.docker_base.service.*;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.validate.ErrorParamException;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
 import com.sun.xml.internal.rngom.parse.host.Base;
@@ -155,13 +156,16 @@ public class DiagnosticReportController extends BaseController {
                                                              @RequestParam(value = "DataIn") String DataIn) {
 
         // 获取某个科室下的疾病
-        List<MDC1> sickList = imdc1Service.querySickList(DeptId);
+        List<MDC1> sickList = imdc1Service.querySickList(null);
         Map<String, String> sickMap = null;
         if(sickList != null && sickList.size() > 0){
             sickMap = sickList.stream().collect(Collectors.toMap(MDC1::getId, MDC1::getFeature));
         }
 
         FidOutDto retList = reportService.queryDignosticResultInfo(RecId,DeptId,DataIn);
+        if(retList == null){
+            throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"未获得诊断结果！");
+        }
 
         retList.setRecId(RecId);
         retList.setDeptId(DeptId);
@@ -188,6 +192,7 @@ public class DiagnosticReportController extends BaseController {
             }
             total = Double.parseDouble(String.valueOf(total));
             result.get(result.size()-1).setValue(String.valueOf((100-total))+"%");
+            result.get(result.size()-1).setFidOutName(sickMap.get(result.get(result.size()-1).getFidOut()));
         }
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
