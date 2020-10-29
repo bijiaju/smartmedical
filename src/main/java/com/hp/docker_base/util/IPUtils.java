@@ -3,6 +3,7 @@ package com.hp.docker_base.util;
 import cn.hutool.core.date.DateUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -69,5 +70,10 @@ public class IPUtils {
 
         String chineseZodiac = DateUtil.getChineseZodiac(1991);
         System.out.println(chineseZodiac);
+
+        BigDecimal bd   =   new   BigDecimal("6783.14159265");
+        bd   =   bd.setScale(2,BigDecimal.ROUND_HALF_UP);
+
+        System.out.println(new BigDecimal("6783.14159265").setScale(2,BigDecimal.ROUND_HALF_UP).toString());
     }
 }

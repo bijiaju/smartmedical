@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -200,12 +201,12 @@ public class DiagnosticReportController extends BaseController {
         List<DataOutDto> result = retList.getResult();
         if(result !=null && result.size() > 0){
 
-            double total = 0;
+            double total = 0.00;
             for(int i = 0;i<result.size() -1 ;i++){
                 DataOutDto data = result.get(i);
 
                 String percentFormat = CommonUtil.getPercentFormat(Double.parseDouble(data.getValue()), 2, 2);
-                total+=Double.parseDouble(percentFormat.substring(0,percentFormat.length()-1));
+                total+=Double.parseDouble(percentFormat);
 
                 // 设置百分数
                 data.setValue(percentFormat);
@@ -217,10 +218,17 @@ public class DiagnosticReportController extends BaseController {
 
             }
             total = Double.parseDouble(String.valueOf(total));
-            result.get(result.size()-1).setValue(String.valueOf((100-total))+"%");
+            result.get(result.size()-1).setValue(String.valueOf((100-total)));
             result.get(result.size()-1).setFidOutName(sickMap.get(result.get(result.size()-1).getFidOut()));
         }
 
+        // 激活规则
+        List<ActivedRulesDto> activedRules = retList.getActivedRules();
+        if(activedRules !=null && activedRules.size() > 0){
+            for(ActivedRulesDto activedRulesDto:activedRules){
+                activedRulesDto.setWeight(new BigDecimal(activedRulesDto.getWeight()).setScale(2,BigDecimal.ROUND_HALF_UP).toString());
+            }
+        }
         // 获取结果中的最大值
         Optional<DataOutDto> userOp= result.stream().max(Comparator.comparing(DataOutDto ::getValue));
         if(userOp.isPresent()){

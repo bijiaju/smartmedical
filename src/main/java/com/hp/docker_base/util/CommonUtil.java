@@ -29,7 +29,7 @@ public class CommonUtil {
         nf.setMaximumIntegerDigits(IntegerDigits);//小数点前保留几位
         nf.setMinimumFractionDigits(FractionDigits);// 小数点后保留几位
         String str = nf.format(d);
-        return str;
+        return str.substring(0,str.length()-1);
 
     }
         /**
