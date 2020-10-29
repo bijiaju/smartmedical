@@ -1,6 +1,7 @@
 package com.hp.docker_base.service.impl;
 
 import com.hp.docker_base.bean.TreatmentObjection;
+import com.hp.docker_base.bean.TreatmentObjectionExample;
 import com.hp.docker_base.bean.TreatmentResult;
 import com.hp.docker_base.bean.dto.TreatmentObjectionDto;
 import com.hp.docker_base.bean.em.EnumTreatResultType;
@@ -9,10 +10,12 @@ import com.hp.docker_base.mapper.TreatmentObjectionMapper;
 import com.hp.docker_base.mapper.TreatmentResultMapper;
 import com.hp.docker_base.service.ITreatmentObjectionService;
 import com.hp.docker_base.util.CommonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Desc TODO
@@ -37,6 +40,7 @@ public class TreatmentObjectionServiceImpl implements ITreatmentObjectionService
         record.setOutFeatureJson(treatmentResult.getOutFeatureJson());
         record.setActiveRuleJson(treatmentResult.getActiveRuleJson());
         record.setReason(treatmentResult.getReason());
+        record.setTreatmentPlan(treatmentResult.getTreatmentPlan());
 
         record.setTreatmentId(medicalRecordId);
 
@@ -47,5 +51,24 @@ public class TreatmentObjectionServiceImpl implements ITreatmentObjectionService
         record.setIsDelete(EnumDelete.NOT_DELETE.getCode());
 
         return treatmentObjectionMapper.insert(record);
+    }
+
+    @Override
+    public TreatmentObjection queryTreatmentObjectionByMedicalRecordId(String medicalRecordId) {
+        if(StringUtils.isEmpty(medicalRecordId)){
+            return null;
+        }
+
+        TreatmentObjectionExample example = new TreatmentObjectionExample();
+        TreatmentObjectionExample.Criteria criteria = example.createCriteria();
+
+        criteria.andTreatmentIdEqualTo(medicalRecordId);
+        criteria.andIsDeleteEqualTo(EnumDelete.NOT_DELETE.getCode());
+
+        List<TreatmentObjection> treatmentObjections = treatmentObjectionMapper.selectByExample(example);
+        if(treatmentObjections !=null && treatmentObjections.size()>0){
+            return treatmentObjections.get(0);
+        }
+        return null;
     }
 }

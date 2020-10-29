@@ -52,12 +52,12 @@ public class PatientController extends BaseController {
         PatientDto patientDto = JSONObject.parseObject(patientJsonStr, PatientDto.class);
 
         // 2、新增病人各属性信息记录
-        int addCount = patientService.addPatientInfo(patientDto,currentUser.getUserName());
-        if(addCount != 1){
+        Patient patient = patientService.addPatientInfo(patientDto, currentUser.getUserName());
+        if(patient == null){
             CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),"插入失败",null);
         }
 
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),patient);
     }
 
     @ApiOperation(value = "查询单个病人信息", notes = "查询单个病人信息")

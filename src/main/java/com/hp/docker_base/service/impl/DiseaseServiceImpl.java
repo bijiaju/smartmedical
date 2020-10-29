@@ -25,7 +25,6 @@ public class DiseaseServiceImpl implements IDiseaseService {
     private DiseaseMapper diseaseMapper;
 
 
-
     @Override
     public int addDiseaseInfo(Disease disease,
                               String userName) {
@@ -113,6 +112,14 @@ public class DiseaseServiceImpl implements IDiseaseService {
             updateDiseaseInfo(disease);
         }
         return 0;
+    }
+
+    @Override
+    public Disease queryDiseaseByForeignId(String foreignId) {
+        if(!StringUtils.isEmpty(foreignId)){
+            return diseaseMapper.selectDiseaseByForeignId(foreignId);
+        }
+        return null;
     }
 
     private int updateDiseaseInfo(Disease disease){

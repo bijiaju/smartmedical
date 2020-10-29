@@ -25,6 +25,12 @@ public class FidOutDto {
     @ApiModelProperty(value = "科室Id", example = "科室Id")
     private String DeptId;
 
+    @ApiModelProperty(value = "诊断疾病", example = "诊断疾病")
+    private String disease;
+
+    @ApiModelProperty(value = "治疗方案", example = "治疗方案")
+    private String treatmentPlan;
+
     private List<DataOutDto> Result;
 
     private List<ActivedRulesDto> ActivedRules;

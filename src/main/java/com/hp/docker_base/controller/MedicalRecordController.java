@@ -5,14 +5,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.*;
 import com.hp.docker_base.bean.MedicalRecord;
+import com.hp.docker_base.bean.algorithm.ActivedRulesDto;
+import com.hp.docker_base.bean.algorithm.DataOutDto;
+import com.hp.docker_base.bean.algorithm.FidOutDto;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.bo.MedicalRecordBo;
+import com.hp.docker_base.bean.dto.MedicalRecordDto;
 import com.hp.docker_base.bean.dto.SortDto;
 import com.hp.docker_base.bean.dto.TreatmentResultDto;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IDepartmentService;
 import com.hp.docker_base.service.IMedicalRecordService;
+import com.hp.docker_base.service.ITreatmentObjectionService;
 import com.hp.docker_base.service.ITreatmentService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
@@ -22,6 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +47,12 @@ public class MedicalRecordController extends BaseController {
 
     @Autowired
     private IMedicalRecordService medicalRecordService;
+
+    @Autowired
+    private ITreatmentService treatmentService;
+
+    @Autowired
+    private ITreatmentObjectionService treatmentObjectionService;
 
 
 
@@ -144,10 +156,54 @@ public class MedicalRecordController extends BaseController {
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "medicalRecordId") String medicalRecordId,
             HttpServletRequest request) {
-
+        MedicalRecordDto medicalRecordDto = new MedicalRecordDto();
         MedicalRecord medicalRecord = medicalRecordService.queryMedicalRecordByUUID(medicalRecordId);
+        if(medicalRecord != null ){
+            BeanUtils.copyProperties(medicalRecord,medicalRecordDto);
+        }
 
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),medicalRecord);
+        FidOutDto medicalResult = getMedicalResult(medicalRecordId);
+        medicalRecordDto.setActivedRules(medicalResult.getActivedRules());
+        medicalRecordDto.setResult(medicalResult.getResult());
+        medicalRecordDto.setDisease(medicalResult.getDisease());
+        medicalRecordDto.setTreatmentResultPlan(medicalResult.getTreatmentPlan());
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),medicalRecordDto);
+    }
+
+    private FidOutDto getMedicalResult(String medicalRecordId){
+        FidOutDto ret = new FidOutDto();
+
+        TreatmentResult treatmentResult = treatmentService.queryResultByMedicalRecordId(medicalRecordId);
+        TreatmentObjection treatmentObjection = treatmentObjectionService.queryTreatmentObjectionByMedicalRecordId(medicalRecordId);
+
+        if(treatmentResult != null){
+            String activeRuleJson = treatmentResult.getActiveRuleJson();
+            String outFeatureJson = treatmentResult.getOutFeatureJson();
+
+            List<DataOutDto> dataOutDtos = JSONObject.parseArray(outFeatureJson, DataOutDto.class);
+            List<ActivedRulesDto> activedRulesDtos = JSONObject.parseArray(activeRuleJson, ActivedRulesDto.class);
+
+            ret.setResult(dataOutDtos);
+            ret.setActivedRules(activedRulesDtos);
+            ret.setDisease(treatmentResult.getDiagnosisResult());
+            ret.setTreatmentPlan(treatmentResult.getTreatmentPlan());
+        }
+
+        if(treatmentObjection != null){
+            String activeRuleJson = treatmentObjection.getActiveRuleJson();
+            String outFeatureJson = treatmentObjection.getOutFeatureJson();
+
+            List<DataOutDto> dataOutDtos = JSONObject.parseArray(outFeatureJson, DataOutDto.class);
+            List<ActivedRulesDto> activedRulesDtos = JSONObject.parseArray(activeRuleJson, ActivedRulesDto.class);
+
+            ret.setResult(dataOutDtos);
+            ret.setActivedRules(activedRulesDtos);
+            ret.setDisease(treatmentObjection.getDiagnosisResult());
+            ret.setTreatmentPlan(treatmentObjection.getTreatmentPlan());
+        }
+
+        return ret;
     }
 
 

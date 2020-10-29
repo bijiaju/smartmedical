@@ -41,4 +41,6 @@ public class TreatmentObjectionDto implements Serializable {
 
     private Date updateTime;
 
+    private String treatmentPlan;
+
 }

@@ -41,4 +41,5 @@ public class TreatmentResultDto implements Serializable {
     private Date updateTime;
 
 
+    private String treatmentPlan;
 }

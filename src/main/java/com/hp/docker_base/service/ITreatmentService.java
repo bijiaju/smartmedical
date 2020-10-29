@@ -1,6 +1,7 @@
 package com.hp.docker_base.service;
 
 
+import com.hp.docker_base.bean.TreatmentResult;
 import com.hp.docker_base.bean.dto.TreatmentResultDto;
 
 /**
@@ -14,4 +15,9 @@ public interface ITreatmentService {
     int addTreatmentResultInfo(String medicalRecordId,
                                TreatmentResultDto treatmentResult,
                                String userId);
+
+    /**
+     * 根据诊疗id获取结果
+     */
+    TreatmentResult queryResultByMedicalRecordId(String medicalRecordId);
 }

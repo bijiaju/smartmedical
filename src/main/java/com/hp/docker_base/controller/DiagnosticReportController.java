@@ -35,10 +35,7 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -54,8 +51,6 @@ public class DiagnosticReportController extends BaseController {
     @Autowired
     private IDiagnosticReportService reportService;
 
-    @Autowired
-    private DiseaseMapper diseaseMapper;
 
     @Autowired
     private IMDC1Service imdc1Service;
@@ -69,6 +64,9 @@ public class DiagnosticReportController extends BaseController {
     @Autowired
     private IExtendAttributeService extendAttributeService;
 
+    @Autowired
+    private IDiseaseService diseaseService;
+
     @ApiOperation(value = "否定自动诊断记录", notes = "否定自动诊断记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
@@ -76,6 +74,7 @@ public class DiagnosticReportController extends BaseController {
                     value = "" +
                             "就诊结果信息（Json字符串）\n{\n" +
                             "  \"diagnosisResult\": \"诊断结果\",\n" +
+                            "  \"treatmentPlan\": \"治疗方案\",\n" +
                             "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
                             "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
                             "  \"reason\": \"修改理由\"\n" +
@@ -107,6 +106,9 @@ public class DiagnosticReportController extends BaseController {
                 retAccountInfo);
     }
 
+
+
+
     @ApiOperation(value = "确认自动诊断记录", notes = "确认自动诊断记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
@@ -114,6 +116,7 @@ public class DiagnosticReportController extends BaseController {
                     value = "" +
                             "就诊结果信息（Json字符串）\n{\n" +
                             "  \"diagnosisResult\": \"诊断结果\",\n" +
+                            "  \"treatmentPlan\": \"治疗方案\",\n" +
                             "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
                             "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
                             "}")
@@ -143,6 +146,8 @@ public class DiagnosticReportController extends BaseController {
                 EnumOKOrNG.OK.getValue(),
                 retAccountInfo);
     }
+
+
 
 
 
@@ -215,6 +220,16 @@ public class DiagnosticReportController extends BaseController {
             result.get(result.size()-1).setValue(String.valueOf((100-total))+"%");
             result.get(result.size()-1).setFidOutName(sickMap.get(result.get(result.size()-1).getFidOut()));
         }
+
+        // 获取结果中的最大值
+        Optional<DataOutDto> userOp= result.stream().max(Comparator.comparing(DataOutDto ::getValue));
+        if(userOp.isPresent()){
+            DataOutDto maxDataOutDto = userOp.get();//疾病
+
+            retList.setDisease(maxDataOutDto.getFidOutName());
+            retList.setTreatmentPlan(diseaseService.queryDiseaseByForeignId(maxDataOutDto.getFidOut()).getTreatment());
+        }
+
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }

@@ -894,6 +894,76 @@ public class TreatmentResultExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andTreatmentPlanIsNull() {
+            addCriterion("treatment_plan is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanIsNotNull() {
+            addCriterion("treatment_plan is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanEqualTo(String value) {
+            addCriterion("treatment_plan =", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanNotEqualTo(String value) {
+            addCriterion("treatment_plan <>", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanGreaterThan(String value) {
+            addCriterion("treatment_plan >", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanGreaterThanOrEqualTo(String value) {
+            addCriterion("treatment_plan >=", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanLessThan(String value) {
+            addCriterion("treatment_plan <", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanLessThanOrEqualTo(String value) {
+            addCriterion("treatment_plan <=", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanLike(String value) {
+            addCriterion("treatment_plan like", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanNotLike(String value) {
+            addCriterion("treatment_plan not like", value, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanIn(List<String> values) {
+            addCriterion("treatment_plan in", values, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanNotIn(List<String> values) {
+            addCriterion("treatment_plan not in", values, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanBetween(String value1, String value2) {
+            addCriterion("treatment_plan between", value1, value2, "treatmentPlan");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreatmentPlanNotBetween(String value1, String value2) {
+            addCriterion("treatment_plan not between", value1, value2, "treatmentPlan");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

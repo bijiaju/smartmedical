@@ -28,6 +28,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 
 
+
     @Override
     public MedicalRecord addMedicalRecordInfo(MedicalRecord medicalRecord,
                               String userName) {

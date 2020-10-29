@@ -19,10 +19,10 @@
   </resultMap>
 
 
-  <select id="selectDiseaseByUserId" resultMap="BaseResultMap" >
+  <select id="selectDiseaseByForeignId" resultMap="BaseResultMap" >
     SELECT *
     FROM tb_disease
-    WHERE user_id=#{foreignId,jdbcType=VARCHAR}
+    WHERE foreign_id=#{foreignId,jdbcType=VARCHAR}
       AND is_delete=0
   </select>
 

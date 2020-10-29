@@ -27,6 +27,8 @@ public class TreatmentObjection {
 
     private Date updateTime;
 
+    private String treatmentPlan;
+
     public Integer getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class TreatmentObjection {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getTreatmentPlan() {
+        return treatmentPlan;
+    }
+
+    public void setTreatmentPlan(String treatmentPlan) {
+        this.treatmentPlan = treatmentPlan == null ? null : treatmentPlan.trim();
     }
 }

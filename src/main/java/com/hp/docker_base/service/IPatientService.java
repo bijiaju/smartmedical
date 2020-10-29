@@ -18,7 +18,7 @@ public interface IPatientService {
      * @param patientDto 病人信息
      * @param userName
      */
-    int addPatientInfo(PatientDto patientDto, String userName);
+    Patient addPatientInfo(PatientDto patientDto, String userName);
 
     /**
      * 修改病人信息

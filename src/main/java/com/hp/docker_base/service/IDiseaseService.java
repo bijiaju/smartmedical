@@ -37,4 +37,7 @@ public interface IDiseaseService {
     Disease queryDiseaseByUUID(String diseaseId);
 
     int deleteDiseaseInfo(String diseaseId, String userName);
+
+    Disease queryDiseaseByForeignId(String foreignId);
+
 }

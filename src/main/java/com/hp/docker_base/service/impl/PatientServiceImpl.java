@@ -1,7 +1,6 @@
 package com.hp.docker_base.service.impl;
 
 import com.hp.docker_base.bean.Patient;
-import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.dto.PatientDto;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.em.EnumOKOrNG;
@@ -29,8 +28,8 @@ public class PatientServiceImpl implements IPatientService{
     private PatientMapper patientMapper;
 
     @Override
-    public int addPatientInfo(PatientDto patientDto,
-                              String userName) {
+    public Patient addPatientInfo(PatientDto patientDto,
+                                  String userName) {
         // 新增账户
         Patient patient = PatientObjectConvert.convertPatientDto2Dao(patientDto);
 
@@ -46,7 +45,9 @@ public class PatientServiceImpl implements IPatientService{
         patient.setUpdateUser(userName);
         patient.setIsDelete(EnumDelete.NOT_DELETE.getCode());
         patient.setSort(1);
-        return patientMapper.insertPatientInfo(patient);
+        patientMapper.insertPatientInfo(patient);
+
+        return queryPatientByUUID(uuid);
     }
 
     private void checkPatientValidity(Patient patient) {
