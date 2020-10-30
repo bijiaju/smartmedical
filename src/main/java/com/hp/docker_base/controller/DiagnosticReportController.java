@@ -3,23 +3,19 @@ package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.hp.docker_base.bean.Disease;
 import com.hp.docker_base.bean.MDC1;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.algorithm.*;
 import com.hp.docker_base.bean.annotation.MyLog;
-import com.hp.docker_base.bean.dto.DignosticClassificaitionDto;
 import com.hp.docker_base.bean.dto.TreatmentObjectionDto;
 import com.hp.docker_base.bean.dto.TreatmentResultDto;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
-import com.hp.docker_base.mapper.DiseaseMapper;
 import com.hp.docker_base.service.*;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.validate.ErrorParamException;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -174,14 +170,21 @@ public class DiagnosticReportController extends BaseController {
         }
 
         // 2、转换请求参数
-        Map<String, String> attrMap = extendAttributeService.queryAttrTransMap();
+        Map<String, String> selectMap = extendAttributeService.queryAttrSelectMap();//选择框map
+        //Map<String, String> numMap = extendAttributeService.queryAttrNumMap();//数字框map
+
         List<DataInDto> dataInDtos = JSON.parseArray(DataIn, DataInDto.class);
         if(!dataInDtos.isEmpty()){
             for(DataInDto dataInDto:dataInDtos){
-                String fidId = attrMap.get(dataInDto.getFidIn());
-                if(StringUtils.isNotEmpty(fidId)){
-                    dataInDto.setFidIn(fidId);
+                String selectFid = selectMap.get(dataInDto.getFidIn());
+                if(StringUtils.isNotEmpty(selectFid)){
+                    dataInDto.setFidIn(selectFid);
                 }
+
+                //String numFid = numMap.get(dataInDto.getFidIn());
+                /*if(StringUtils.isNotEmpty(numFid)){
+                    dataInDto.setFidIn(numFid);
+                }*/
 
             }
         }

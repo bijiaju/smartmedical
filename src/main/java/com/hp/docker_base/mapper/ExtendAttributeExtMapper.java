@@ -24,4 +24,6 @@ public interface ExtendAttributeExtMapper {
      * 获取转换数据
      */
     List<TranAttr> selectTransFeignMap();
+
+    List<TranAttr> selectAttrNumMap();
 }
