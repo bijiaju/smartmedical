@@ -3,6 +3,7 @@ package com.hp.docker_base.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hp.docker_base.bean.Disease;
 import com.hp.docker_base.bean.MDC1;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.algorithm.*;
