@@ -135,8 +135,17 @@ public class ExtendAttributeServiceImpl implements IExtendAttributeService {
     }
 
     @Override
-    public Map<String, String> queryAttrTransMap() {
+    public Map<String, String> queryAttrSelectMap() {
         List<TranAttr> tranAttrs = extendAttributeExtMapper.selectTransFeignMap();
+        if(tranAttrs != null && tranAttrs.size() > 0){
+            return tranAttrs.stream().collect(Collectors.toMap(TranAttr::getUuid, TranAttr::getForeignId));
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, String> queryAttrNumMap() {
+        List<TranAttr> tranAttrs = extendAttributeExtMapper.selectAttrNumMap();
         if(tranAttrs != null && tranAttrs.size() > 0){
             return tranAttrs.stream().collect(Collectors.toMap(TranAttr::getUuid, TranAttr::getForeignId));
         }

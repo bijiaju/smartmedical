@@ -11,6 +11,8 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.IPatientService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
+import com.hp.docker_base.util.validate.ValidateUtils;
+import com.hp.docker_base.util.validate.group.MiniValidation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -50,6 +52,7 @@ public class PatientController extends BaseController {
         User currentUser = getCurrentUser(request);
         // 1、解析账户Json字符串参数
         PatientDto patientDto = JSONObject.parseObject(patientJsonStr, PatientDto.class);
+        ValidateUtils.validateGroup(patientDto, MiniValidation.class);
 
         // 2、新增病人各属性信息记录
         Patient patient = patientService.addPatientInfo(patientDto, currentUser.getUserName());
@@ -97,6 +100,8 @@ public class PatientController extends BaseController {
         // 1、解析账户Json字符串参数
         PatientDto patientDto = JSONObject.parseObject(patientJsonStr, PatientDto.class);
         patientDto.setUuid(uuid);
+
+        ValidateUtils.validateGroup(patientDto, MiniValidation.class);
 
         // 2、新增病人各属性信息记录
         int addCount = patientService.modifyPatientInfo(patientDto,currentUser.getUserName());
