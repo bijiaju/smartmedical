@@ -229,13 +229,25 @@ public class DiagnosticReportController extends BaseController {
                 activedRulesDto.setWeight(new BigDecimal(activedRulesDto.getWeight()).setScale(2,BigDecimal.ROUND_HALF_UP).toString());
             }
         }
-        // 获取结果中的最大值
-        Optional<DataOutDto> userOp= result.stream().max(Comparator.comparing(DataOutDto ::getValue));
-        if(userOp.isPresent()){
-            DataOutDto maxDataOutDto = userOp.get();//疾病
 
-            retList.setDisease(maxDataOutDto.getFidOutName());
-            retList.setTreatmentPlan(diseaseService.queryDiseaseByForeignId(maxDataOutDto.getFidOut()).getTreatment());
+        // 获取结果中的最大值
+        Double max = 0.00;
+        for(int i = 0;i<result.size() ;i++){
+            DataOutDto tmp = result.get(i);
+            if(Double.parseDouble(tmp.getValue()) > max){
+                max = Double.parseDouble(tmp.getValue());
+            }
+        }
+        String maxStr = max.toString();
+
+        List<DataOutDto> collect = result.stream().filter(u -> maxStr.equals(u.getValue())).collect(Collectors.toList());
+        DataOutDto maxDataOutDto = collect.get(0);//疾病
+
+        retList.setDisease(maxDataOutDto.getFidOutName());
+
+        Disease disease = diseaseService.queryDiseaseByForeignId(maxDataOutDto.getFidOut());
+        if(disease!=null){
+            retList.setTreatmentPlan(disease.getTreatment());
         }
 
 
