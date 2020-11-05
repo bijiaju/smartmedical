@@ -13,6 +13,8 @@ public interface DiseaseMapper {
 
     Disease selectDiseaseByForeignId(@Param("foreignId") String foreignId);
 
+    Disease selectDiseaseByUUID(@Param("uuid") String uuid);
+
     int countByExample(DiseaseExample example);
 
     int deleteByExample(DiseaseExample example);

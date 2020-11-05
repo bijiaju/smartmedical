@@ -40,4 +40,6 @@ public interface IDiseaseService {
 
     Disease queryDiseaseByForeignId(String foreignId);
 
+    Disease queryDiseaseByExtUUID(String uuid);
+
 }

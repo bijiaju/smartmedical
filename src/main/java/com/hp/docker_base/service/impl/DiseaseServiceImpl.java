@@ -3,9 +3,11 @@ package com.hp.docker_base.service.impl;
 import com.hp.docker_base.bean.Disease;
 import com.hp.docker_base.bean.DiseaseExample;
 import com.hp.docker_base.em.EnumDelete;
+import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.mapper.DiseaseMapper;
 import com.hp.docker_base.service.IDiseaseService;
 import com.hp.docker_base.util.CommonUtil;
+import com.hp.docker_base.util.validate.ErrorParamException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,8 +104,12 @@ public class DiseaseServiceImpl implements IDiseaseService {
     @Override
     public int deleteDiseaseInfo(String diseaseId,
                                  String userName) {
-        Disease disease = this.queryDiseaseByUUID(diseaseId);
+        //Disease disease = this.queryDiseaseByUUID(diseaseId);
+        Disease disease = this.queryDiseaseByExtUUID(diseaseId);
         if(disease != null){
+            if(StringUtils.isNotEmpty(disease.getForeignId())){
+                throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"当前疾病为诊断结果疾病，不能删除");
+            }
 
             disease.setUuid(diseaseId);
             disease.setUpdateUser(userName);
@@ -118,6 +124,14 @@ public class DiseaseServiceImpl implements IDiseaseService {
     public Disease queryDiseaseByForeignId(String foreignId) {
         if(!StringUtils.isEmpty(foreignId)){
             return diseaseMapper.selectDiseaseByForeignId(foreignId);
+        }
+        return null;
+    }
+
+    @Override
+    public Disease queryDiseaseByExtUUID(String uuid) {
+        if(!StringUtils.isEmpty(uuid)){
+            return diseaseMapper.selectDiseaseByUUID(uuid);
         }
         return null;
     }

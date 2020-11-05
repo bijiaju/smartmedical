@@ -26,6 +26,13 @@
       AND is_delete=0
   </select>
 
+  <select id="selectDiseaseByUUID" resultMap="BaseResultMap" >
+    SELECT *
+    FROM tb_disease
+    WHERE uuid=#{uuid,jdbcType=VARCHAR}
+      AND is_delete=0
+  </select>
+
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
