@@ -40,7 +40,7 @@ public class BaseController {
         HttpSession session=request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            throw new ErrorParamException(EnumOKOrNG.NG.getCode(),"用户信息过期,请重新登录！");
+            throw new ErrorParamException("10001","用户信息过期,请重新登录！");
         }
         return user;
         // TODO: 2020/8/4  上线修改

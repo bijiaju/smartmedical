@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -85,6 +86,8 @@ public class DepartmentFeatureController extends BaseController{
                 Integer.MAX_VALUE
         ).getRecords();
 
+       // employDOList.stream().sorted(Comparator.comparing(EmployDO::getAge)).collect(Collectors.toList())
+
         // 补充部门信息
         addDepartmentList(extendAttributeList);
 
@@ -104,7 +107,7 @@ public class DepartmentFeatureController extends BaseController{
         }
 
         // 3 分类
-        retList.setBasicInfoList(departAtrrList.stream().filter(s->s.getAttributeCategory().intValue() == (EnumExtendAttributeCategory.BASIC_INFO.getCode())).collect(Collectors.toList()));
+        retList.setBasicInfoList(departAtrrList.stream().filter(s->s.getAttributeCategory().intValue() == (EnumExtendAttributeCategory.BASIC_INFO.getCode())).sorted(Comparator.comparing(ExtendAttributeDto::getSort)).collect(Collectors.toList()));
         retList.setDiagnosisList(departAtrrList.stream().filter(s->s.getAttributeCategory().intValue() == (EnumExtendAttributeCategory.DIAGNOSIS.getCode())).collect(Collectors.toList()));
         retList.setImageList(departAtrrList.stream().filter(s->s.getAttributeCategory().intValue() == (EnumExtendAttributeCategory.IMAGE.getCode())).collect(Collectors.toList()));
 
