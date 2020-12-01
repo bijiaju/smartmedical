@@ -5,11 +5,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hp.docker_base.bean.Disease;
 import com.hp.docker_base.bean.MDC1;
+import com.hp.docker_base.bean.TreatmentInputData;
 import com.hp.docker_base.bean.User;
 import com.hp.docker_base.bean.algorithm.*;
 import com.hp.docker_base.bean.annotation.MyLog;
+import com.hp.docker_base.bean.dto.EnumTreatStateDto;
 import com.hp.docker_base.bean.dto.TreatmentObjectionDto;
 import com.hp.docker_base.bean.dto.TreatmentResultDto;
+import com.hp.docker_base.bean.em.EnumTreatState;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.*;
@@ -65,7 +68,31 @@ public class DiagnosticReportController extends BaseController {
     @Autowired
     private IDiseaseService diseaseService;
 
-    @ApiOperation(value = "否定自动诊断记录", notes = "否定自动诊断记录")
+    @Autowired
+    private ITreatmentInputDataService inputDataService;
+
+    @ApiOperation(value = "获取诊断状态列表", notes = "获取诊断状态列表")
+    @GetMapping("/treat/state")
+    public Map<String,Object> doGetTreatmentState() {
+
+        EnumTreatState[] values = EnumTreatState.values();
+
+        List<EnumTreatStateDto> enumTreatStates = new ArrayList<>();
+        for(EnumTreatState state: values){
+            EnumTreatStateDto stateDto = new EnumTreatStateDto();
+
+            stateDto.setCode(state.getValue());
+            stateDto.setDesc(state.getDescription());
+            enumTreatStates.add(stateDto);
+        }
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                enumTreatStates);
+    }
+
+
+  /*  @ApiOperation(value = "否定自动诊断记录", notes = "否定自动诊断记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
             @ApiImplicitParam(name = "treatmentJsonStr", paramType = "query", required = true,
@@ -102,43 +129,70 @@ public class DiagnosticReportController extends BaseController {
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
                 EnumOKOrNG.OK.getValue(),
                 retAccountInfo);
-    }
+    }*/
 
 
 
 
-    @ApiOperation(value = "确认自动诊断记录", notes = "确认自动诊断记录")
+    @ApiOperation(value = "插入新增和修改就诊结果", notes = "插入新增和修改就诊结果")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
-            @ApiImplicitParam(name = "treatmentJsonStr", paramType = "query", required = true,
+            @ApiImplicitParam(name = "autoTreatmentJsonStr", paramType = "query", required = false,
                     value = "" +
-                            "就诊结果信息（Json字符串）\n{\n" +
+                            "自动就诊结果信息（Json字符串）\n{\n" +
                             "  \"diagnosisResult\": \"诊断结果\",\n" +
                             "  \"treatmentPlan\": \"治疗方案\",\n" +
                             "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
                             "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
+                            "}"),
+            @ApiImplicitParam(name = "rejectTreatmentJsonStr", paramType = "query", required = false,
+                    value = "" +
+                            "否定就诊结果信息（Json字符串）\n{\n" +
+                            "  \"diagnosisResult\": \"诊断结果\",\n" +
+                            "  \"treatmentPlan\": \"治疗方案\",\n" +
+                            "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
+                            "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
+                            "  \"reason\": \"修改理由\"\n" +
                             "}")
     })
-    @PostMapping("/sure/{medicalRecordId}")
-    @MyLog("认可自动诊断记录")
+    @PostMapping("/insert/{medicalRecordId}")
+    @MyLog("插入新增和修改就诊结果")
     public Map<String,Object> doPostSureMedicalInfo(
             @PathVariable(value = "medicalRecordId") String medicalRecordId,
-            @RequestParam(value = "treatmentJsonStr") String treatmentJsonStr,
+            @RequestParam(value = "rejectTreatmentJsonStr") String rejectTreatmentJsonStr,
+            @RequestParam(value = "autoTreatmentJsonStr") String autoTreatmentJsonStr,
             HttpServletRequest request) {
 
         // 1、获取用户信息
         User currentUser = getCurrentUser(request);
 
         // 2、解析组Json字符串参数
-        TreatmentResultDto treatmentResult = JSONObject.parseObject(treatmentJsonStr, TreatmentResultDto.class);
-        ValidateUtils.validateGroup(treatmentJsonStr, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
+        TreatmentResultDto treatmentResult = JSONObject.parseObject(autoTreatmentJsonStr, TreatmentResultDto.class);
+        ValidateUtils.validateGroup(treatmentResult, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
 
-        // 3、编辑账户基础属性信息记录
-        int retAccountInfo = treatmentService.addTreatmentResultInfo(
-                medicalRecordId,
-                treatmentResult,
-                currentUser.getUserName()
-        );
+        // 2、解析组Json字符串参数
+        TreatmentResultDto modfiyResult = JSONObject.parseObject(rejectTreatmentJsonStr, TreatmentResultDto.class);
+        ValidateUtils.validateGroup(modfiyResult, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
+
+        // 3、新增诊断结果
+        int retAccountInfo = 0;
+        if(treatmentResult != null){
+             retAccountInfo = treatmentService.addTreatmentResultInfo(
+                    medicalRecordId,
+                    treatmentResult,
+                    EnumTreatState.COMMON.getValue(),
+                    currentUser.getUserName()
+            );
+        }
+
+        if(modfiyResult != null){
+            retAccountInfo = treatmentService.addTreatmentResultInfo(
+                    medicalRecordId,
+                    treatmentResult,
+                    EnumTreatState.MODIFY.getValue(),
+                    currentUser.getUserName()
+            );
+        }
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
                 EnumOKOrNG.OK.getValue(),
@@ -161,7 +215,11 @@ public class DiagnosticReportController extends BaseController {
     @MyLog("获取诊断结果")
     public  Map<String,Object>  doQueryDiagnosticFeatureList(@RequestParam(value = "RecId") String RecId,
                                                              @RequestParam(value = "DeptId") String DeptId,
-                                                             @RequestParam(value = "DataIn") String DataIn) {
+                                                             @RequestParam(value = "DataIn") String DataIn,
+                                                             HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
 
         // 1、获取某个科室下的疾病
         List<MDC1> sickList = imdc1Service.querySickList(null);
@@ -172,7 +230,6 @@ public class DiagnosticReportController extends BaseController {
 
         // 2、转换请求参数
         Map<String, String> selectMap = extendAttributeService.queryAttrSelectMap();//选择框map
-        //Map<String, String> numMap = extendAttributeService.queryAttrNumMap();//数字框map
 
         List<DataInDto> dataInDtos = JSON.parseArray(DataIn, DataInDto.class);
         if(!dataInDtos.isEmpty()){
@@ -181,12 +238,6 @@ public class DiagnosticReportController extends BaseController {
                 if(StringUtils.isNotEmpty(selectFid)){
                     dataInDto.setFidIn(selectFid);
                 }
-
-                //String numFid = numMap.get(dataInDto.getFidIn());
-                /*if(StringUtils.isNotEmpty(numFid)){
-                    dataInDto.setFidIn(numFid);
-                }*/
-
             }
         }
 
@@ -254,6 +305,14 @@ public class DiagnosticReportController extends BaseController {
             retList.setTreatmentPlan(disease.getTreatment());
         }
 
+        // 插入诊断输入参数
+        TreatmentInputData inputData = new TreatmentInputData();
+        inputData.setTreatmentId(RecId);
+        inputData.setDepartmentId(DeptId);
+        inputData.setDataInJson(DataIn);
+        inputData.setUpdateUser(currentUser.getUuid());
+        inputData.setCreateUser(currentUser.getUuid());
+        inputDataService.addTreatmentInputData(inputData);
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),retList);
     }

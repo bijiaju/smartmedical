@@ -115,9 +115,10 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
     @Override
     public List<MedicalRecordBo> queryDoctorMedicalRecordPageList(String uuid,
                                                                   String keywords,
+                                                                  Integer type,
                                                                   String startDate,
                                                                   String endDate) {
-        return medicalRecordMapper.selectMedicalRecordByDoctorId(uuid,keywords,startDate,endDate);
+        return medicalRecordMapper.selectMedicalRecordByDoctorId(uuid,keywords,type,startDate,endDate);
     }
 
     private int updateMedicalRecordInfo(MedicalRecord medicalRecord){

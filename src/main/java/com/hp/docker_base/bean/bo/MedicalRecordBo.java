@@ -1,6 +1,7 @@
 package com.hp.docker_base.bean.bo;
 
 import com.hp.docker_base.bean.MedicalRecord;
+import com.hp.docker_base.bean.em.EnumTreatState;
 
 import java.util.Date;
 
@@ -40,6 +41,30 @@ public class MedicalRecordBo{
 
     // 病人名称
     private String name;
+
+    //诊断类型
+    private Integer type;
+
+    private String typeDesc;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getTypeDesc(){
+        Integer type = this.getType();
+        EnumTreatState[] values = EnumTreatState.values();
+        for(EnumTreatState state:values ){
+            if(type.intValue() == state.getValue()){
+                return state.getDescription();
+            }
+        }
+        return null;
+    }
 
     public Integer getId() {
         return id;

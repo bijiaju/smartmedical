@@ -2,22 +2,16 @@ package com.hp.docker_base.bean;
 
 import java.util.Date;
 
-public class TreatmentResult {
+public class TreatmentInputData {
     private Integer id;
 
     private String uuid;
 
-    private String diagnosisResult;
-
     private String treatmentId;
 
-    private String outFeatureJson;
+    private String departmentId;
 
-    private String activeRuleJson;
-
-    private Integer type;
-
-    private String reason;
+    private String dataInJson;
 
     private Integer isDelete;
 
@@ -28,8 +22,6 @@ public class TreatmentResult {
     private Date createTime;
 
     private Date updateTime;
-
-    private String treatmentPlan;
 
     public Integer getId() {
         return id;
@@ -47,14 +39,6 @@ public class TreatmentResult {
         this.uuid = uuid == null ? null : uuid.trim();
     }
 
-    public String getDiagnosisResult() {
-        return diagnosisResult;
-    }
-
-    public void setDiagnosisResult(String diagnosisResult) {
-        this.diagnosisResult = diagnosisResult == null ? null : diagnosisResult.trim();
-    }
-
     public String getTreatmentId() {
         return treatmentId;
     }
@@ -63,36 +47,20 @@ public class TreatmentResult {
         this.treatmentId = treatmentId == null ? null : treatmentId.trim();
     }
 
-    public String getOutFeatureJson() {
-        return outFeatureJson;
+    public String getDepartmentId() {
+        return departmentId;
     }
 
-    public void setOutFeatureJson(String outFeatureJson) {
-        this.outFeatureJson = outFeatureJson == null ? null : outFeatureJson.trim();
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId == null ? null : departmentId.trim();
     }
 
-    public String getActiveRuleJson() {
-        return activeRuleJson;
+    public String getDataInJson() {
+        return dataInJson;
     }
 
-    public void setActiveRuleJson(String activeRuleJson) {
-        this.activeRuleJson = activeRuleJson == null ? null : activeRuleJson.trim();
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
+    public void setDataInJson(String dataInJson) {
+        this.dataInJson = dataInJson == null ? null : dataInJson.trim();
     }
 
     public Integer getIsDelete() {
@@ -133,13 +101,5 @@ public class TreatmentResult {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getTreatmentPlan() {
-        return treatmentPlan;
-    }
-
-    public void setTreatmentPlan(String treatmentPlan) {
-        this.treatmentPlan = treatmentPlan == null ? null : treatmentPlan.trim();
     }
 }

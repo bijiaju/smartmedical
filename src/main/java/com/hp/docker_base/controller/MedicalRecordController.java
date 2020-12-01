@@ -1,24 +1,21 @@
 package com.hp.docker_base.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.hp.docker_base.bean.*;
 import com.hp.docker_base.bean.MedicalRecord;
-import com.hp.docker_base.bean.algorithm.ActivedRulesDto;
-import com.hp.docker_base.bean.algorithm.DataOutDto;
-import com.hp.docker_base.bean.algorithm.FidOutDto;
+import com.hp.docker_base.bean.algorithm.*;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.bo.MedicalRecordBo;
 import com.hp.docker_base.bean.dto.MedicalRecordDto;
 import com.hp.docker_base.bean.dto.SortDto;
 import com.hp.docker_base.bean.dto.TreatmentResultDto;
+import com.hp.docker_base.bean.em.EnumTreatState;
 import com.hp.docker_base.controller.base.BaseController;
 import com.hp.docker_base.em.EnumOKOrNG;
-import com.hp.docker_base.service.IDepartmentService;
-import com.hp.docker_base.service.IMedicalRecordService;
-import com.hp.docker_base.service.ITreatmentObjectionService;
-import com.hp.docker_base.service.ITreatmentService;
+import com.hp.docker_base.service.*;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
 import com.hp.docker_base.util.validate.ValidateUtils;
@@ -53,6 +50,10 @@ public class MedicalRecordController extends BaseController {
 
     @Autowired
     private ITreatmentObjectionService treatmentObjectionService;
+
+    @Autowired
+    private ITreatmentInputDataService inputDataService;
+
 
 
 
@@ -102,7 +103,6 @@ public class MedicalRecordController extends BaseController {
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/page/list")
-  //  @MyLog("查询分页就诊记录")
     public  Map<String,Object>  doQueryMedicalRecordPageList(
             @RequestParam(value = "postId",required = false) String postId,
             @RequestParam(value = "keywords",required = false) String keywords,
@@ -122,15 +122,16 @@ public class MedicalRecordController extends BaseController {
             @ApiImplicitParam(name = "endDate", paramType = "query", required = false,
                     value = "结束日期 2020-08-15 02:39:53"),
             @ApiImplicitParam(name = "keywords", value = "支持姓名查询", paramType = "query", required = false),
+            @ApiImplicitParam(name = "type", value = "查询状态", paramType = "query", required = false),
             @ApiImplicitParam(name = "pageNum", paramType = "query", required = true,
                     value = "1 就是查第一页，每页10条记录"),
     })
     @GetMapping("/user/page/list")
-    //  @MyLog("查询分页就诊记录")
     public  Map<String,Object>  doQueryUserMedicalRecordPageList(
             @RequestParam(value = "startDate",required = false) String startDate,
             @RequestParam(value = "endDate",required = false) String endDate,
             @RequestParam(value = "keywords",required = false) String keywords,
+            @RequestParam(value = "type",required = false) Integer type,
             @RequestParam(value = "pageNum") int pageNum,
             HttpServletRequest request
           ) {
@@ -142,6 +143,7 @@ public class MedicalRecordController extends BaseController {
         // 查询所有的就诊记录
         List<MedicalRecordBo>  medicalRecordList = medicalRecordService.queryDoctorMedicalRecordPageList(currentUser.getUuid(),
                 keywords,
+                type,
                 startDate,
                 endDate);
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(medicalRecordList));
@@ -152,7 +154,6 @@ public class MedicalRecordController extends BaseController {
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = false),
     })
     @GetMapping("/{medicalRecordId}")
- //   @MyLog("查询单个账户信息")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "medicalRecordId") String medicalRecordId,
             HttpServletRequest request) {
@@ -171,11 +172,73 @@ public class MedicalRecordController extends BaseController {
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),medicalRecordDto);
     }
 
+    @ApiOperation(value = "查询诊断输入参数和诊断所有结果", notes = "查询诊断输入参数和诊断所有结果")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = false),
+    })
+    @GetMapping("/treatment/result/{medicalRecordId}")
+    public Map<String,Object> doGetResult(
+            @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            HttpServletRequest request) {
+
+        TreatmentResult treatmentResult = treatmentService.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.COMMON.getValue());
+        TreatmentResult treatmentObjection = treatmentService.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
+        TreatmentInputData treatmentInputData = inputDataService.getTreatmentInputDataByTreamentId(medicalRecordId);
+
+        TreatmentProcessDetailDto processDetailDto = new TreatmentProcessDetailDto();
+
+        // 设置输入参数
+        if(treatmentInputData != null){
+            FidInDto fidIn = new FidInDto();
+            fidIn.setRecId(treatmentInputData.getTreatmentId());
+            fidIn.setDeptId(treatmentInputData.getDepartmentId());
+
+            List<DataInDto> dataInDtos = JSON.parseArray(treatmentInputData.getDataInJson(), DataInDto.class);
+            fidIn.setDataIn(dataInDtos);
+            processDetailDto.setFidInDto(fidIn);
+        }
+
+        // 设置自动诊断结果
+        FidOutDto autoRet = new FidOutDto();
+        if(treatmentResult != null){
+            String activeRuleJson = treatmentResult.getActiveRuleJson();
+            String outFeatureJson = treatmentResult.getOutFeatureJson();
+
+            List<DataOutDto> dataOutDtos = JSONObject.parseArray(outFeatureJson, DataOutDto.class);
+            List<ActivedRulesDto> activedRulesDtos = JSONObject.parseArray(activeRuleJson, ActivedRulesDto.class);
+
+            autoRet.setResult(dataOutDtos);
+            autoRet.setActivedRules(activedRulesDtos);
+            autoRet.setDisease(treatmentResult.getDiagnosisResult());
+            autoRet.setTreatmentPlan(treatmentResult.getTreatmentPlan());
+
+            processDetailDto.setCommonResult(autoRet);
+        }
+
+        // 设置修改自动诊断结果
+        FidOutDto updateRet = new FidOutDto();
+        if(treatmentObjection != null){
+            String activeRuleJson = treatmentObjection.getActiveRuleJson();
+            String outFeatureJson = treatmentObjection.getOutFeatureJson();
+
+            List<DataOutDto> dataOutDtos = JSONObject.parseArray(outFeatureJson, DataOutDto.class);
+            List<ActivedRulesDto> activedRulesDtos = JSONObject.parseArray(activeRuleJson, ActivedRulesDto.class);
+
+            updateRet.setResult(dataOutDtos);
+            updateRet.setActivedRules(activedRulesDtos);
+            updateRet.setDisease(treatmentObjection.getDiagnosisResult());
+            updateRet.setTreatmentPlan(treatmentObjection.getTreatmentPlan());
+
+            processDetailDto.setModifyResult(updateRet);
+        }
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),processDetailDto);
+    }
+
     private FidOutDto getMedicalResult(String medicalRecordId){
         FidOutDto ret = new FidOutDto();
 
-        TreatmentResult treatmentResult = treatmentService.queryResultByMedicalRecordId(medicalRecordId);
-        TreatmentObjection treatmentObjection = treatmentObjectionService.queryTreatmentObjectionByMedicalRecordId(medicalRecordId);
+        TreatmentResult treatmentResult = treatmentService.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.COMMON.getValue());
+        TreatmentResult treatmentObjection = treatmentService.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
 
         if(treatmentResult != null){
             String activeRuleJson = treatmentResult.getActiveRuleJson();
@@ -282,9 +345,6 @@ public class MedicalRecordController extends BaseController {
         int count = medicalRecordService.deleteMedicalRecordInfo(medicalRecordId,
                 currentUser.getUserName());
 
-       /* if (count == 0) {
-            return CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),"删除就诊记录信息失败",null);
-        }*/
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),null);
     }
 

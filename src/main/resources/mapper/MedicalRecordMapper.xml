@@ -31,6 +31,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -64,10 +65,21 @@ AND record.is_delete=0
   </select>
 
   <select id="selectMedicalRecordByDoctorId" resultMap="BaseResultBoMap">
-    SELECT record.*,info.`name` as name FROM tb_medical_records record,tb_patient_info info
+    SELECT result.type,record.*,info.`name` as name  FROM tb_medical_records record,tb_patient_info info,tb_treatment_result result
     WHERE record.patient_id=info.uuid
+    and result.treatment_id=record.uuid
     <if test="doctorId != null and doctorId!=''">
       And record.doctor_id=#{doctorId}
+    </if>
+
+    /*要过滤的诊疗数据*/
+    AND result.uuid not in (SELECT uuid FROM tb_treatment_result
+    WHERE type=1
+    AND treatment_id in (SELECT treatment_id FROM tb_treatment_result
+    WHERE type=2))
+
+    <if test="type != null">
+      and result.type=#{type}
     </if>
 
     <if test="keywords != null and keywords!=''">

@@ -1,6 +1,7 @@
 package com.hp.docker_base.util;
 
 import cn.hutool.core.date.DateUtil;
+import com.hp.docker_base.bean.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -67,6 +68,13 @@ public class IPUtils {
 
 
     public static void main(String args[]) {
+
+        int isExist = 1==2 ? 1 :0;
+        System.out.println(isExist);
+
+        User p=new User();
+        System.out.println( p instanceof User);
+
 
         String chineseZodiac = DateUtil.getChineseZodiac(1991);
         System.out.println(chineseZodiac);

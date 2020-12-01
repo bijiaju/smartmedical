@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hp.docker_base.mapper.TreatmentResultMapper" >
-  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.TreatmentResult" >
+<mapper namespace="com.hp.docker_base.mapper.TreatmentInputDataMapper" >
+  <resultMap id="BaseResultMap" type="com.hp.docker_base.bean.TreatmentInputData" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
-    <result column="diagnosis_result" property="diagnosisResult" jdbcType="VARCHAR" />
     <result column="treatment_id" property="treatmentId" jdbcType="VARCHAR" />
-    <result column="out_feature_json" property="outFeatureJson" jdbcType="VARCHAR" />
-    <result column="active_rule_json" property="activeRuleJson" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="data_in_json" property="dataInJson" jdbcType="VARCHAR" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="treatment_plan" property="treatmentPlan" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,16 +72,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, uuid, diagnosis_result, treatment_id, out_feature_json, active_rule_json, type, 
-    reason, is_delete, create_user, update_user, create_time, update_time, treatment_plan
+    id, uuid, treatment_id, department_id, data_in_json, is_delete, create_user, update_user, 
+    create_time, update_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.TreatmentResultExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hp.docker_base.bean.TreatmentInputDataExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_treatment_result
+    from tb_treatment_inputdata
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,33 +92,31 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from tb_treatment_result
+    from tb_treatment_inputdata
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_treatment_result
+    delete from tb_treatment_inputdata
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.TreatmentResultExample" >
-    delete from tb_treatment_result
+  <delete id="deleteByExample" parameterType="com.hp.docker_base.bean.TreatmentInputDataExample" >
+    delete from tb_treatment_inputdata
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hp.docker_base.bean.TreatmentResult" >
-    insert into tb_treatment_result (id, uuid, diagnosis_result, 
-      treatment_id, out_feature_json, active_rule_json, 
-      type, reason, is_delete, 
+  <insert id="insert" parameterType="com.hp.docker_base.bean.TreatmentInputData" >
+    insert into tb_treatment_inputdata (id, uuid, treatment_id, 
+      department_id, data_in_json, is_delete, 
       create_user, update_user, create_time, 
-      update_time, treatment_plan)
-    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{diagnosisResult,jdbcType=VARCHAR}, 
-      #{treatmentId,jdbcType=VARCHAR}, #{outFeatureJson,jdbcType=VARCHAR}, #{activeRuleJson,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{treatmentId,jdbcType=VARCHAR}, 
+      #{departmentId,jdbcType=VARCHAR}, #{dataInJson,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, 
       #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{treatmentPlan,jdbcType=VARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.TreatmentResult" >
-    insert into tb_treatment_result
+  <insert id="insertSelective" parameterType="com.hp.docker_base.bean.TreatmentInputData" >
+    insert into tb_treatment_inputdata
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -130,23 +124,14 @@
       <if test="uuid != null" >
         uuid,
       </if>
-      <if test="diagnosisResult != null" >
-        diagnosis_result,
-      </if>
       <if test="treatmentId != null" >
         treatment_id,
       </if>
-      <if test="outFeatureJson != null" >
-        out_feature_json,
+      <if test="departmentId != null" >
+        department_id,
       </if>
-      <if test="activeRuleJson != null" >
-        active_rule_json,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="reason != null" >
-        reason,
+      <if test="dataInJson != null" >
+        data_in_json,
       </if>
       <if test="isDelete != null" >
         is_delete,
@@ -163,9 +148,6 @@
       <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="treatmentPlan != null" >
-        treatment_plan,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -174,23 +156,14 @@
       <if test="uuid != null" >
         #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="diagnosisResult != null" >
-        #{diagnosisResult,jdbcType=VARCHAR},
-      </if>
       <if test="treatmentId != null" >
         #{treatmentId,jdbcType=VARCHAR},
       </if>
-      <if test="outFeatureJson != null" >
-        #{outFeatureJson,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="activeRuleJson != null" >
-        #{activeRuleJson,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="reason != null" >
-        #{reason,jdbcType=VARCHAR},
+      <if test="dataInJson != null" >
+        #{dataInJson,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null" >
         #{isDelete,jdbcType=INTEGER},
@@ -207,19 +180,16 @@
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="treatmentPlan != null" >
-        #{treatmentPlan,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hp.docker_base.bean.TreatmentResultExample" resultType="java.lang.Integer" >
-    select count(*) from tb_treatment_result
+  <select id="countByExample" parameterType="com.hp.docker_base.bean.TreatmentInputDataExample" resultType="java.lang.Integer" >
+    select count(*) from tb_treatment_inputdata
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update tb_treatment_result
+    update tb_treatment_inputdata
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -227,23 +197,14 @@
       <if test="record.uuid != null" >
         uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.diagnosisResult != null" >
-        diagnosis_result = #{record.diagnosisResult,jdbcType=VARCHAR},
-      </if>
       <if test="record.treatmentId != null" >
         treatment_id = #{record.treatmentId,jdbcType=VARCHAR},
       </if>
-      <if test="record.outFeatureJson != null" >
-        out_feature_json = #{record.outFeatureJson,jdbcType=VARCHAR},
+      <if test="record.departmentId != null" >
+        department_id = #{record.departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="record.activeRuleJson != null" >
-        active_rule_json = #{record.activeRuleJson,jdbcType=VARCHAR},
-      </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.reason != null" >
-        reason = #{record.reason,jdbcType=VARCHAR},
+      <if test="record.dataInJson != null" >
+        data_in_json = #{record.dataInJson,jdbcType=VARCHAR},
       </if>
       <if test="record.isDelete != null" >
         is_delete = #{record.isDelete,jdbcType=INTEGER},
@@ -260,57 +221,41 @@
       <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.treatmentPlan != null" >
-        treatment_plan = #{record.treatmentPlan,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update tb_treatment_result
+    update tb_treatment_inputdata
     set id = #{record.id,jdbcType=INTEGER},
       uuid = #{record.uuid,jdbcType=VARCHAR},
-      diagnosis_result = #{record.diagnosisResult,jdbcType=VARCHAR},
       treatment_id = #{record.treatmentId,jdbcType=VARCHAR},
-      out_feature_json = #{record.outFeatureJson,jdbcType=VARCHAR},
-      active_rule_json = #{record.activeRuleJson,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=INTEGER},
-      reason = #{record.reason,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=VARCHAR},
+      data_in_json = #{record.dataInJson,jdbcType=VARCHAR},
       is_delete = #{record.isDelete,jdbcType=INTEGER},
       create_user = #{record.createUser,jdbcType=VARCHAR},
       update_user = #{record.updateUser,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      treatment_plan = #{record.treatmentPlan,jdbcType=VARCHAR}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.TreatmentResult" >
-    update tb_treatment_result
+  <update id="updateByPrimaryKeySelective" parameterType="com.hp.docker_base.bean.TreatmentInputData" >
+    update tb_treatment_inputdata
     <set >
       <if test="uuid != null" >
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="diagnosisResult != null" >
-        diagnosis_result = #{diagnosisResult,jdbcType=VARCHAR},
-      </if>
       <if test="treatmentId != null" >
         treatment_id = #{treatmentId,jdbcType=VARCHAR},
       </if>
-      <if test="outFeatureJson != null" >
-        out_feature_json = #{outFeatureJson,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="activeRuleJson != null" >
-        active_rule_json = #{activeRuleJson,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="reason != null" >
-        reason = #{reason,jdbcType=VARCHAR},
+      <if test="dataInJson != null" >
+        data_in_json = #{dataInJson,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=INTEGER},
@@ -327,27 +272,20 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="treatmentPlan != null" >
-        treatment_plan = #{treatmentPlan,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.TreatmentResult" >
-    update tb_treatment_result
+  <update id="updateByPrimaryKey" parameterType="com.hp.docker_base.bean.TreatmentInputData" >
+    update tb_treatment_inputdata
     set uuid = #{uuid,jdbcType=VARCHAR},
-      diagnosis_result = #{diagnosisResult,jdbcType=VARCHAR},
       treatment_id = #{treatmentId,jdbcType=VARCHAR},
-      out_feature_json = #{outFeatureJson,jdbcType=VARCHAR},
-      active_rule_json = #{activeRuleJson,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      reason = #{reason,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=VARCHAR},
+      data_in_json = #{dataInJson,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=INTEGER},
       create_user = #{createUser,jdbcType=VARCHAR},
       update_user = #{updateUser,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      treatment_plan = #{treatmentPlan,jdbcType=VARCHAR}
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

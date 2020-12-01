@@ -10,14 +10,17 @@ import com.hp.docker_base.bean.dto.TreatmentResultDto;
 public interface ITreatmentService {
 
     /**
-     * 新增诊断结果记录
+     * 新增自动诊断结果记录
      */
     int addTreatmentResultInfo(String medicalRecordId,
                                TreatmentResultDto treatmentResult,
-                               String userId);
+                               Integer value, String userId);
+
+
 
     /**
      * 根据诊疗id获取结果
      */
-    TreatmentResult queryResultByMedicalRecordId(String medicalRecordId);
+    TreatmentResult queryResultByMedicalRecordId(String medicalRecordId,
+                                                 Integer state);
 }

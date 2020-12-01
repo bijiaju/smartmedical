@@ -2,9 +2,8 @@ package com.hp.docker_base.service.impl;
 
 import com.hp.docker_base.bean.TreatmentResult;
 import com.hp.docker_base.bean.TreatmentResultExample;
-import com.hp.docker_base.bean.TreatmentResult;
 import com.hp.docker_base.bean.dto.TreatmentResultDto;
-import com.hp.docker_base.bean.em.EnumTreatResultType;
+import com.hp.docker_base.bean.em.EnumTreatState;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.mapper.TreatmentResultMapper;
 import com.hp.docker_base.service.ITreatmentService;
@@ -32,6 +31,7 @@ public class TreatmentServiceImpl implements ITreatmentService {
     @Override
     public int addTreatmentResultInfo(String medicalRecordId,
                                       TreatmentResultDto treatmentResult,
+                                      Integer state,
                                       String userId) {
         TreatmentResult record = new TreatmentResult();
         record.setUuid(CommonUtil.generateUUID());
@@ -40,7 +40,7 @@ public class TreatmentServiceImpl implements ITreatmentService {
         record.setDiagnosisResult(treatmentResult.getDiagnosisResult());
         record.setOutFeatureJson(treatmentResult.getOutFeatureJson());
         record.setActiveRuleJson(treatmentResult.getActiveRuleJson());
-        record.setType(EnumTreatResultType.AUTO.getCode());
+        record.setType(state);
         record.setTreatmentPlan(treatmentResult.getTreatmentPlan());
 
         record.setTreatmentId(medicalRecordId);
@@ -54,8 +54,10 @@ public class TreatmentServiceImpl implements ITreatmentService {
         return treatmentResultMapper.insert(record);
     }
 
+
+
     @Override
-    public TreatmentResult queryResultByMedicalRecordId(String medicalRecordId) {
+    public TreatmentResult queryResultByMedicalRecordId(String medicalRecordId,Integer state) {
         if(StringUtils.isEmpty(medicalRecordId)){
             return null;
         }
@@ -64,6 +66,8 @@ public class TreatmentServiceImpl implements ITreatmentService {
         TreatmentResultExample.Criteria criteria = example.createCriteria();
 
         criteria.andTreatmentIdEqualTo(medicalRecordId);
+        criteria.andTypeEqualTo(state);
+
         criteria.andIsDeleteEqualTo(EnumDelete.NOT_DELETE.getCode());
 
         List<TreatmentResult> treatmentObjections = treatmentResultMapper.selectByExample(example);

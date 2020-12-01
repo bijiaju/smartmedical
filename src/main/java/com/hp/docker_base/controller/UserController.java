@@ -319,7 +319,16 @@ public class UserController extends BaseController{
             session.setAttribute("user",user);
         }
 
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),UserObjectConvert.convertUser2Dto(user));
+        // 2、查询用户的角色
+        RoleDto role = roleUserService.queryRoleIdByUserId(user.getUuid());
+
+        //3、类型转换
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(user,userDto);
+        userDto.setRoleId(role.getRoleCode());
+        userDto.setRoleName(role.getRoleName());
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),userDto);
     }
 
 
