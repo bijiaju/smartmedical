@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50705
 File Encoding         : 65001
 
-Date: 2020-11-06 14:48:13
+Date: 2020-12-01 14:55:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,20 +20,20 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `idaas_account_extend`;
 CREATE TABLE `idaas_account_extend` (
-                                      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                      `tenant_id` varchar(50) DEFAULT NULL,
-                                      `account_id` varchar(50) NOT NULL,
-                                      `attr_id` varchar(50) NOT NULL,
-                                      `attr_field_name` varchar(200) NOT NULL,
-                                      `attr_field_value` varchar(1000) DEFAULT NULL COMMENT '文本类：存储具体的文字内容\n            数字类：存储数字\n            选项类：存储选项编号，多个选项",''隔开',
-                                      `extend` varchar(200) DEFAULT NULL,
-                                      `is_delete` int(11) NOT NULL DEFAULT '0',
-                                      `create_time` datetime NOT NULL,
-                                      `create_number` varchar(50) DEFAULT NULL,
-                                      `update_time` datetime NOT NULL,
-                                      `update_number` varchar(50) DEFAULT NULL,
-                                      PRIMARY KEY (`id`),
-                                      KEY `idx_account_extend_account_id` (`account_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tenant_id` varchar(50) DEFAULT NULL,
+  `account_id` varchar(50) NOT NULL,
+  `attr_id` varchar(50) NOT NULL,
+  `attr_field_name` varchar(200) NOT NULL,
+  `attr_field_value` varchar(1000) DEFAULT NULL COMMENT '文本类：存储具体的文字内容\n            数字类：存储数字\n            选项类：存储选项编号，多个选项",''隔开',
+  `extend` varchar(200) DEFAULT NULL,
+  `is_delete` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL,
+  `create_number` varchar(50) DEFAULT NULL,
+  `update_time` datetime NOT NULL,
+  `update_number` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_account_extend_account_id` (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -45,29 +45,29 @@ CREATE TABLE `idaas_account_extend` (
 -- ----------------------------
 DROP TABLE IF EXISTS `idaas_extend_attr`;
 CREATE TABLE `idaas_extend_attr` (
-                                   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                   `uuid` varchar(50) NOT NULL,
-                                   `tenant_id` varchar(50) NOT NULL,
-                                   `category` int(11) NOT NULL COMMENT '0：组织机构\n            1：组\n            2：账户',
-                                   `attr_name` varchar(100) NOT NULL,
-                                   `field_name` varchar(200) NOT NULL,
-                                   `field_type` varchar(50) NOT NULL COMMENT 'single-line-text：文本\n            multiple-line-text：多行文本\n            integer-number：整数\n            real-number：实数\n            single-selection：单选\n            mutiple-selection：多选\n            dropdown-single-selection：下拉单选\n            dropdown-multiple-selection：下拉多选\n            date：日期\n            time：时间\n            datetime：日期时间',
-                                   `is_fill` int(11) DEFAULT NULL,
-                                   `is_modify` int(11) DEFAULT NULL,
-                                   `is_unique` int(11) DEFAULT NULL,
-                                   `is_valid` int(11) DEFAULT NULL,
-                                   `remark` varchar(500) DEFAULT NULL,
-                                   `sort` int(11) NOT NULL,
-                                   `extend` varchar(200) DEFAULT NULL,
-                                   `is_delete` int(11) NOT NULL DEFAULT '0',
-                                   `create_time` datetime NOT NULL,
-                                   `create_number` varchar(50) DEFAULT NULL,
-                                   `update_time` datetime NOT NULL,
-                                   `update_number` varchar(50) DEFAULT NULL,
-                                   `foreign_id` varchar(255) DEFAULT NULL,
-                                   PRIMARY KEY (`id`),
-                                   KEY `idx_category_delete_valid` (`category`,`is_delete`,`is_valid`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COMMENT='组织机构、组、账户的自定义扩展属性定义';
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(50) NOT NULL,
+  `tenant_id` varchar(50) NOT NULL,
+  `category` int(11) NOT NULL COMMENT '0：组织机构\n            1：组\n            2：账户',
+  `attr_name` varchar(100) NOT NULL,
+  `field_name` varchar(200) NOT NULL,
+  `field_type` varchar(50) NOT NULL COMMENT 'single-line-text：文本\n            multiple-line-text：多行文本\n            integer-number：整数\n            real-number：实数\n            single-selection：单选\n            mutiple-selection：多选\n            dropdown-single-selection：下拉单选\n            dropdown-multiple-selection：下拉多选\n            date：日期\n            time：时间\n            datetime：日期时间',
+  `is_fill` int(11) DEFAULT NULL,
+  `is_modify` int(11) DEFAULT NULL,
+  `is_unique` int(11) DEFAULT NULL,
+  `is_valid` int(11) DEFAULT NULL,
+  `remark` varchar(500) DEFAULT NULL,
+  `sort` int(11) NOT NULL,
+  `extend` varchar(200) DEFAULT NULL,
+  `is_delete` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL,
+  `create_number` varchar(50) DEFAULT NULL,
+  `update_time` datetime NOT NULL,
+  `update_number` varchar(50) DEFAULT NULL,
+  `foreign_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_category_delete_valid` (`category`,`is_delete`,`is_valid`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COMMENT='组织机构、组、账户的自定义扩展属性定义';
 
 -- ----------------------------
 -- Records of idaas_extend_attr
@@ -89,27 +89,28 @@ INSERT INTO `idaas_extend_attr` VALUES ('44', '1bf425d5-6992-423e-a01d-0411dd8ca
 INSERT INTO `idaas_extend_attr` VALUES ('45', '9cec4a5d-6bc1-4910-8dee-b3898a1abab4', 'temp', '2', '声带活动', 'rt', 'single-selection', '1', '1', '0', '1', '', '25', null, '0', '2020-09-06 09:04:34', 'bee', '2020-09-06 09:04:34', 'bee', 'id015');
 INSERT INTO `idaas_extend_attr` VALUES ('46', 'fe432dc4-0a79-4173-984c-8f0c5f6706ad', 'temp', '2', '累计范围：累及多个他部位包括声带、前联合、后联合、会厌，杓状软骨、室带、声门下、舌会厌襞、环后区、梨状窝、咽后壁等', 'yt', 'single-selection', '1', '1', '0', '1', '', '26', null, '0', '2020-09-06 09:05:38', 'bee', '2020-09-06 09:05:38', 'bee', 'id016');
 INSERT INTO `idaas_extend_attr` VALUES ('49', 'd9427c79-5f0e-4e06-9611-6574f9bfe15b', 'temp', '0', '年龄', 'ageAA', 'integer-number', '1', '1', '0', '1', '', '8', null, '0', '2020-10-30 15:07:16', 'YWJ', '2020-10-31 02:13:35', 'YWJ', 'id001');
+INSERT INTO `idaas_extend_attr` VALUES ('50', '00f69c7c-f383-442a-8513-1242989e0985', 'temp', '1', '测试特性哈哈哈', 'Idinhaha', 'multiple-selection', '1', '1', '1', '0', '', '101', null, '1', '2020-11-24 01:39:46', 'YWJ', '2020-11-26 03:28:36', 'YWJ', null);
 
 -- ----------------------------
 -- Table structure for idaas_extend_attr_config_number
 -- ----------------------------
 DROP TABLE IF EXISTS `idaas_extend_attr_config_number`;
 CREATE TABLE `idaas_extend_attr_config_number` (
-                                                 `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                                 `attr_id` varchar(50) NOT NULL,
-                                                 `unit` varchar(100) DEFAULT NULL,
-                                                 `min_value` varchar(100) DEFAULT NULL,
-                                                 `max_value` varchar(100) DEFAULT NULL,
-                                                 `default_value` varchar(1000) DEFAULT NULL,
-                                                 `extend` varchar(200) DEFAULT NULL,
-                                                 `is_delete` int(11) NOT NULL DEFAULT '0',
-                                                 `create_time` datetime NOT NULL,
-                                                 `create_number` varchar(50) DEFAULT NULL,
-                                                 `update_time` datetime NOT NULL,
-                                                 `update_number` varchar(50) DEFAULT NULL,
-                                                 `foreign_id` varchar(255) DEFAULT NULL,
-                                                 PRIMARY KEY (`id`),
-                                                 KEY `idx_attr_id_delete` (`attr_id`,`is_delete`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `attr_id` varchar(50) NOT NULL,
+  `unit` varchar(100) DEFAULT NULL,
+  `min_value` varchar(100) DEFAULT NULL,
+  `max_value` varchar(100) DEFAULT NULL,
+  `default_value` varchar(1000) DEFAULT NULL,
+  `extend` varchar(200) DEFAULT NULL,
+  `is_delete` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL,
+  `create_number` varchar(50) DEFAULT NULL,
+  `update_time` datetime NOT NULL,
+  `update_number` varchar(50) DEFAULT NULL,
+  `foreign_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_attr_id_delete` (`attr_id`,`is_delete`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -122,23 +123,23 @@ INSERT INTO `idaas_extend_attr_config_number` VALUES ('1', 'd9427c79-5f0e-4e06-9
 -- ----------------------------
 DROP TABLE IF EXISTS `idaas_extend_attr_config_selection`;
 CREATE TABLE `idaas_extend_attr_config_selection` (
-                                                    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                                    `uuid` varchar(50) NOT NULL,
-                                                    `attr_id` varchar(50) NOT NULL,
-                                                    `select_value` varchar(255) DEFAULT NULL,
-                                                    `content` varchar(1000) NOT NULL,
-                                                    `is_default` int(11) DEFAULT NULL,
-                                                    `sort` int(11) NOT NULL,
-                                                    `extend` varchar(200) DEFAULT NULL,
-                                                    `is_delete` int(11) NOT NULL DEFAULT '0',
-                                                    `create_time` datetime NOT NULL,
-                                                    `create_number` varchar(50) DEFAULT NULL,
-                                                    `update_time` datetime NOT NULL,
-                                                    `update_number` varchar(50) DEFAULT NULL,
-                                                    `foreign_id` varchar(255) DEFAULT NULL,
-                                                    PRIMARY KEY (`id`),
-                                                    KEY `idx_attr_id_delete` (`attr_id`,`is_delete`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(50) NOT NULL,
+  `attr_id` varchar(50) NOT NULL,
+  `select_value` varchar(255) DEFAULT NULL,
+  `content` varchar(1000) NOT NULL,
+  `is_default` int(11) DEFAULT NULL,
+  `sort` int(11) NOT NULL,
+  `extend` varchar(200) DEFAULT NULL,
+  `is_delete` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL,
+  `create_number` varchar(50) DEFAULT NULL,
+  `update_time` datetime NOT NULL,
+  `update_number` varchar(50) DEFAULT NULL,
+  `foreign_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_attr_id_delete` (`attr_id`,`is_delete`)
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of idaas_extend_attr_config_selection
@@ -176,24 +177,27 @@ INSERT INTO `idaas_extend_attr_config_selection` VALUES ('59', '7d893adc-5707-48
 INSERT INTO `idaas_extend_attr_config_selection` VALUES ('60', '943f770d-65dc-4935-9443-1e545d7388a8', '9cec4a5d-6bc1-4910-8dee-b3898a1abab4', '0', '活动良好', '0', '2', null, '0', '2020-09-06 09:04:34', 'bee', '2020-09-06 09:04:34', 'bee', null);
 INSERT INTO `idaas_extend_attr_config_selection` VALUES ('61', '97f74302-e33b-473d-a9f2-ccefd5db69b6', 'fe432dc4-0a79-4173-984c-8f0c5f6706ad', '1', '累及多个范围', '0', '1', null, '0', '2020-09-06 09:05:38', 'bee', '2020-09-06 09:05:38', 'bee', null);
 INSERT INTO `idaas_extend_attr_config_selection` VALUES ('62', 'dafb439f-595a-4c53-a453-056cc395522a', 'fe432dc4-0a79-4173-984c-8f0c5f6706ad', '0', '无累及', '0', '2', null, '0', '2020-09-06 09:05:38', 'bee', '2020-09-06 09:05:38', 'bee', null);
+INSERT INTO `idaas_extend_attr_config_selection` VALUES ('63', 'c26c67cb-92c8-49a9-94f6-73afb64eb179', '00f69c7c-f383-442a-8513-1242989e0985', '0', '阴', '0', '1', null, '1', '2020-11-24 01:39:46', 'YWJ', '2020-11-26 03:28:36', 'YWJ', null);
+INSERT INTO `idaas_extend_attr_config_selection` VALUES ('64', 'f28cc4c6-7d09-4d69-8e8e-f7015399c345', '00f69c7c-f383-442a-8513-1242989e0985', '1', '中', '0', '2', null, '1', '2020-11-24 01:39:46', 'YWJ', '2020-11-26 03:28:36', 'YWJ', null);
+INSERT INTO `idaas_extend_attr_config_selection` VALUES ('65', '0a17ea8c-e5d6-4dbd-a4af-ab8bfdb4ed8a', '00f69c7c-f383-442a-8513-1242989e0985', '2', '阳', '0', '3', null, '1', '2020-11-24 01:39:46', 'YWJ', '2020-11-26 03:28:36', 'YWJ', null);
 
 -- ----------------------------
 -- Table structure for idaas_extend_attr_config_text
 -- ----------------------------
 DROP TABLE IF EXISTS `idaas_extend_attr_config_text`;
 CREATE TABLE `idaas_extend_attr_config_text` (
-                                               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                               `attr_id` varchar(50) NOT NULL,
-                                               `max_character_count` int(11) DEFAULT NULL,
-                                               `default_value` varchar(1000) DEFAULT NULL,
-                                               `extend` varchar(200) DEFAULT NULL,
-                                               `is_delete` int(11) NOT NULL DEFAULT '0',
-                                               `create_time` datetime NOT NULL,
-                                               `create_number` varchar(50) DEFAULT NULL,
-                                               `update_time` datetime NOT NULL,
-                                               `update_number` varchar(50) DEFAULT NULL,
-                                               PRIMARY KEY (`id`),
-                                               KEY `idx_attr_id_delete` (`attr_id`,`is_delete`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `attr_id` varchar(50) NOT NULL,
+  `max_character_count` int(11) DEFAULT NULL,
+  `default_value` varchar(1000) DEFAULT NULL,
+  `extend` varchar(200) DEFAULT NULL,
+  `is_delete` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime NOT NULL,
+  `create_number` varchar(50) DEFAULT NULL,
+  `update_time` datetime NOT NULL,
+  `update_number` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_attr_id_delete` (`attr_id`,`is_delete`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -214,13 +218,13 @@ INSERT INTO `idaas_extend_attr_config_text` VALUES ('20', '2222', '200', '', nul
 -- ----------------------------
 DROP TABLE IF EXISTS `mdc1`;
 CREATE TABLE `mdc1` (
-                      `id` varchar(10) NOT NULL,
-                      `feature` varchar(30) DEFAULT NULL,
-                      `type` varchar(30) DEFAULT NULL,
-                      `department` varchar(100) DEFAULT NULL,
-                      `desc` varchar(1024) DEFAULT NULL,
-                      `treatment` varchar(1024) DEFAULT NULL,
-                      PRIMARY KEY (`id`)
+  `id` varchar(10) NOT NULL,
+  `feature` varchar(30) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `desc` varchar(1024) DEFAULT NULL,
+  `treatment` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -251,10 +255,10 @@ INSERT INTO `mdc1` VALUES ('sk003', '声带息肉', 'output', '1111', null, null
 -- ----------------------------
 DROP TABLE IF EXISTS `mdc2`;
 CREATE TABLE `mdc2` (
-                      `Rule` int(11) NOT NULL AUTO_INCREMENT,
-                      `reference` varchar(1024) DEFAULT NULL,
-                      `belief` varchar(1024) DEFAULT NULL,
-                      PRIMARY KEY (`Rule`)
+  `Rule` int(11) NOT NULL AUTO_INCREMENT,
+  `reference` varchar(1024) DEFAULT NULL,
+  `belief` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`Rule`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -286,21 +290,55 @@ INSERT INTO `mdc2` VALUES ('23', '{\"id001\": \"2\", \"id002\": \"1\", \"id003\"
 INSERT INTO `mdc2` VALUES ('24', '{\"id001\": \"2\", \"id002\": \"1\", \"id003\": \"0\", \"id004\": \"0\", \"id005\": \"1\", \"id006\": \"0\", \"id007\": \"0\", \"id008\": \"0\", \"id009\": \"0\", \"id010\": \"0\", \"id011\": \"0\", \"id012\": \"0\", \"id013\": \"0\", \"id014\": \"0\", \"id015\": \"0\", \"id016\": \"0\"}', '{\"sk001\": \"0\", \"sk002\": \"0\", \"sk003\": \"1\"}');
 
 -- ----------------------------
+-- Table structure for not_use_tb_treatment_objection
+-- ----------------------------
+DROP TABLE IF EXISTS `not_use_tb_treatment_objection`;
+CREATE TABLE `not_use_tb_treatment_objection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `diagnosis_result` varchar(255) NOT NULL,
+  `treatment_id` varchar(255) NOT NULL,
+  `out_feature_json` varchar(1024) DEFAULT NULL,
+  `active_rule_json` varchar(2048) DEFAULT NULL,
+  `reason` varchar(255) DEFAULT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  `treatment_plan` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of not_use_tb_treatment_objection
+-- ----------------------------
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('27', 'd69c1c58-e7f6-489b-a330-77fe94b6735b', '高血压', 'd69c1c58-e7f6-489b-a330-77fe94b6735b', '[\r\n    {\r\n        \"fidOut\": \"sk001\",\r\n        \"fidOutName\": \"喉癌\",\r\n        \"value\": \"34.94%\"\r\n    },\r\n    {\r\n        \"fidOut\": \"sk002\",\r\n        \"fidOutName\": \"声带白斑\",\r\n        \"value\": \"23.81%\"\r\n    },\r\n    {\r\n        \"fidOut\": \"sk003\",\r\n        \"fidOutName\": \"声带息肉\",\r\n        \"value\": \"41.25%\"\r\n    }\r\n]', '[\r\n    {\r\n        \"rid\": \"R1\",\r\n        \"weight\": \"0.04939892178351416\"\r\n    },\r\n    {\r\n        \"rid\": \"R2\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R3\",\r\n        \"weight\": \"0.06586522904468554\"\r\n    },\r\n    {\r\n        \"rid\": \"R4\",\r\n        \"weight\": \"0.06037645995762842\"\r\n    },\r\n    {\r\n        \"rid\": \"R5\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R6\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R7\",\r\n        \"weight\": \"0.04391015269645703\"\r\n    },\r\n    {\r\n        \"rid\": \"R8\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R9\",\r\n        \"weight\": \"0.0384213836093999\"\r\n    },\r\n    {\r\n        \"rid\": \"R10\",\r\n        \"weight\": \"0.06037645995762842\"\r\n    },\r\n    {\r\n        \"rid\": \"R11\",\r\n        \"weight\": \"0.07394269456434804\"\r\n    },\r\n    {\r\n        \"rid\": \"R12\",\r\n        \"weight\": \"0.06037645995762842\"\r\n    },\r\n    {\r\n        \"rid\": \"R13\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    },\r\n    {\r\n        \"rid\": \"R14\",\r\n        \"weight\": \"0.04939892178351416\"\r\n    },\r\n    {\r\n        \"rid\": \"R15\",\r\n        \"weight\": \"0.0806647577065615\"\r\n    },\r\n    {\r\n        \"rid\": \"R16\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    },\r\n    {\r\n        \"rid\": \"R17\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R18\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R19\",\r\n        \"weight\": \"0.04939892178351416\"\r\n    },\r\n    {\r\n        \"rid\": \"R20\",\r\n        \"weight\": \"0.04391015269645703\"\r\n    },\r\n    {\r\n        \"rid\": \"R21\",\r\n        \"weight\": \"0.060498568279921124\"\r\n    },\r\n    {\r\n        \"rid\": \"R22\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    },\r\n    {\r\n        \"rid\": \"R23\",\r\n        \"weight\": \"0.04391015269645703\"\r\n    },\r\n    {\r\n        \"rid\": \"R24\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    }\r\n]', 'asdfasdfasdfasd', '0', 'wangbo', 'wangbo', '2020-10-27 09:32:24', '2020-10-27 09:32:24', '123456');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('28', '984d9bca-53be-43b7-9f2c-a1fdf565b499', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"19\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', 'fsda', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:01:32', '2020-10-29 15:01:32', '测试阿斯顿发');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('29', '144aed39-af28-4490-bd16-50dbf7cf08e1', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', '', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:03:44', '2020-10-29 15:03:44', '测试阿斯顿发');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('30', '77540446-a290-449e-bce5-d74241dc8b1a', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.42\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.23\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:07:03', '2020-10-29 15:07:03', '测试阿斯顿发');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('31', '5bb03eca-e89f-4198-a997-143f84cb7f9b', '声带白斑', '9645586d-5210-4b60-99cd-c89bd19b1d2c', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.38\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.25\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.38\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:15:04', '2020-10-29 15:15:04', '测试啊时代发生的');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('32', '805b26d9-0e1a-4e50-baaf-5873180281b7', '声带息肉', '09a35977-2b0c-40eb-bb2c-96da0d84e9f4', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"10\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"80\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.25\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.40\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '无理由', '0', 'YWJYS', 'YWJYS', '2020-10-30 01:41:44', '2020-10-30 01:41:44', '测试阿斯顿发');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('33', '409d9056-31cb-43db-95b2-61929a203f26', '声带息肉', 'a067ced9-55f0-4ad3-9b6a-4ba16db451da', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"20\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"60\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.29\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.43\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.29\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '', '0', 'YWJYS', 'YWJYS', '2020-10-30 02:49:30', '2020-10-30 02:49:30', '测试阿斯顿发');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('34', '878a3933-a3b3-42db-ad59-5899ad4d8c9a', '声带息肉', '1ffb8c15-03c1-4788-89c5-69226987f295', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.37\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.30\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '认为结果有问题', '0', 'YWJYS', 'YWJYS', '2020-11-24 01:14:20', '2020-11-24 01:14:20', '测试阿斯顿发');
+INSERT INTO `not_use_tb_treatment_objection` VALUES ('35', 'a580bfc8-0141-453b-a8a9-e520b87a6af6', '声带息肉', 'eb1d05b5-cf51-4b88-a72e-708b665221fc', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"30\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"30\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"40\"}]', '[{\"weight\":\"0.04\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.04\",\"rid\":\"R3\"},{\"weight\":\"0.04\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.03\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.04\",\"rid\":\"R9\"},{\"weight\":\"0.04\",\"rid\":\"R10\"},{\"weight\":\"0.13\",\"rid\":\"R11\"},{\"weight\":\"0.03\",\"rid\":\"R12\"},{\"weight\":\"0.04\",\"rid\":\"R13\"},{\"weight\":\"0.04\",\"rid\":\"R14\"},{\"weight\":\"0.15\",\"rid\":\"R15\"},{\"weight\":\"0.04\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.04\",\"rid\":\"R19\"},{\"weight\":\"0.04\",\"rid\":\"R20\"},{\"weight\":\"0.13\",\"rid\":\"R21\"},{\"weight\":\"0.04\",\"rid\":\"R22\"},{\"weight\":\"0.05\",\"rid\":\"R23\"},{\"weight\":\"0.04\",\"rid\":\"R24\"}]', '理由测试说明', '0', 'YWJYS', 'YWJYS', '2020-11-30 14:08:42', '2020-11-30 14:08:42', '测试阿斯顿发');
+
+-- ----------------------------
 -- Table structure for tb_department
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_department`;
 CREATE TABLE `tb_department` (
-                               `id` int(11) NOT NULL AUTO_INCREMENT,
-                               `uuid` varchar(255) NOT NULL,
-                               `name` varchar(100) NOT NULL,
-                               `remark` varchar(255) DEFAULT NULL,
-                               `sort` int(2) NOT NULL,
-                               `is_delete` int(2) NOT NULL DEFAULT '0',
-                               `create_user` varchar(255) NOT NULL,
-                               `update_user` varchar(255) NOT NULL,
-                               `create_time` datetime NOT NULL,
-                               `update_time` datetime NOT NULL,
-                               PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `sort` int(2) NOT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -318,16 +356,16 @@ INSERT INTO `tb_department` VALUES ('12', 'cbb83963-4f5d-41d3-a5e4-e8667630c0d9'
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_department_feature`;
 CREATE TABLE `tb_department_feature` (
-                                       `id` int(11) NOT NULL AUTO_INCREMENT,
-                                       `department_id` varchar(100) NOT NULL,
-                                       `feature_id` varchar(100) NOT NULL,
-                                       `is_delete` int(2) NOT NULL DEFAULT '0',
-                                       `create_user` varchar(255) NOT NULL,
-                                       `update_user` varchar(255) NOT NULL,
-                                       `create_time` datetime NOT NULL,
-                                       `update_time` datetime NOT NULL,
-                                       PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `department_id` varchar(100) NOT NULL,
+  `feature_id` varchar(100) NOT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_department_feature
@@ -361,27 +399,28 @@ INSERT INTO `tb_department_feature` VALUES ('34', '1113', 'c6e8e525-389d-47de-89
 INSERT INTO `tb_department_feature` VALUES ('35', '1111', 'd9427c79-5f0e-4e06-9611-6574f9bfe15b', '0', 'YWJ', 'YWJ', '2020-10-30 15:09:49', '2020-10-30 15:09:49');
 INSERT INTO `tb_department_feature` VALUES ('36', '1112', 'd9427c79-5f0e-4e06-9611-6574f9bfe15b', '0', 'YWJ', 'YWJ', '2020-10-30 15:09:49', '2020-10-30 15:09:49');
 INSERT INTO `tb_department_feature` VALUES ('37', '1113', 'd9427c79-5f0e-4e06-9611-6574f9bfe15b', '0', 'YWJ', 'YWJ', '2020-10-30 15:09:49', '2020-10-30 15:09:49');
+INSERT INTO `tb_department_feature` VALUES ('38', '1111', '00f69c7c-f383-442a-8513-1242989e0985', '0', 'YWJYS', 'YWJYS', '2020-11-24 01:42:29', '2020-11-24 01:42:29');
 
 -- ----------------------------
 -- Table structure for tb_disease
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_disease`;
 CREATE TABLE `tb_disease` (
-                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                            `uuid` varchar(255) NOT NULL,
-                            `name` varchar(100) NOT NULL,
-                            `department_id` varchar(255) NOT NULL,
-                            `treatment` varchar(1024) DEFAULT NULL,
-                            `introduction` varchar(1024) DEFAULT NULL,
-                            `remark` varchar(255) DEFAULT NULL,
-                            `sort` int(2) NOT NULL,
-                            `is_delete` int(2) NOT NULL DEFAULT '0',
-                            `create_user` varchar(255) NOT NULL,
-                            `update_user` varchar(255) NOT NULL,
-                            `create_time` datetime NOT NULL,
-                            `update_time` datetime NOT NULL,
-                            `foreign_id` varchar(255) DEFAULT NULL,
-                            PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `department_id` varchar(255) NOT NULL,
+  `treatment` varchar(1024) DEFAULT NULL,
+  `introduction` varchar(1024) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `sort` int(2) NOT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  `foreign_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -401,20 +440,20 @@ INSERT INTO `tb_disease` VALUES ('35', 'eb3b951e-e564-4dc1-920b-759872a9d98b', '
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_medical_records`;
 CREATE TABLE `tb_medical_records` (
-                                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                                    `uuid` varchar(255) NOT NULL,
-                                    `patient_id` varchar(100) NOT NULL,
-                                    `doctor_id` varchar(100) NOT NULL,
-                                    `record` varchar(500) NOT NULL,
-                                    `treatment_plan` varchar(255) NOT NULL,
-                                    `sort` int(2) NOT NULL DEFAULT '0',
-                                    `is_delete` int(2) NOT NULL DEFAULT '0',
-                                    `create_user` varchar(255) NOT NULL,
-                                    `update_user` varchar(255) NOT NULL,
-                                    `create_time` datetime NOT NULL,
-                                    `update_time` datetime NOT NULL,
-                                    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `patient_id` varchar(100) NOT NULL,
+  `doctor_id` varchar(100) NOT NULL,
+  `record` varchar(500) NOT NULL,
+  `treatment_plan` varchar(255) NOT NULL,
+  `sort` int(2) NOT NULL DEFAULT '0',
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_medical_records
@@ -519,25 +558,68 @@ INSERT INTO `tb_medical_records` VALUES ('100', 'a8c77f64-17a0-4922-b760-b5084fa
 INSERT INTO `tb_medical_records` VALUES ('101', '7810130d-d925-43cd-99bd-77fe71ff1631', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '96', '0', 'YWJYS', 'YWJYS', '2020-11-05 06:42:12', '2020-11-05 06:42:12');
 INSERT INTO `tb_medical_records` VALUES ('102', 'a85dbf0a-cfc0-4f96-bf5c-aff2731eea82', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '97', '0', 'YWJYS', 'YWJYS', '2020-11-05 06:47:01', '2020-11-05 06:47:01');
 INSERT INTO `tb_medical_records` VALUES ('103', 'a1235d12-b5ec-4671-92ab-eb3dd39fb27b', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '98', '0', 'YWJYS', 'YWJYS', '2020-11-06 06:47:00', '2020-11-06 06:47:00');
+INSERT INTO `tb_medical_records` VALUES ('104', '190d853b-e66a-450c-88ae-cb638602db52', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '99', '0', 'YWJYS', 'YWJYS', '2020-11-06 06:54:29', '2020-11-06 06:54:29');
+INSERT INTO `tb_medical_records` VALUES ('105', 'c6e530b8-7610-4181-b80d-b940cb59391a', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '100', '0', 'YWJYS', 'YWJYS', '2020-11-06 07:36:58', '2020-11-06 07:36:58');
+INSERT INTO `tb_medical_records` VALUES ('106', '36e39b95-3ab4-49b5-9324-fbe0c5c3565e', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '101', '0', 'YWJYS', 'YWJYS', '2020-11-06 07:36:58', '2020-11-06 07:36:58');
+INSERT INTO `tb_medical_records` VALUES ('107', 'ffde45ea-af73-49aa-8ea0-c6be4199b52f', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '102', '0', 'YWJYS', 'YWJYS', '2020-11-06 07:37:32', '2020-11-06 07:37:32');
+INSERT INTO `tb_medical_records` VALUES ('108', '2955211a-0ec5-4a8c-bb51-23126066619f', '47d94971-412b-43ae-a03c-7f31f2df1b81', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '103', '0', 'YWJYS', 'YWJYS', '2020-11-09 01:32:10', '2020-11-09 01:32:10');
+INSERT INTO `tb_medical_records` VALUES ('109', 'e5e2bb9d-8ffd-4454-a244-40b5a572a472', 'acee21c3-2a52-46ca-9b95-79c435586bc9', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '104', '0', 'YWJ', 'YWJ', '2020-11-09 01:45:55', '2020-11-09 01:45:55');
+INSERT INTO `tb_medical_records` VALUES ('110', '67f634ae-e78a-4bf6-a7e0-d06e7bbc892a', '12ceb31f-2c52-48c2-82cc-cfa65817e17e', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '105', '0', 'YWJ', 'YWJ', '2020-11-09 05:37:16', '2020-11-09 05:37:16');
+INSERT INTO `tb_medical_records` VALUES ('111', 'd27054e4-270a-49f7-8d55-7498494fd5be', 'c01eaf59-67e2-4aa5-8a0e-b4ed2797b776', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '106', '0', 'YWJ', 'YWJ', '2020-11-09 13:21:19', '2020-11-09 13:21:19');
+INSERT INTO `tb_medical_records` VALUES ('112', 'e0bdd747-5d41-4110-8993-94f703927343', '03e6a22d-7233-44b3-a199-18abfdc0d7c9', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '107', '0', 'YWJ', 'YWJ', '2020-11-09 13:25:09', '2020-11-09 13:25:09');
+INSERT INTO `tb_medical_records` VALUES ('113', '6d7d32e1-1e64-4aec-b04d-2f0be96f66c4', '12ceb31f-2c52-48c2-82cc-cfa65817e17e', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '108', '0', 'YWJ', 'YWJ', '2020-11-09 13:43:08', '2020-11-09 13:43:08');
+INSERT INTO `tb_medical_records` VALUES ('114', '2194f66a-fad4-457f-a06b-23c6ecd59ff5', '12ceb31f-2c52-48c2-82cc-cfa65817e17e', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '109', '0', 'YWJYS', 'YWJYS', '2020-11-09 13:46:08', '2020-11-09 13:46:08');
+INSERT INTO `tb_medical_records` VALUES ('115', 'b2dffe42-e209-402f-8697-b237778eab72', '12ceb31f-2c52-48c2-82cc-cfa65817e17e', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '110', '0', 'YWJYS', 'YWJYS', '2020-11-09 13:46:25', '2020-11-09 13:46:25');
+INSERT INTO `tb_medical_records` VALUES ('116', '16d3c3ff-6257-4e88-8d90-29cc4012a2ef', '018666ed-c957-4b40-a4a9-1a652d6cc54f', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '111', '0', 'YWJYS', 'YWJYS', '2020-11-09 13:47:33', '2020-11-09 13:47:33');
+INSERT INTO `tb_medical_records` VALUES ('117', '33477ca5-4cf4-4404-b888-0cab1fc974ff', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '112', '0', 'YWJYS', 'YWJYS', '2020-11-11 01:07:52', '2020-11-11 01:07:52');
+INSERT INTO `tb_medical_records` VALUES ('118', '8e2ecf7b-3384-497d-a298-eb424c081517', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '113', '0', 'YWJYS', 'YWJYS', '2020-11-11 01:08:45', '2020-11-11 01:08:45');
+INSERT INTO `tb_medical_records` VALUES ('119', '8e5e3348-5ff0-4047-aaad-b37cb128a845', 'b5c434f5-6048-4251-af1d-5732ea57e07f', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '114', '0', 'YWJYS', 'YWJYS', '2020-11-11 01:09:37', '2020-11-11 01:09:37');
+INSERT INTO `tb_medical_records` VALUES ('120', '779b0fec-74bd-4fc7-9d83-df2f2cf325c0', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '115', '0', 'YWJYS', 'YWJYS', '2020-11-19 09:10:16', '2020-11-19 09:10:16');
+INSERT INTO `tb_medical_records` VALUES ('121', 'e4c033b1-0442-4ed4-9d28-6f388f3deed1', '8da06702-b347-46fc-971c-9b7ed7a2f235', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '116', '0', 'YWJYS', 'YWJYS', '2020-11-19 09:11:00', '2020-11-19 09:11:00');
+INSERT INTO `tb_medical_records` VALUES ('122', '410132e1-0890-41f6-b472-80009bb1baad', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '117', '0', 'YWJYS', 'YWJYS', '2020-11-19 09:11:29', '2020-11-19 09:11:29');
+INSERT INTO `tb_medical_records` VALUES ('123', '8c0b1a6b-a2bb-4811-b473-92c5fcdad6e0', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '118', '0', 'YWJYS', 'YWJYS', '2020-11-19 09:12:08', '2020-11-19 09:12:08');
+INSERT INTO `tb_medical_records` VALUES ('124', '854c8032-8eed-486d-ada9-fc54a203928c', '018666ed-c957-4b40-a4a9-1a652d6cc54f', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '119', '0', 'YWJYS', 'YWJYS', '2020-11-20 15:36:23', '2020-11-20 15:36:23');
+INSERT INTO `tb_medical_records` VALUES ('125', '3baffc43-40c2-406f-b580-1e109f06bb94', '018666ed-c957-4b40-a4a9-1a652d6cc54f', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '120', '0', 'YWJYS', 'YWJYS', '2020-11-20 15:37:51', '2020-11-20 15:37:51');
+INSERT INTO `tb_medical_records` VALUES ('126', '92d7eea0-c359-4ae9-a94f-68d7eeded106', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '121', '0', 'YWJYS', 'YWJYS', '2020-11-20 15:48:50', '2020-11-20 15:48:50');
+INSERT INTO `tb_medical_records` VALUES ('127', 'd8149bca-525b-40a4-ba8b-fb2b9bd4c2ff', '8da06702-b347-46fc-971c-9b7ed7a2f235', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '122', '0', 'YWJYS', 'YWJYS', '2020-11-20 16:16:33', '2020-11-20 16:16:33');
+INSERT INTO `tb_medical_records` VALUES ('128', 'd52a85a8-4b30-44f5-9b36-0d8c3a20fe9c', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '123', '0', 'YWJYS', 'YWJYS', '2020-11-20 16:19:21', '2020-11-20 16:19:21');
+INSERT INTO `tb_medical_records` VALUES ('129', '14d458c8-6b26-472c-be20-c4773ab47435', '47d94971-412b-43ae-a03c-7f31f2df1b81', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '124', '0', 'YWJYS', 'YWJYS', '2020-11-20 16:19:59', '2020-11-20 16:19:59');
+INSERT INTO `tb_medical_records` VALUES ('130', '251cac55-ae51-4595-81ff-504881cbe7cb', '9792d3a2-fcb3-471b-ace6-5dd22243b27c', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '125', '0', 'YWJYS', 'YWJYS', '2020-11-21 00:52:42', '2020-11-21 00:52:42');
+INSERT INTO `tb_medical_records` VALUES ('131', '7be4638b-4f57-441b-ab51-e27b6992b87c', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '126', '0', 'YWJYS', 'YWJYS', '2020-11-21 01:00:33', '2020-11-21 01:00:33');
+INSERT INTO `tb_medical_records` VALUES ('132', '3fff6582-f869-430d-9eba-19c1379978dd', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '127', '0', 'YWJYS', 'YWJYS', '2020-11-21 01:01:42', '2020-11-21 01:01:42');
+INSERT INTO `tb_medical_records` VALUES ('133', 'e0a5acbb-6646-4ef4-b8f1-9f2bf487495d', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '128', '0', 'YWJYS', 'YWJYS', '2020-11-21 01:08:22', '2020-11-21 01:08:22');
+INSERT INTO `tb_medical_records` VALUES ('134', 'da60da31-309e-4c6f-a415-b63a50445325', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '129', '0', 'YWJYS', 'YWJYS', '2020-11-23 01:29:51', '2020-11-23 01:29:51');
+INSERT INTO `tb_medical_records` VALUES ('135', '1eea592a-70d6-49bc-8f2b-65c7c449eba6', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '130', '0', 'YWJYS', 'YWJYS', '2020-11-23 01:32:07', '2020-11-23 01:32:07');
+INSERT INTO `tb_medical_records` VALUES ('136', '85e06268-47c4-4435-82d1-5f7c76846445', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '131', '0', 'YWJYS', 'YWJYS', '2020-11-23 01:32:58', '2020-11-23 01:32:58');
+INSERT INTO `tb_medical_records` VALUES ('137', '1ffb8c15-03c1-4788-89c5-69226987f295', '47d94971-412b-43ae-a03c-7f31f2df1b81', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '132', '0', 'YWJYS', 'YWJYS', '2020-11-24 01:08:45', '2020-11-24 01:08:45');
+INSERT INTO `tb_medical_records` VALUES ('138', '92003f52-d56a-495c-8a9f-9967202a89fa', '018666ed-c957-4b40-a4a9-1a652d6cc54f', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '133', '0', 'YWJYS', 'YWJYS', '2020-11-24 01:32:21', '2020-11-24 01:32:21');
+INSERT INTO `tb_medical_records` VALUES ('139', '62c4e1b5-519b-4bab-95a9-9f88ac583e36', '018666ed-c957-4b40-a4a9-1a652d6cc54f', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '134', '0', 'YWJYS', 'YWJYS', '2020-11-24 01:40:26', '2020-11-24 01:40:26');
+INSERT INTO `tb_medical_records` VALUES ('140', '5191806f-6529-49c5-8382-2f49c8859475', '018666ed-c957-4b40-a4a9-1a652d6cc54f', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '135', '0', 'YWJYS', 'YWJYS', '2020-11-24 01:42:37', '2020-11-24 01:42:37');
+INSERT INTO `tb_medical_records` VALUES ('141', 'ef692bdf-0d28-47c9-926a-a41d1e7b4578', '018666ed-c957-4b40-a4a9-1a652d6cc54f', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '136', '0', 'YWJ', 'YWJ', '2020-11-24 14:19:45', '2020-11-24 14:19:45');
+INSERT INTO `tb_medical_records` VALUES ('142', 'f306b854-e44e-4b99-9524-beec963b8807', '018666ed-c957-4b40-a4a9-1a652d6cc54f', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '137', '0', 'YWJ', 'YWJ', '2020-11-24 14:20:31', '2020-11-24 14:20:31');
+INSERT INTO `tb_medical_records` VALUES ('143', '85d81655-fd41-4fcb-9859-89fb6cbaefd5', '018666ed-c957-4b40-a4a9-1a652d6cc54f', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '', '', '138', '0', 'YWJ', 'YWJ', '2020-11-24 14:47:33', '2020-11-24 14:47:33');
+INSERT INTO `tb_medical_records` VALUES ('144', 'f01393d4-8a61-431c-b3db-81df0ad280a3', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '139', '0', 'YWJYS', 'YWJYS', '2020-11-25 01:14:52', '2020-11-25 01:14:52');
+INSERT INTO `tb_medical_records` VALUES ('145', '9196e0a8-ef1d-473d-882f-4198ee8325ef', 'e2a0fd7d-5b64-4642-a0be-222a8b7f7434', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '140', '0', 'YWJYS', 'YWJYS', '2020-11-25 01:16:55', '2020-11-25 01:16:55');
+INSERT INTO `tb_medical_records` VALUES ('146', 'eb1d05b5-cf51-4b88-a72e-708b665221fc', '47d94971-412b-43ae-a03c-7f31f2df1b81', '4435baee-1346-4744-8c00-16ef4fc2be77', '', '', '141', '0', 'YWJYS', 'YWJYS', '2020-11-30 14:06:08', '2020-11-30 14:06:08');
 
 -- ----------------------------
 -- Table structure for tb_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_menu`;
 CREATE TABLE `tb_menu` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `uuid` varchar(100) NOT NULL,
-                         `name` varchar(100) NOT NULL,
-                         `parent_id` varchar(100) DEFAULT NULL,
-                         `full_parh` varchar(300) NOT NULL,
-                         `level` int(2) NOT NULL DEFAULT '0',
-                         `sort` int(3) NOT NULL DEFAULT '0',
-                         `is_delete` int(2) NOT NULL DEFAULT '0',
-                         `create_user` varchar(255) NOT NULL,
-                         `update_user` varchar(255) NOT NULL,
-                         `create_time` datetime NOT NULL,
-                         `update_time` datetime NOT NULL,
-                         PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `parent_id` varchar(100) DEFAULT NULL,
+  `full_parh` varchar(300) NOT NULL,
+  `level` int(2) NOT NULL DEFAULT '0',
+  `sort` int(3) NOT NULL DEFAULT '0',
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -559,15 +641,15 @@ INSERT INTO `tb_menu` VALUES ('31', 'd35f9d02-8829-4899-8e60-efca57bc7b5e', '日
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_menu_user`;
 CREATE TABLE `tb_menu_user` (
-                              `id` int(11) NOT NULL AUTO_INCREMENT,
-                              `menu_id` varchar(100) NOT NULL,
-                              `user_id` varchar(100) NOT NULL,
-                              `is_delete` int(2) NOT NULL DEFAULT '0',
-                              `create_user` varchar(255) NOT NULL,
-                              `update_user` varchar(255) NOT NULL,
-                              `create_time` datetime NOT NULL,
-                              `update_time` datetime NOT NULL,
-                              PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_id` varchar(100) NOT NULL,
+  `user_id` varchar(100) NOT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -579,20 +661,20 @@ CREATE TABLE `tb_menu_user` (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_patient_info`;
 CREATE TABLE `tb_patient_info` (
-                                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                                 `uuid` varchar(100) NOT NULL,
-                                 `name` varchar(15) NOT NULL,
-                                 `post_id` varchar(20) NOT NULL,
-                                 `sex` int(2) NOT NULL DEFAULT '1',
-                                 `medical_history` varchar(1000) NOT NULL,
-                                 `sort` int(2) NOT NULL DEFAULT '0',
-                                 `is_delete` int(2) NOT NULL DEFAULT '0',
-                                 `create_user` varchar(255) NOT NULL,
-                                 `update_user` varchar(255) NOT NULL,
-                                 `create_time` datetime NOT NULL,
-                                 `update_time` datetime NOT NULL,
-                                 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(100) NOT NULL,
+  `name` varchar(15) NOT NULL,
+  `post_id` varchar(20) NOT NULL,
+  `sex` int(2) NOT NULL DEFAULT '1',
+  `medical_history` varchar(1000) NOT NULL,
+  `sort` int(2) NOT NULL DEFAULT '0',
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_patient_info
@@ -612,23 +694,27 @@ INSERT INTO `tb_patient_info` VALUES ('13', 'b5c434f5-6048-4251-af1d-5732ea57e07
 INSERT INTO `tb_patient_info` VALUES ('14', '8da06702-b347-46fc-971c-9b7ed7a2f235', 'qq', '1234545', '1', '无', '1', '0', 'YWJYS', 'YWJYS', '2020-10-30 07:44:31', '2020-10-30 07:44:31');
 INSERT INTO `tb_patient_info` VALUES ('15', '4b40dfa2-520a-4f6d-9108-a726d8245e1a', '阿斯顿发', '阿斯顿发', '1', '阿斯顿发', '1', '0', 'YWJ', 'YWJ', '2020-10-30 09:47:32', '2020-10-30 09:47:32');
 INSERT INTO `tb_patient_info` VALUES ('16', 'cf75b1c6-9a06-4e02-8eec-7d5148fea798', 'erer', '221222322233232232', '1', '无', '1', '0', 'YWJYS', 'YWJYS', '2020-11-02 01:44:59', '2020-11-02 01:44:59');
+INSERT INTO `tb_patient_info` VALUES ('17', '12ceb31f-2c52-48c2-82cc-cfa65817e17e', '测试病人1', '330501198807081122', '0', '病史描述', '1', '0', 'YWJYS', 'YWJYS', '2020-11-09 01:32:10', '2020-11-09 01:32:10');
+INSERT INTO `tb_patient_info` VALUES ('18', '9792d3a2-fcb3-471b-ace6-5dd22243b27c', '333', '333333333333333333', '1', '333', '1', '0', 'YWJYS', 'YWJYS', '2020-11-20 16:19:59', '2020-11-20 16:19:59');
+INSERT INTO `tb_patient_info` VALUES ('19', '4f8b911c-5b9b-4714-9a5a-e6ef0d461afc', '测试xx', '330501199909091122', '1', '啊时代发生噶', '1', '0', 'YWJYS', 'YWJYS', '2020-11-24 01:08:45', '2020-11-24 01:08:45');
+INSERT INTO `tb_patient_info` VALUES ('20', '8f62075d-1d32-4f98-a0a1-e1e7087cd044', '测试人员1130', '330501197906151319', '0', '测试说明', '1', '0', 'YWJYS', 'YWJYS', '2020-11-30 14:06:08', '2020-11-30 14:06:08');
 
 -- ----------------------------
 -- Table structure for tb_role
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_role`;
 CREATE TABLE `tb_role` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `uuid` varchar(255) NOT NULL,
-                         `role_name` varchar(255) NOT NULL,
-                         `remark` varchar(255) DEFAULT NULL,
-                         `role_code` varchar(255) DEFAULT NULL,
-                         `is_delete` int(2) NOT NULL DEFAULT '0',
-                         `create_user` varchar(255) NOT NULL,
-                         `update_user` varchar(255) NOT NULL,
-                         `create_time` datetime NOT NULL,
-                         `update_time` datetime NOT NULL,
-                         PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `role_name` varchar(255) NOT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `role_code` varchar(255) DEFAULT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -643,15 +729,15 @@ INSERT INTO `tb_role` VALUES ('9', 'ab3e7c86-9988-4233-a38d-e61755cc7439', '测�
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_role_menu`;
 CREATE TABLE `tb_role_menu` (
-                              `id` int(11) NOT NULL AUTO_INCREMENT,
-                              `role_id` varchar(100) NOT NULL,
-                              `menu_id` varchar(100) NOT NULL,
-                              `is_delete` int(2) NOT NULL DEFAULT '0',
-                              `create_user` varchar(255) NOT NULL,
-                              `update_user` varchar(255) NOT NULL,
-                              `create_time` datetime NOT NULL,
-                              `update_time` datetime NOT NULL,
-                              PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` varchar(100) NOT NULL,
+  `menu_id` varchar(100) NOT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -671,15 +757,15 @@ INSERT INTO `tb_role_menu` VALUES ('37', '1', '5', '0', 'YWJ', 'YWJ', '2020-10-2
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_role_user`;
 CREATE TABLE `tb_role_user` (
-                              `id` int(11) NOT NULL AUTO_INCREMENT,
-                              `role_id` varchar(100) NOT NULL,
-                              `user_id` varchar(100) NOT NULL,
-                              `is_delete` int(2) NOT NULL DEFAULT '0',
-                              `create_user` varchar(255) NOT NULL,
-                              `update_user` varchar(255) NOT NULL,
-                              `create_time` datetime NOT NULL,
-                              `update_time` datetime NOT NULL,
-                              PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` varchar(100) NOT NULL,
+  `user_id` varchar(100) NOT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -717,15 +803,15 @@ INSERT INTO `tb_role_user` VALUES ('36', '1', '5c8a1c0f-a37c-4186-9c9a-c44b69f29
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_sys_log`;
 CREATE TABLE `tb_sys_log` (
-                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                            `username` varchar(255) DEFAULT NULL,
-                            `operation` varchar(255) DEFAULT NULL,
-                            `method` varchar(255) DEFAULT NULL,
-                            `params` varchar(255) DEFAULT NULL,
-                            `ip` varchar(255) DEFAULT NULL,
-                            `createDate` datetime DEFAULT NULL,
-                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3878 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `operation` varchar(255) DEFAULT NULL,
+  `method` varchar(255) DEFAULT NULL,
+  `params` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `createDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4042 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_sys_log
@@ -1041,98 +1127,275 @@ INSERT INTO `tb_sys_log` VALUES ('3874', 'YWJ', '登录平台', 'doPostNewApplic
 INSERT INTO `tb_sys_log` VALUES ('3875', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '117.158.214.185', '2020-11-05 10:14:18');
 INSERT INTO `tb_sys_log` VALUES ('3876', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '60.12.8.170', '2020-11-06 06:46:52');
 INSERT INTO `tb_sys_log` VALUES ('3877', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-06 06:47:00');
+INSERT INTO `tb_sys_log` VALUES ('3878', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-06 06:53:22');
+INSERT INTO `tb_sys_log` VALUES ('3879', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '60.12.8.170', '2020-11-06 06:54:27');
+INSERT INTO `tb_sys_log` VALUES ('3880', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-06 06:54:29');
+INSERT INTO `tb_sys_log` VALUES ('3881', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-06 06:56:30');
+INSERT INTO `tb_sys_log` VALUES ('3882', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '60.12.8.170', '2020-11-06 07:36:36');
+INSERT INTO `tb_sys_log` VALUES ('3883', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-06 07:36:58');
+INSERT INTO `tb_sys_log` VALUES ('3884', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-06 07:36:58');
+INSERT INTO `tb_sys_log` VALUES ('3885', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-06 07:37:17');
+INSERT INTO `tb_sys_log` VALUES ('3886', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-06 07:37:17');
+INSERT INTO `tb_sys_log` VALUES ('3887', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-06 07:37:32');
+INSERT INTO `tb_sys_log` VALUES ('3888', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-06 07:38:24');
+INSERT INTO `tb_sys_log` VALUES ('3889', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '223.93.188.66', '2020-11-09 01:30:58');
+INSERT INTO `tb_sys_log` VALUES ('3890', 'YWJYS', '新增病人信息', 'doPostNewPatientInfo', '[\"{\\\"name\\\":\\\"测试病人1\\\",\\\"postId\\\":\\\"330501198807081122\\\",\\\"sex\\\":\\\"0\\\",\\\"medicalHistory\\\":\\\"病史描述\\\"}\"]', '223.93.188.66', '2020-11-09 01:32:10');
+INSERT INTO `tb_sys_log` VALUES ('3891', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"47d94971-412b-43ae-a03c-7f31f2df1b81\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.93.188.66', '2020-11-09 01:32:10');
+INSERT INTO `tb_sys_log` VALUES ('3892', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '223.93.188.66', '2020-11-09 01:32:41');
+INSERT INTO `tb_sys_log` VALUES ('3893', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '223.93.188.66', '2020-11-09 01:37:58');
+INSERT INTO `tb_sys_log` VALUES ('3894', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '117.158.214.185', '2020-11-09 01:45:16');
+INSERT INTO `tb_sys_log` VALUES ('3895', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"acee21c3-2a52-46ca-9b95-79c435586bc9\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '117.158.214.185', '2020-11-09 01:45:55');
+INSERT INTO `tb_sys_log` VALUES ('3896', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '117.158.214.185', '2020-11-09 05:37:09');
+INSERT INTO `tb_sys_log` VALUES ('3897', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"12ceb31f-2c52-48c2-82cc-cfa65817e17e\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '117.158.214.185', '2020-11-09 05:37:16');
+INSERT INTO `tb_sys_log` VALUES ('3898', 'YWJ', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '117.158.214.185', '2020-11-09 05:37:39');
+INSERT INTO `tb_sys_log` VALUES ('3899', 'YWJ', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '117.158.214.185', '2020-11-09 05:37:46');
+INSERT INTO `tb_sys_log` VALUES ('3900', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '223.88.82.225', '2020-11-09 13:13:31');
+INSERT INTO `tb_sys_log` VALUES ('3901', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"c01eaf59-67e2-4aa5-8a0e-b4ed2797b776\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.225', '2020-11-09 13:21:19');
+INSERT INTO `tb_sys_log` VALUES ('3902', 'YWJ', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '223.88.82.225', '2020-11-09 13:21:43');
+INSERT INTO `tb_sys_log` VALUES ('3903', 'YWJ', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '223.88.82.225', '2020-11-09 13:22:12');
+INSERT INTO `tb_sys_log` VALUES ('3904', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"03e6a22d-7233-44b3-a199-18abfdc0d7c9\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.225', '2020-11-09 13:25:09');
+INSERT INTO `tb_sys_log` VALUES ('3905', 'YWJ', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '223.88.82.225', '2020-11-09 13:25:34');
+INSERT INTO `tb_sys_log` VALUES ('3906', 'YWJ', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '223.88.82.225', '2020-11-09 13:25:49');
+INSERT INTO `tb_sys_log` VALUES ('3907', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"12ceb31f-2c52-48c2-82cc-cfa65817e17e\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.225', '2020-11-09 13:43:08');
+INSERT INTO `tb_sys_log` VALUES ('3908', 'YWJ', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '223.88.82.225', '2020-11-09 13:43:39');
+INSERT INTO `tb_sys_log` VALUES ('3909', 'YWJ', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '223.88.82.225', '2020-11-09 13:43:44');
+INSERT INTO `tb_sys_log` VALUES ('3910', 'YWJ', '退出平台', 'loginOut', '[]', '223.88.82.225', '2020-11-09 13:45:47');
+INSERT INTO `tb_sys_log` VALUES ('3911', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '223.88.82.225', '2020-11-09 13:46:00');
+INSERT INTO `tb_sys_log` VALUES ('3912', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"12ceb31f-2c52-48c2-82cc-cfa65817e17e\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.225', '2020-11-09 13:46:08');
+INSERT INTO `tb_sys_log` VALUES ('3913', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"12ceb31f-2c52-48c2-82cc-cfa65817e17e\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.225', '2020-11-09 13:46:25');
+INSERT INTO `tb_sys_log` VALUES ('3914', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '223.88.82.225', '2020-11-09 13:46:47');
+INSERT INTO `tb_sys_log` VALUES ('3915', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '223.88.82.225', '2020-11-09 13:46:53');
+INSERT INTO `tb_sys_log` VALUES ('3916', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.225', '2020-11-09 13:47:33');
+INSERT INTO `tb_sys_log` VALUES ('3917', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '223.88.82.225', '2020-11-09 13:47:56');
+INSERT INTO `tb_sys_log` VALUES ('3918', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '223.88.82.225', '2020-11-09 13:48:01');
+INSERT INTO `tb_sys_log` VALUES ('3919', 'wangbo-1', '登录平台', 'doPostNewApplicationResource', '[\"wangbo-1\",\"2\",\"111111\"]', '222.137.115.87', '2020-11-09 14:07:01');
+INSERT INTO `tb_sys_log` VALUES ('3920', 'wangbo-1', '退出平台', 'loginOut', '[]', '222.137.115.87', '2020-11-09 14:26:13');
+INSERT INTO `tb_sys_log` VALUES ('3921', 'wangbo-1', '登录平台', 'doPostNewApplicationResource', '[\"wangbo-1\",\"2\",\"111111\"]', '222.137.115.87', '2020-11-09 14:31:56');
+INSERT INTO `tb_sys_log` VALUES ('3922', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '60.12.8.170', '2020-11-11 01:07:20');
+INSERT INTO `tb_sys_log` VALUES ('3923', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-11 01:07:52');
+INSERT INTO `tb_sys_log` VALUES ('3924', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-11 01:08:10');
+INSERT INTO `tb_sys_log` VALUES ('3925', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-11 01:08:45');
+INSERT INTO `tb_sys_log` VALUES ('3926', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-11 01:09:03');
+INSERT INTO `tb_sys_log` VALUES ('3927', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '60.12.8.170', '2020-11-11 01:09:32');
+INSERT INTO `tb_sys_log` VALUES ('3928', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"b5c434f5-6048-4251-af1d-5732ea57e07f\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '60.12.8.170', '2020-11-11 01:09:37');
+INSERT INTO `tb_sys_log` VALUES ('3929', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '60.12.8.170', '2020-11-11 01:09:58');
+INSERT INTO `tb_sys_log` VALUES ('3930', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '60.12.8.170', '2020-11-11 01:10:09');
+INSERT INTO `tb_sys_log` VALUES ('3931', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '210.32.35.21', '2020-11-19 09:10:00');
+INSERT INTO `tb_sys_log` VALUES ('3932', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '210.32.35.21', '2020-11-19 09:10:16');
+INSERT INTO `tb_sys_log` VALUES ('3933', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '210.32.35.21', '2020-11-19 09:10:32');
+INSERT INTO `tb_sys_log` VALUES ('3934', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '210.32.35.21', '2020-11-19 09:10:54');
+INSERT INTO `tb_sys_log` VALUES ('3935', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"8da06702-b347-46fc-971c-9b7ed7a2f235\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '210.32.35.21', '2020-11-19 09:11:00');
+INSERT INTO `tb_sys_log` VALUES ('3936', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '210.32.35.21', '2020-11-19 09:11:17');
+INSERT INTO `tb_sys_log` VALUES ('3937', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '210.32.35.21', '2020-11-19 09:11:26');
+INSERT INTO `tb_sys_log` VALUES ('3938', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '210.32.35.21', '2020-11-19 09:11:29');
+INSERT INTO `tb_sys_log` VALUES ('3939', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '210.32.35.21', '2020-11-19 09:11:45');
+INSERT INTO `tb_sys_log` VALUES ('3940', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '210.32.35.21', '2020-11-19 09:12:05');
+INSERT INTO `tb_sys_log` VALUES ('3941', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '210.32.35.21', '2020-11-19 09:12:08');
+INSERT INTO `tb_sys_log` VALUES ('3942', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '210.32.35.21', '2020-11-19 09:12:26');
+INSERT INTO `tb_sys_log` VALUES ('3943', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '210.32.35.21', '2020-11-19 09:12:36');
+INSERT INTO `tb_sys_log` VALUES ('3944', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '210.32.35.21', '2020-11-20 01:54:14');
+INSERT INTO `tb_sys_log` VALUES ('3945', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '210.32.35.21', '2020-11-20 01:54:52');
+INSERT INTO `tb_sys_log` VALUES ('3946', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '112.10.181.156', '2020-11-20 15:36:17');
+INSERT INTO `tb_sys_log` VALUES ('3947', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-20 15:36:23');
+INSERT INTO `tb_sys_log` VALUES ('3948', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-20 15:37:03');
+INSERT INTO `tb_sys_log` VALUES ('3949', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '112.10.181.156', '2020-11-20 15:37:49');
+INSERT INTO `tb_sys_log` VALUES ('3950', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-20 15:37:51');
+INSERT INTO `tb_sys_log` VALUES ('3951', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-20 15:38:36');
+INSERT INTO `tb_sys_log` VALUES ('3952', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '112.10.181.156', '2020-11-20 15:41:20');
+INSERT INTO `tb_sys_log` VALUES ('3953', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '112.10.181.156', '2020-11-20 15:48:20');
+INSERT INTO `tb_sys_log` VALUES ('3954', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-20 15:48:50');
+INSERT INTO `tb_sys_log` VALUES ('3955', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-20 15:49:20');
+INSERT INTO `tb_sys_log` VALUES ('3956', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '112.10.181.156', '2020-11-20 16:16:11');
+INSERT INTO `tb_sys_log` VALUES ('3957', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"8da06702-b347-46fc-971c-9b7ed7a2f235\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-20 16:16:33');
+INSERT INTO `tb_sys_log` VALUES ('3958', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-20 16:17:34');
+INSERT INTO `tb_sys_log` VALUES ('3959', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '112.10.181.156', '2020-11-20 16:19:13');
+INSERT INTO `tb_sys_log` VALUES ('3960', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-20 16:19:21');
+INSERT INTO `tb_sys_log` VALUES ('3961', 'YWJYS', '新增病人信息', 'doPostNewPatientInfo', '[\"{\\\"name\\\":\\\"333\\\",\\\"postId\\\":\\\"333333333333333333\\\",\\\"sex\\\":\\\"1\\\",\\\"medicalHistory\\\":\\\"333\\\"}\"]', '112.10.181.156', '2020-11-20 16:19:59');
+INSERT INTO `tb_sys_log` VALUES ('3962', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"47d94971-412b-43ae-a03c-7f31f2df1b81\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-20 16:19:59');
+INSERT INTO `tb_sys_log` VALUES ('3963', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-20 16:20:22');
+INSERT INTO `tb_sys_log` VALUES ('3964', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '112.10.181.156', '2020-11-21 00:52:30');
+INSERT INTO `tb_sys_log` VALUES ('3965', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"9792d3a2-fcb3-471b-ace6-5dd22243b27c\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-21 00:52:42');
+INSERT INTO `tb_sys_log` VALUES ('3966', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 00:53:08');
+INSERT INTO `tb_sys_log` VALUES ('3967', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 00:56:22');
+INSERT INTO `tb_sys_log` VALUES ('3968', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 00:57:14');
+INSERT INTO `tb_sys_log` VALUES ('3969', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 00:57:41');
+INSERT INTO `tb_sys_log` VALUES ('3970', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 00:58:16');
+INSERT INTO `tb_sys_log` VALUES ('3971', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 00:58:36');
+INSERT INTO `tb_sys_log` VALUES ('3972', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 00:59:48');
+INSERT INTO `tb_sys_log` VALUES ('3973', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '112.10.181.156', '2020-11-21 01:00:08');
+INSERT INTO `tb_sys_log` VALUES ('3974', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-21 01:00:33');
+INSERT INTO `tb_sys_log` VALUES ('3975', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:01:11');
+INSERT INTO `tb_sys_log` VALUES ('3976', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '112.10.181.156', '2020-11-21 01:01:38');
+INSERT INTO `tb_sys_log` VALUES ('3977', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-21 01:01:42');
+INSERT INTO `tb_sys_log` VALUES ('3978', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:02:36');
+INSERT INTO `tb_sys_log` VALUES ('3979', 'YWJYS', '认可自动诊断记录', 'doPostSureMedicalInfo', null, '112.10.181.156', '2020-11-21 01:06:11');
+INSERT INTO `tb_sys_log` VALUES ('3980', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.10.181.156', '2020-11-21 01:08:22');
+INSERT INTO `tb_sys_log` VALUES ('3981', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:08:49');
+INSERT INTO `tb_sys_log` VALUES ('3982', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:10:46');
+INSERT INTO `tb_sys_log` VALUES ('3983', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:11:32');
+INSERT INTO `tb_sys_log` VALUES ('3984', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:11:52');
+INSERT INTO `tb_sys_log` VALUES ('3985', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:16:02');
+INSERT INTO `tb_sys_log` VALUES ('3986', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:27:44');
+INSERT INTO `tb_sys_log` VALUES ('3987', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:30:38');
+INSERT INTO `tb_sys_log` VALUES ('3988', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:31:27');
+INSERT INTO `tb_sys_log` VALUES ('3989', 'bee', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.10.181.156', '2020-11-21 01:31:44');
+INSERT INTO `tb_sys_log` VALUES ('3990', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '112.10.181.156', '2020-11-21 04:07:45');
+INSERT INTO `tb_sys_log` VALUES ('3991', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '112.17.236.174', '2020-11-23 01:29:43');
+INSERT INTO `tb_sys_log` VALUES ('3992', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.17.236.174', '2020-11-23 01:29:51');
+INSERT INTO `tb_sys_log` VALUES ('3993', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.17.236.174', '2020-11-23 01:30:21');
+INSERT INTO `tb_sys_log` VALUES ('3994', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.17.236.174', '2020-11-23 01:32:07');
+INSERT INTO `tb_sys_log` VALUES ('3995', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.17.236.174', '2020-11-23 01:32:30');
+INSERT INTO `tb_sys_log` VALUES ('3996', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '112.17.236.174', '2020-11-23 01:32:58');
+INSERT INTO `tb_sys_log` VALUES ('3997', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '112.17.236.174', '2020-11-23 01:33:31');
+INSERT INTO `tb_sys_log` VALUES ('3998', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '124.160.214.84', '2020-11-24 01:07:24');
+INSERT INTO `tb_sys_log` VALUES ('3999', 'YWJYS', '新增病人信息', 'doPostNewPatientInfo', '[\"{\\\"name\\\":\\\"测试xx\\\",\\\"postId\\\":\\\"330501199909091122\\\",\\\"sex\\\":\\\"1\\\",\\\"medicalHistory\\\":\\\"啊时代发生噶\\\"}\"]', '124.160.214.84', '2020-11-24 01:08:45');
+INSERT INTO `tb_sys_log` VALUES ('4000', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"47d94971-412b-43ae-a03c-7f31f2df1b81\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '124.160.214.84', '2020-11-24 01:08:45');
+INSERT INTO `tb_sys_log` VALUES ('4001', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '124.160.214.84', '2020-11-24 01:10:09');
+INSERT INTO `tb_sys_log` VALUES ('4002', 'YWJYS', '否定诊断记录', 'doPostNegativeMedicalInfo', null, '124.160.214.84', '2020-11-24 01:14:20');
+INSERT INTO `tb_sys_log` VALUES ('4003', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '124.160.214.84', '2020-11-24 01:32:21');
+INSERT INTO `tb_sys_log` VALUES ('4004', 'YWJYS', '退出平台', 'loginOut', '[]', '124.160.214.84', '2020-11-24 01:34:01');
+INSERT INTO `tb_sys_log` VALUES ('4005', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '124.160.214.84', '2020-11-24 01:34:11');
+INSERT INTO `tb_sys_log` VALUES ('4006', 'YWJ', '新增特征信息', 'doPostNewExtendAttribute', null, '124.160.214.84', '2020-11-24 01:39:46');
+INSERT INTO `tb_sys_log` VALUES ('4007', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '124.160.214.84', '2020-11-24 01:40:20');
+INSERT INTO `tb_sys_log` VALUES ('4008', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '124.160.214.84', '2020-11-24 01:40:26');
+INSERT INTO `tb_sys_log` VALUES ('4009', 'YWJYS', '新增输入特征下的科室', 'doPostNewDepartmentFeatureInfo2', '[\"00f69c7c-f383-442a-8513-1242989e0985\",\"1111\"]', '124.160.214.84', '2020-11-24 01:42:29');
+INSERT INTO `tb_sys_log` VALUES ('4010', 'YWJYS', '编辑单个特征的信息', 'doPutExtendAttribute', null, '124.160.214.84', '2020-11-24 01:42:31');
+INSERT INTO `tb_sys_log` VALUES ('4011', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '124.160.214.84', '2020-11-24 01:42:37');
+INSERT INTO `tb_sys_log` VALUES ('4012', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '223.88.82.161', '2020-11-24 14:19:16');
+INSERT INTO `tb_sys_log` VALUES ('4013', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.161', '2020-11-24 14:19:45');
+INSERT INTO `tb_sys_log` VALUES ('4014', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.161', '2020-11-24 14:20:31');
+INSERT INTO `tb_sys_log` VALUES ('4015', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '223.88.82.161', '2020-11-24 14:47:22');
+INSERT INTO `tb_sys_log` VALUES ('4016', 'YWJ', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"018666ed-c957-4b40-a4a9-1a652d6cc54f\\\",\\\"doctorId\\\":\\\"a3978911-bb70-46f9-a45a-95508aa9d9e1\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '223.88.82.161', '2020-11-24 14:47:33');
+INSERT INTO `tb_sys_log` VALUES ('4017', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '210.32.35.21', '2020-11-25 01:14:40');
+INSERT INTO `tb_sys_log` VALUES ('4018', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '210.32.35.21', '2020-11-25 01:14:52');
+INSERT INTO `tb_sys_log` VALUES ('4019', 'YWJYS', '退出平台', 'loginOut', '[]', '210.32.35.21', '2020-11-25 01:16:19');
+INSERT INTO `tb_sys_log` VALUES ('4020', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '210.32.35.21', '2020-11-25 01:16:29');
+INSERT INTO `tb_sys_log` VALUES ('4021', 'YWJ', '启用/禁用特征', 'doPutExtendAttributeState', '[\"00f69c7c-f383-442a-8513-1242989e0985\",0]', '210.32.35.21', '2020-11-25 01:16:39');
+INSERT INTO `tb_sys_log` VALUES ('4022', 'YWJ', '退出平台', 'loginOut', '[]', '210.32.35.21', '2020-11-25 01:16:45');
+INSERT INTO `tb_sys_log` VALUES ('4023', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '210.32.35.21', '2020-11-25 01:16:49');
+INSERT INTO `tb_sys_log` VALUES ('4024', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"e2a0fd7d-5b64-4642-a0be-222a8b7f7434\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '210.32.35.21', '2020-11-25 01:16:55');
+INSERT INTO `tb_sys_log` VALUES ('4025', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '210.32.35.21', '2020-11-25 11:31:56');
+INSERT INTO `tb_sys_log` VALUES ('4026', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '111.0.127.80', '2020-11-26 03:28:03');
+INSERT INTO `tb_sys_log` VALUES ('4027', 'YWJ', '删除特征属性', 'doDeleteExtendAttribute', '[\"00f69c7c-f383-442a-8513-1242989e0985\"]', '111.0.127.80', '2020-11-26 03:28:36');
+INSERT INTO `tb_sys_log` VALUES ('4028', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '111.0.127.80', '2020-11-30 06:27:37');
+INSERT INTO `tb_sys_log` VALUES ('4029', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '117.147.5.185', '2020-11-30 14:01:45');
+INSERT INTO `tb_sys_log` VALUES ('4030', 'YWJYS', '新增病人信息', 'doPostNewPatientInfo', '[\"{\\\"name\\\":\\\" 测试人员1130\\\",\\\"postId\\\":\\\"330501197906151319\\\",\\\"sex\\\":\\\"0\\\",\\\"medicalHistory\\\":\\\"测试说明\\\"}\"]', '117.147.5.185', '2020-11-30 14:06:08');
+INSERT INTO `tb_sys_log` VALUES ('4031', 'YWJYS', '新增就诊记录信息', 'doPostNewMedicalRecordInfo', '[\"{\\\"patientId\\\":\\\"47d94971-412b-43ae-a03c-7f31f2df1b81\\\",\\\"doctorId\\\":\\\"4435baee-1346-4744-8c00-16ef4fc2be77\\\",\\\"record\\\":\\\"\\\",\\\"treatmentPlan\\\":\\\"\\\"}\"]', '117.147.5.185', '2020-11-30 14:06:08');
+INSERT INTO `tb_sys_log` VALUES ('4032', 'YWJYS', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '117.147.5.185', '2020-11-30 14:06:33');
+INSERT INTO `tb_sys_log` VALUES ('4033', 'YWJYS', '否定诊断记录', 'doPostNegativeMedicalInfo', null, '117.147.5.185', '2020-11-30 14:08:42');
+INSERT INTO `tb_sys_log` VALUES ('4034', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '223.88.82.64', '2020-11-30 14:35:33');
+INSERT INTO `tb_sys_log` VALUES ('4035', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '223.88.82.64', '2020-11-30 14:46:52');
+INSERT INTO `tb_sys_log` VALUES ('4036', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '127.0.0.1', '2020-12-01 01:14:44');
+INSERT INTO `tb_sys_log` VALUES ('4037', 'YWJ', '登录平台', 'doPostNewApplicationResource', '[\"YWJ\",\"2\",\"123456\"]', '127.0.0.1', '2020-12-01 02:26:50');
+INSERT INTO `tb_sys_log` VALUES ('4038', 'YWJ', '获取诊断结果', 'doQueryDiagnosticFeatureList', null, '127.0.0.1', '2020-12-01 02:27:01');
+INSERT INTO `tb_sys_log` VALUES ('4039', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '127.0.0.1', '2020-12-01 06:04:46');
+INSERT INTO `tb_sys_log` VALUES ('4040', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '127.0.0.1', '2020-12-01 06:10:20');
+INSERT INTO `tb_sys_log` VALUES ('4041', 'YWJYS', '登录平台', 'doPostNewApplicationResource', '[\"YWJYS\",\"1\",\"123456\"]', '127.0.0.1', '2020-12-01 06:29:44');
 
 -- ----------------------------
--- Table structure for tb_treatment_objection
+-- Table structure for tb_treatment_inputdata
 -- ----------------------------
-DROP TABLE IF EXISTS `tb_treatment_objection`;
-CREATE TABLE `tb_treatment_objection` (
-                                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                                        `uuid` varchar(255) NOT NULL,
-                                        `diagnosis_result` varchar(255) NOT NULL,
-                                        `treatment_id` varchar(255) NOT NULL,
-                                        `out_feature_json` varchar(1024) DEFAULT NULL,
-                                        `active_rule_json` varchar(2048) DEFAULT NULL,
-                                        `reason` varchar(255) DEFAULT NULL,
-                                        `is_delete` int(2) NOT NULL DEFAULT '0',
-                                        `create_user` varchar(255) NOT NULL,
-                                        `update_user` varchar(255) NOT NULL,
-                                        `create_time` datetime NOT NULL,
-                                        `update_time` datetime NOT NULL,
-                                        `treatment_plan` varchar(1024) DEFAULT NULL,
-                                        PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tb_treatment_inputdata`;
+CREATE TABLE `tb_treatment_inputdata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `treatment_id` varchar(255) NOT NULL,
+  `department_id` varchar(255) DEFAULT NULL,
+  `data_in_json` varchar(2048) DEFAULT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of tb_treatment_objection
+-- Records of tb_treatment_inputdata
 -- ----------------------------
-INSERT INTO `tb_treatment_objection` VALUES ('27', 'd69c1c58-e7f6-489b-a330-77fe94b6735b', '高血压', 'd69c1c58-e7f6-489b-a330-77fe94b6735b', '[\r\n    {\r\n        \"fidOut\": \"sk001\",\r\n        \"fidOutName\": \"喉癌\",\r\n        \"value\": \"34.94%\"\r\n    },\r\n    {\r\n        \"fidOut\": \"sk002\",\r\n        \"fidOutName\": \"声带白斑\",\r\n        \"value\": \"23.81%\"\r\n    },\r\n    {\r\n        \"fidOut\": \"sk003\",\r\n        \"fidOutName\": \"声带息肉\",\r\n        \"value\": \"41.25%\"\r\n    }\r\n]', '[\r\n    {\r\n        \"rid\": \"R1\",\r\n        \"weight\": \"0.04939892178351416\"\r\n    },\r\n    {\r\n        \"rid\": \"R2\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R3\",\r\n        \"weight\": \"0.06586522904468554\"\r\n    },\r\n    {\r\n        \"rid\": \"R4\",\r\n        \"weight\": \"0.06037645995762842\"\r\n    },\r\n    {\r\n        \"rid\": \"R5\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R6\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R7\",\r\n        \"weight\": \"0.04391015269645703\"\r\n    },\r\n    {\r\n        \"rid\": \"R8\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R9\",\r\n        \"weight\": \"0.0384213836093999\"\r\n    },\r\n    {\r\n        \"rid\": \"R10\",\r\n        \"weight\": \"0.06037645995762842\"\r\n    },\r\n    {\r\n        \"rid\": \"R11\",\r\n        \"weight\": \"0.07394269456434804\"\r\n    },\r\n    {\r\n        \"rid\": \"R12\",\r\n        \"weight\": \"0.06037645995762842\"\r\n    },\r\n    {\r\n        \"rid\": \"R13\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    },\r\n    {\r\n        \"rid\": \"R14\",\r\n        \"weight\": \"0.04939892178351416\"\r\n    },\r\n    {\r\n        \"rid\": \"R15\",\r\n        \"weight\": \"0.0806647577065615\"\r\n    },\r\n    {\r\n        \"rid\": \"R16\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    },\r\n    {\r\n        \"rid\": \"R17\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R18\",\r\n        \"weight\": \"0.0\"\r\n    },\r\n    {\r\n        \"rid\": \"R19\",\r\n        \"weight\": \"0.04939892178351416\"\r\n    },\r\n    {\r\n        \"rid\": \"R20\",\r\n        \"weight\": \"0.04391015269645703\"\r\n    },\r\n    {\r\n        \"rid\": \"R21\",\r\n        \"weight\": \"0.060498568279921124\"\r\n    },\r\n    {\r\n        \"rid\": \"R22\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    },\r\n    {\r\n        \"rid\": \"R23\",\r\n        \"weight\": \"0.04391015269645703\"\r\n    },\r\n    {\r\n        \"rid\": \"R24\",\r\n        \"weight\": \"0.054887690870571285\"\r\n    }\r\n]', 'asdfasdfasdfasd', '0', 'wangbo', 'wangbo', '2020-10-27 09:32:24', '2020-10-27 09:32:24', '123456');
-INSERT INTO `tb_treatment_objection` VALUES ('28', '984d9bca-53be-43b7-9f2c-a1fdf565b499', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"19\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', 'fsda', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:01:32', '2020-10-29 15:01:32', '测试阿斯顿发');
-INSERT INTO `tb_treatment_objection` VALUES ('29', '144aed39-af28-4490-bd16-50dbf7cf08e1', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', '', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:03:44', '2020-10-29 15:03:44', '测试阿斯顿发');
-INSERT INTO `tb_treatment_objection` VALUES ('30', '77540446-a290-449e-bce5-d74241dc8b1a', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.42\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.23\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:07:03', '2020-10-29 15:07:03', '测试阿斯顿发');
-INSERT INTO `tb_treatment_objection` VALUES ('31', '5bb03eca-e89f-4198-a997-143f84cb7f9b', '声带白斑', '9645586d-5210-4b60-99cd-c89bd19b1d2c', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.38\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.25\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.38\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:15:04', '2020-10-29 15:15:04', '测试啊时代发生的');
-INSERT INTO `tb_treatment_objection` VALUES ('32', '805b26d9-0e1a-4e50-baaf-5873180281b7', '声带息肉', '09a35977-2b0c-40eb-bb2c-96da0d84e9f4', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"10\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"80\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.25\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.40\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '无理由', '0', 'YWJYS', 'YWJYS', '2020-10-30 01:41:44', '2020-10-30 01:41:44', '测试阿斯顿发');
-INSERT INTO `tb_treatment_objection` VALUES ('33', '409d9056-31cb-43db-95b2-61929a203f26', '声带息肉', 'a067ced9-55f0-4ad3-9b6a-4ba16db451da', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"20\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"20\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"60\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.29\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.43\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.29\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '', '0', 'YWJYS', 'YWJYS', '2020-10-30 02:49:30', '2020-10-30 02:49:30', '测试阿斯顿发');
+INSERT INTO `tb_treatment_inputdata` VALUES ('1', '9b7190f8-fa50-421b-a88e-b2cc168e2d6f', '1111', '11', '[{\"FidIn\":\"id01\",\"Value\":39},{\"FidIn\":\"id001\",\"Value\":1},{\"FidIn\":\"id001\",\"Value\":0},{\"FidIn\":\"id001\",\"Value\":0},{\"FidIn\":\"id001\",\"Value\":1},{\"FidIn\":\"id001\",\"Value\":1},{\"FidIn\":\"id001\",\"Value\":0},{\"FidIn\":\"id001\",\"Value\":0},{\"FidIn\":\"id001\",\"Value\":0},{\"FidIn\":\"id001\",\"Value\":1},{\"FidIn\":\"id001\",\"Value\":1},{\"FidIn\":\"id001\",\"Value\":0},{\"FidIn\":\"id001\",\"Value\":1},{\"FidIn\":\"id001\",\"Value\":1},{\"FidIn\":\"id001\",\"Value\":0},{\"FidIn\":\"id001\",\"Value\":0}]', '0', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', 'a3978911-bb70-46f9-a45a-95508aa9d9e1', '2020-12-01 02:27:01', '2020-12-01 02:27:01');
 
 -- ----------------------------
 -- Table structure for tb_treatment_result
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_treatment_result`;
 CREATE TABLE `tb_treatment_result` (
-                                     `id` int(11) NOT NULL AUTO_INCREMENT,
-                                     `uuid` varchar(255) NOT NULL,
-                                     `diagnosis_result` varchar(255) NOT NULL,
-                                     `treatment_id` varchar(255) NOT NULL,
-                                     `out_feature_json` varchar(1024) DEFAULT NULL,
-                                     `active_rule_json` varchar(1024) DEFAULT NULL,
-                                     `type` int(2) DEFAULT NULL,
-                                     `is_delete` int(2) NOT NULL DEFAULT '0',
-                                     `create_user` varchar(255) NOT NULL,
-                                     `update_user` varchar(255) NOT NULL,
-                                     `create_time` datetime NOT NULL,
-                                     `update_time` datetime NOT NULL,
-                                     `treatment_plan` varchar(255) DEFAULT NULL,
-                                     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `diagnosis_result` varchar(255) NOT NULL,
+  `treatment_id` varchar(255) NOT NULL,
+  `out_feature_json` varchar(1024) DEFAULT NULL,
+  `active_rule_json` varchar(1024) DEFAULT NULL,
+  `type` int(2) DEFAULT NULL,
+  `reason` varchar(1024) DEFAULT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  `treatment_plan` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_treatment_result
 -- ----------------------------
-INSERT INTO `tb_treatment_result` VALUES ('28', 'f157b245-fff9-4987-ab23-cc485054315c', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"18.50\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.23\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.27\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', '1', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 14:51:26', '2020-10-29 14:51:26', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('29', 'd3d2c59a-f91d-4316-a25f-25954d75102f', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"18.50\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.23\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.27\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', '1', '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:02:54', '2020-10-29 15:02:54', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('30', '498dc926-ad09-4322-b412-b3208af4ca4e', '声带息肉', 'ebaa12fc-df25-4d1d-8417-0fb1d18d789d', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"14.57\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"14.57\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.86\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.25\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.40\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJ', 'YWJ', '2020-10-30 01:35:06', '2020-10-30 01:35:06', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('31', 'c997ea2d-de5c-448a-8590-0401f89eb476', '声带息肉', '0ffc2d81-e064-47bf-a196-cbdf30a838a8', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"21.47\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"12.83\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"65.7\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.32\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.36\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.32\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-10-30 01:37:16', '2020-10-30 01:37:16', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('32', 'b45956ee-80f8-491c-aa84-25bf0a8c556c', '声带息肉', '183c376b-ac03-43f9-8f39-975765d4ed39', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"29.29\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.51\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"59.2\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.39\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.28\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-10-30 01:39:52', '2020-10-30 01:39:52', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('33', '1953337d-2cc1-4e54-962c-b13044bce050', '声带白斑', '243328ca-9b10-4ed8-bdb4-dc634907d934', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"21.52\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"9.24\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"69.24000000000001\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.32\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.29\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.39\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-10-30 01:47:36', '2020-10-30 01:47:36', '测试啊时代发生的');
-INSERT INTO `tb_treatment_result` VALUES ('34', '54f99e78-82f0-4927-9d8f-d408b269a895', '声带息肉', 'b22fe80f-c26b-4b38-b8e1-531428af1edc', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"30.57\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"8.92\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"60.51\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.40\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.28\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.32\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJ', 'YWJ', '2020-10-30 02:42:29', '2020-10-30 02:42:29', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('35', '88a1de4a-8ed1-410c-a01c-bd120a765024', '声带息肉', 'e891ee96-a872-4bb6-befb-3d732d3d82a3', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"14.57\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"14.57\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.86\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.25\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.40\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJ', 'YWJ', '2020-10-30 15:40:08', '2020-10-30 15:40:08', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('36', 'cefd45c3-fa01-48c9-be0c-056a1cfcc11d', '声带白斑', '24884585-dd4d-40b9-bc93-5c8a4d0278bc', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"37.79\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"7.44\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"54.77\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.46\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.25\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.29\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-11-02 01:46:19', '2020-11-02 01:46:19', '测试啊时代发生的');
-INSERT INTO `tb_treatment_result` VALUES ('37', '4cf1a127-0b33-47df-943f-69230df006ab', '声带息肉', '4f87771a-f326-441c-bffb-fa68d39d23d5', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"20.11\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"14.14\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"65.75\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.31\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.38\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.31\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-11-02 01:55:36', '2020-11-02 01:55:36', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('38', '497dbf53-a2df-4621-887b-54c24237ac53', '声带息肉', 'dc1a506a-f1a1-47d6-9724-fb1210cae52e', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"36.10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"5.51\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"58.39\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.45\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.20\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-11-05 03:19:51', '2020-11-05 03:19:51', '测试阿斯顿发');
-INSERT INTO `tb_treatment_result` VALUES ('39', 'eef48918-2b8f-4f18-98bd-c67e6c15a390', '声带白斑', 'a8c77f64-17a0-4922-b760-b5084fa782e4', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"31.97\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"7.21\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"60.82\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.41\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.24\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.34\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-11-05 06:42:09', '2020-11-05 06:42:09', '测试啊时代发生的');
-INSERT INTO `tb_treatment_result` VALUES ('40', '32c84544-cb55-4eeb-878b-26fec2044ced', '声带白斑', '7810130d-d925-43cd-99bd-77fe71ff1631', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"21.14\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"8.73\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.13\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.32\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.28\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.40\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', '0', 'YWJYS', 'YWJYS', '2020-11-05 06:42:57', '2020-11-05 06:42:57', '测试啊时代发生的');
+INSERT INTO `tb_treatment_result` VALUES ('28', 'f157b245-fff9-4987-ab23-cc485054315c', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"18.50\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.23\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.27\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', '1', null, '0', 'wangbo-1', 'wangbo-1', '2020-10-29 14:51:26', '2020-10-29 14:51:26', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('29', 'd3d2c59a-f91d-4316-a25f-25954d75102f', '声带息肉', '675bd040-5f07-439a-8434-5ebc1b7ac52b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"18.50\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.23\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.27\"}]', '[{\"weight\":\"0.0\",\"rid\":\"R1\"},{\"weight\":\"0.0\",\"rid\":\"R2\"},{\"weight\":\"0.0\",\"rid\":\"R3\"},{\"weight\":\"0.0\",\"rid\":\"R4\"},{\"weight\":\"0.0\",\"rid\":\"R5\"},{\"weight\":\"0.0\",\"rid\":\"R6\"},{\"weight\":\"0.0\",\"rid\":\"R7\"},{\"weight\":\"0.0\",\"rid\":\"R8\"},{\"weight\":\"0.0\",\"rid\":\"R9\"},{\"weight\":\"0.0\",\"rid\":\"R10\"},{\"weight\":\"0.29166666666666663\",\"rid\":\"R11\"},{\"weight\":\"0.0\",\"rid\":\"R12\"},{\"weight\":\"0.0\",\"rid\":\"R13\"},{\"weight\":\"0.0\",\"rid\":\"R14\"},{\"weight\":\"0.33333333333333326\",\"rid\":\"R15\"},{\"weight\":\"0.0\",\"rid\":\"R16\"},{\"weight\":\"0.0\",\"rid\":\"R17\"},{\"weight\":\"0.0\",\"rid\":\"R18\"},{\"weight\":\"0.0\",\"rid\":\"R19\"},{\"weight\":\"0.0\",\"rid\":\"R20\"},{\"weight\":\"0.37499999999999994\",\"rid\":\"R21\"},{\"weight\":\"0.0\",\"rid\":\"R22\"},{\"weight\":\"0.0\",\"rid\":\"R23\"},{\"weight\":\"0.0\",\"rid\":\"R24\"}]', '1', null, '0', 'wangbo-1', 'wangbo-1', '2020-10-29 15:02:54', '2020-10-29 15:02:54', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('30', '498dc926-ad09-4322-b412-b3208af4ca4e', '声带息肉', 'ebaa12fc-df25-4d1d-8417-0fb1d18d789d', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"14.57\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"14.57\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.86\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.25\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.40\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJ', 'YWJ', '2020-10-30 01:35:06', '2020-10-30 01:35:06', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('31', 'c997ea2d-de5c-448a-8590-0401f89eb476', '声带息肉', '0ffc2d81-e064-47bf-a196-cbdf30a838a8', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"21.47\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"12.83\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"65.7\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.32\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.36\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.32\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-10-30 01:37:16', '2020-10-30 01:37:16', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('32', 'b45956ee-80f8-491c-aa84-25bf0a8c556c', '声带息肉', '183c376b-ac03-43f9-8f39-975765d4ed39', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"29.29\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.51\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"59.2\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.39\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.28\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-10-30 01:39:52', '2020-10-30 01:39:52', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('33', '1953337d-2cc1-4e54-962c-b13044bce050', '声带白斑', '243328ca-9b10-4ed8-bdb4-dc634907d934', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"21.52\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"9.24\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"69.24000000000001\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.32\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.29\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.39\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-10-30 01:47:36', '2020-10-30 01:47:36', '测试啊时代发生的');
+INSERT INTO `tb_treatment_result` VALUES ('34', '54f99e78-82f0-4927-9d8f-d408b269a895', '声带息肉', 'b22fe80f-c26b-4b38-b8e1-531428af1edc', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"30.57\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"8.92\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"60.51\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.40\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.28\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.32\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJ', 'YWJ', '2020-10-30 02:42:29', '2020-10-30 02:42:29', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('35', '88a1de4a-8ed1-410c-a01c-bd120a765024', '声带息肉', 'e891ee96-a872-4bb6-befb-3d732d3d82a3', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"14.57\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"14.57\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.86\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.25\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.40\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJ', 'YWJ', '2020-10-30 15:40:08', '2020-10-30 15:40:08', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('36', 'cefd45c3-fa01-48c9-be0c-056a1cfcc11d', '声带白斑', '24884585-dd4d-40b9-bc93-5c8a4d0278bc', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"37.79\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"7.44\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"54.77\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.46\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.25\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.29\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-02 01:46:19', '2020-11-02 01:46:19', '测试啊时代发生的');
+INSERT INTO `tb_treatment_result` VALUES ('37', '4cf1a127-0b33-47df-943f-69230df006ab', '声带息肉', '4f87771a-f326-441c-bffb-fa68d39d23d5', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"20.11\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"14.14\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"65.75\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.31\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.38\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.31\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-02 01:55:36', '2020-11-02 01:55:36', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('38', '497dbf53-a2df-4621-887b-54c24237ac53', '声带息肉', 'dc1a506a-f1a1-47d6-9724-fb1210cae52e', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"36.10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"5.51\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"58.39\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.45\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.20\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-05 03:19:51', '2020-11-05 03:19:51', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('39', 'eef48918-2b8f-4f18-98bd-c67e6c15a390', '声带白斑', 'a8c77f64-17a0-4922-b760-b5084fa782e4', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"31.97\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"7.21\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"60.82\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.41\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.24\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.34\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-05 06:42:09', '2020-11-05 06:42:09', '测试啊时代发生的');
+INSERT INTO `tb_treatment_result` VALUES ('40', '32c84544-cb55-4eeb-878b-26fec2044ced', '声带白斑', '7810130d-d925-43cd-99bd-77fe71ff1631', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"21.14\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"8.73\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.13\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.32\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.28\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.40\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-05 06:42:57', '2020-11-05 06:42:57', '测试啊时代发生的');
+INSERT INTO `tb_treatment_result` VALUES ('41', 'c5a4333a-5956-4ce1-8858-ebd41515a7e3', '声带息肉', 'a1235d12-b5ec-4671-92ab-eb3dd39fb27b', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"24.14\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"14.25\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"61.61\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.35\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.38\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.27\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-06 06:54:27', '2020-11-06 06:54:27', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('42', '9cbec7ee-5466-486f-8863-04940cc9eae7', '声带息肉', '2955211a-0ec5-4a8c-bb51-23126066619f', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"24.76\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"16.71\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"58.53\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.36\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.43\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.21\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-09 01:37:58', '2020-11-09 01:37:58', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('43', '0a8e496a-b0f5-4e31-bc77-6be7b1c07513', '声带息肉', '67f634ae-e78a-4bf6-a7e0-d06e7bbc892a', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"25.00\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"9.55\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"65.45\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.35\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.29\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJ', 'YWJ', '2020-11-09 05:37:46', '2020-11-09 05:37:46', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('44', 'edd23069-1428-44e9-905d-8f4379eea4e3', '声带息肉', 'd27054e4-270a-49f7-8d55-7498494fd5be', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"43.00\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"6.14\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"50.86\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.50\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.22\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.28\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJ', 'YWJ', '2020-11-09 13:22:12', '2020-11-09 13:22:12', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('45', '92760690-03c1-4c2e-a6ef-266a7f3b9778', '声带息肉', 'e0bdd747-5d41-4110-8993-94f703927343', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"33.10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"8.13\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"58.769999999999996\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.42\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.26\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.32\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJ', 'YWJ', '2020-11-09 13:25:49', '2020-11-09 13:25:49', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('46', 'd4fdc950-1824-40de-8cf4-1e44554365ea', '声带息肉', '6d7d32e1-1e64-4aec-b04d-2f0be96f66c4', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"24.76\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"16.71\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"58.53\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.36\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.43\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.21\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJ', 'YWJ', '2020-11-09 13:43:44', '2020-11-09 13:43:44', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('47', 'e3820811-27e0-479b-8796-9f5e91bd4caf', '声带息肉', 'b2dffe42-e209-402f-8697-b237778eab72', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"35.10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"7.52\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"57.379999999999995\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.44\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.25\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.31\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-09 13:46:53', '2020-11-09 13:46:53', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('48', '26f72230-30d6-4ad0-af28-add50ebcd69a', '声带息肉', '16d3c3ff-6257-4e88-8d90-29cc4012a2ef', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"6.76\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"19.14\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"74.1\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.15\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.50\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.35\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-09 13:48:01', '2020-11-09 13:48:01', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('49', '74d0bedf-0e77-4607-bfff-93faedbe63a4', '声带息肉', '8e2ecf7b-3384-497d-a298-eb424c081517', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"14.56\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"12.13\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"73.31\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.25\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.36\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.39\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-11 01:09:32', '2020-11-11 01:09:32', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('50', 'eab03d8e-e7e9-4676-b8a4-f08d62e46986', '声带息肉', '8e5e3348-5ff0-4047-aaad-b37cb128a845', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"13.67\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"12.18\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"74.15\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.24\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.36\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.40\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-11 01:10:09', '2020-11-11 01:10:09', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('51', '84f98852-20b1-4b1f-9da6-ebace6dda3d2', '声带息肉', '779b0fec-74bd-4fc7-9d83-df2f2cf325c0', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"18.97\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.26\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"69.77000000000001\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.30\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.37\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-19 09:10:54', '2020-11-19 09:10:54', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('52', '444488df-3468-4ed1-8ad9-166bb4dbfaff', '声带息肉', 'e4c033b1-0442-4ed4-9d28-6f388f3deed1', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"35.10\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"7.52\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"57.379999999999995\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.44\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.25\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.31\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-19 09:11:26', '2020-11-19 09:11:26', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('53', 'a07f6d86-e434-45d8-8d5d-b544493275a5', '声带息肉', '410132e1-0890-41f6-b472-80009bb1baad', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"27.21\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"7.56\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"65.22999999999999\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.38\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.25\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.38\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-19 09:12:05', '2020-11-19 09:12:05', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('54', 'dc0495fd-98cc-47e0-b3e8-111c802b3254', '声带息肉', '8c0b1a6b-a2bb-4811-b473-92c5fcdad6e0', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"27.66\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.52\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"60.82\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.38\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.29\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-19 09:12:36', '2020-11-19 09:12:36', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('55', 'f6a7ebe2-cd48-421b-9a59-efca521b472e', '声带息肉', '854c8032-8eed-486d-ada9-fc54a203928c', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"20.86\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"8.38\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.75999999999999\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.32\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.27\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.41\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-20 15:37:49', '2020-11-20 15:37:49', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('56', 'fe630357-5f41-4576-98c6-5274608d5809', '声带息肉', '3baffc43-40c2-406f-b580-1e109f06bb94', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"16.99\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"13.62\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"69.39\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.28\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.38\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.34\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-20 15:41:20', '2020-11-20 15:41:20', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('57', 'c6215793-ccd7-478e-9ab2-bc41125e24a2', '声带息肉', '251cac55-ae51-4595-81ff-504881cbe7cb', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"18.50\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.23\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"70.27\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.29\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.38\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-21 01:00:08', '2020-11-21 01:00:08', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('58', '100ef597-4d81-453c-97c6-d9866d5471cd', '声带息肉', '7be4638b-4f57-441b-ab51-e27b6992b87c', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"30.61\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.48\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"57.91\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.40\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.27\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-21 01:01:38', '2020-11-21 01:01:38', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('59', '17e2f87f-5953-4de7-9cd1-a3b09260b151', '声带息肉', '3fff6582-f869-430d-9eba-19c1379978dd', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"24.76\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"16.71\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"58.53\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.36\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.43\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.21\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '1', null, '0', 'YWJYS', 'YWJYS', '2020-11-21 01:06:11', '2020-11-21 01:06:11', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('60', '17e2f87f-5953-4de7-9cd1-a3b09260b153', '声带息肉', '3fff6582-f869-430d-9eba-19c1379978dd', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"24.76\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"16.71\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"58.53\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.36\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.43\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.21\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '2', null, '0', 'YWJYS', 'YWJYS', '2020-11-21 01:06:11', '2020-11-21 01:06:11', '测试阿斯顿发');
+INSERT INTO `tb_treatment_result` VALUES ('61', '100ef897-4d81-453c-97c6-d9866d5471cd', '声带息肉', '7be4638b-4f57-441b-ab51-e27b6992b87c', '[{\"fidOut\":\"sk001\",\"fidOutName\":\"喉癌\",\"value\":\"30.61\"},{\"fidOut\":\"sk002\",\"fidOutName\":\"声带白斑\",\"value\":\"11.48\"},{\"fidOut\":\"sk003\",\"fidOutName\":\"声带息肉\",\"value\":\"57.91\"}]', '[{\"weight\":\"0.00\",\"rid\":\"R1\"},{\"weight\":\"0.00\",\"rid\":\"R2\"},{\"weight\":\"0.00\",\"rid\":\"R3\"},{\"weight\":\"0.00\",\"rid\":\"R4\"},{\"weight\":\"0.00\",\"rid\":\"R5\"},{\"weight\":\"0.00\",\"rid\":\"R6\"},{\"weight\":\"0.00\",\"rid\":\"R7\"},{\"weight\":\"0.00\",\"rid\":\"R8\"},{\"weight\":\"0.00\",\"rid\":\"R9\"},{\"weight\":\"0.00\",\"rid\":\"R10\"},{\"weight\":\"0.40\",\"rid\":\"R11\"},{\"weight\":\"0.00\",\"rid\":\"R12\"},{\"weight\":\"0.00\",\"rid\":\"R13\"},{\"weight\":\"0.00\",\"rid\":\"R14\"},{\"weight\":\"0.33\",\"rid\":\"R15\"},{\"weight\":\"0.00\",\"rid\":\"R16\"},{\"weight\":\"0.00\",\"rid\":\"R17\"},{\"weight\":\"0.00\",\"rid\":\"R18\"},{\"weight\":\"0.00\",\"rid\":\"R19\"},{\"weight\":\"0.00\",\"rid\":\"R20\"},{\"weight\":\"0.27\",\"rid\":\"R21\"},{\"weight\":\"0.00\",\"rid\":\"R22\"},{\"weight\":\"0.00\",\"rid\":\"R23\"},{\"weight\":\"0.00\",\"rid\":\"R24\"}]', '2', null, '0', 'YWJYS', 'YWJYS', '2020-11-21 01:01:38', '2020-11-21 01:01:38', '测试阿斯顿发');
 
 -- ----------------------------
 -- Table structure for tb_user
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `uuid` varchar(255) NOT NULL,
-                         `user_name` varchar(100) NOT NULL,
-                         `password` varchar(255) NOT NULL,
-                         `phone` varchar(12) DEFAULT NULL,
-                         `email` varchar(150) DEFAULT NULL,
-                         `sex` int(2) DEFAULT NULL,
-                         `department_id` varchar(255) NOT NULL,
-                         `birthday` datetime DEFAULT NULL,
-                         `sort` int(2) NOT NULL,
-                         `is_delete` int(2) NOT NULL DEFAULT '0',
-                         `create_user` varchar(255) NOT NULL,
-                         `update_user` varchar(255) NOT NULL,
-                         `create_time` datetime NOT NULL,
-                         `update_time` datetime NOT NULL,
-                         PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(12) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `sex` int(2) DEFAULT NULL,
+  `department_id` varchar(255) NOT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `sort` int(2) NOT NULL,
+  `is_delete` int(2) NOT NULL DEFAULT '0',
+  `create_user` varchar(255) NOT NULL,
+  `update_user` varchar(255) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
