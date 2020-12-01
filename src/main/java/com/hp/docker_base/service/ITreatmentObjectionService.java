@@ -21,4 +21,5 @@ public interface ITreatmentObjectionService {
      * 根据诊疗记录获取诊疗结果
      */
     TreatmentObjection queryTreatmentObjectionByMedicalRecordId(String medicalRecordId);
+
 }

@@ -23,4 +23,15 @@ public interface ITreatmentService {
      */
     TreatmentResult queryResultByMedicalRecordId(String medicalRecordId,
                                                  Integer state);
+
+
+    /**
+     * 驳回诊断结果
+     */
+    int rejectTreatmentResult(String medicalRecordId, String userName);
+
+    /**
+     * 管理员接受诊断记录
+     */
+    int acceptTreatmentResult(String medicalRecordId, String userName);
 }

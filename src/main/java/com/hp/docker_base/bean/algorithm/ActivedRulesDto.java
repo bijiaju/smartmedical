@@ -22,4 +22,9 @@ public class ActivedRulesDto {
 
     @ApiModelProperty(value = "值", example = "值")
     private String Weight;
+
+    @ApiModelProperty(value = "规则", example = "规则")
+    private  RuleDto rule;
+
+
 }

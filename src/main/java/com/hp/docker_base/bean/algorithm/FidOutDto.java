@@ -31,8 +31,10 @@ public class FidOutDto {
     @ApiModelProperty(value = "治疗方案", example = "治疗方案")
     private String treatmentPlan;
 
+
     private List<DataOutDto> Result;
 
+    @ApiModelProperty(value = "治疗方案", example = "治疗方案")
     private List<ActivedRulesDto> ActivedRules;
 
 }

@@ -76,4 +76,35 @@ public class TreatmentServiceImpl implements ITreatmentService {
         }
         return null;
     }
+
+    @Override
+    public int rejectTreatmentResult(String medicalRecordId,
+                                     String userName) {
+
+        // 获取修改状态
+        TreatmentResult treatmentResult = this.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
+        treatmentResult.setType(EnumTreatState.REJECT_MODIFY.getValue());
+
+        return modifyTreatmentResultInfo(treatmentResult);
+    }
+
+    @Override
+    public int acceptTreatmentResult(String medicalRecordId, String userName) {
+        // 获取修改状态
+        TreatmentResult treatmentResult = this.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
+        treatmentResult.setType(EnumTreatState.CONFIRM_MODIFY.getValue());
+
+        return modifyTreatmentResultInfo(treatmentResult);
+    }
+
+
+    private int modifyTreatmentResultInfo(TreatmentResult treatmentResult) {
+        TreatmentResultExample example = new TreatmentResultExample();
+        TreatmentResultExample.Criteria criteria = example.createCriteria();
+
+        criteria.andTreatmentIdEqualTo(treatmentResult.getTreatmentId());
+        criteria.andIsDeleteEqualTo(EnumDelete.NOT_DELETE.getCode());
+
+        return treatmentResultMapper.updateByExample(treatmentResult,example);
+    }
 }

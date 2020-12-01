@@ -91,6 +91,53 @@ public class DiagnosticReportController extends BaseController {
                 enumTreatStates);
     }
 
+    @ApiOperation(value = "驳回修改诊断", notes = "驳回修改诊断")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true)
+    })
+    @PutMapping("/reject/{medicalRecordId}")
+    @MyLog("管理员驳回修改诊断")
+    public Map<String,Object> doPostNegativeMedicalInfo(
+            @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 2、驳回诊断结果
+        int retAccountInfo = treatmentService.rejectTreatmentResult(
+                medicalRecordId,
+                currentUser.getUserName()
+        );
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                retAccountInfo);
+    }
+
+    @ApiOperation(value = "接受修改记录", notes = "否定自动诊断记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true)
+    })
+    @PutMapping("/accept/{medicalRecordId}")
+    @MyLog("管理员接受修改诊断")
+    public Map<String,Object> doPutNegativeMedicalInfo(
+            @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 2、管理员接受修改诊断
+        int retAccountInfo = treatmentService.acceptTreatmentResult(
+                medicalRecordId,
+                currentUser.getUserName()
+        );
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                retAccountInfo);
+    }
 
   /*  @ApiOperation(value = "否定自动诊断记录", notes = "否定自动诊断记录")
     @ApiImplicitParams({
