@@ -79,6 +79,36 @@ public class DiagnosticReportServiceImpl implements IDiagnosticReportService {
         return fidOutDto;
     }
 
+    @Override
+    public String updateRule(String newRule) {
+        // 1、设置调用url
+        String url = ReportServiceContants.UPDATE_URL+"?newRule={newRule}";
+
+        // 2、设置token
+        HttpEntity<String> requestEntity = getTokenHttpHeaders(null);
+
+        // 3、设置查询参数
+        Map<String, Object> params = new HashMap<>();
+        params.put("newRule", newRule);
+
+        // 4、获取结果
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url,
+                HttpMethod.POST,
+                requestEntity,
+                String.class,
+                params);
+
+        // 5、校验是否调用成功,并返回正确结
+        if (responseEntity.getStatusCodeValue() != 200) {
+            throw new DataException(EnumExceptionCode.ERROR_NET_NULL.getCode(),
+                    EnumExceptionCode.ERROR_NET_NULL.getMessage());
+        }
+
+        return requestEntity.getBody();
+    }
+
+
+
     /**
      * 解析转换
      */

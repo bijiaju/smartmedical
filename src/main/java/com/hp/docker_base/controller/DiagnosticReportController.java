@@ -117,12 +117,17 @@ public class DiagnosticReportController extends BaseController {
 
     @ApiOperation(value = "接受修改记录", notes = "否定自动诊断记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true)
+            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
+            @ApiImplicitParam(name = "ruleJsonStr", paramType = "query", required = false,
+                    value = "" +
+                    "[{reference:[40,1,1,1,1,0,1,0,0,0,0,0,1,0,0,1],"
+                    + "belief:[1,0,0]}]")
     })
     @PutMapping("/accept/{medicalRecordId}")
     @MyLog("管理员接受修改诊断")
     public Map<String,Object> doPutNegativeMedicalInfo(
             @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            @RequestParam(value = "ruleJsonStr") String ruleJsonStr,
             HttpServletRequest request) {
 
         // 1、获取用户信息
@@ -131,7 +136,8 @@ public class DiagnosticReportController extends BaseController {
         // 2、管理员接受修改诊断
         int retAccountInfo = treatmentService.acceptTreatmentResult(
                 medicalRecordId,
-                currentUser.getUserName()
+                currentUser.getUserName(),
+                ruleJsonStr
         );
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),

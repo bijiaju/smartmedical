@@ -6,11 +6,13 @@ import com.hp.docker_base.bean.dto.TreatmentResultDto;
 import com.hp.docker_base.bean.em.EnumTreatState;
 import com.hp.docker_base.em.EnumDelete;
 import com.hp.docker_base.mapper.TreatmentResultMapper;
+import com.hp.docker_base.service.IDiagnosticReportService;
 import com.hp.docker_base.service.ITreatmentService;
 import com.hp.docker_base.util.CommonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -26,6 +28,9 @@ public class TreatmentServiceImpl implements ITreatmentService {
 
     @Autowired
     private TreatmentResultMapper treatmentResultMapper;
+
+    @Autowired
+    private IDiagnosticReportService diagnosticReportService;
 
 
     @Override
@@ -88,12 +93,17 @@ public class TreatmentServiceImpl implements ITreatmentService {
         return modifyTreatmentResultInfo(treatmentResult);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public int acceptTreatmentResult(String medicalRecordId, String userName) {
+    public int acceptTreatmentResult(String medicalRecordId, String userName,
+                                     String ruleJsonStr) {
         // 获取修改状态
         TreatmentResult treatmentResult = this.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
-        treatmentResult.setType(EnumTreatState.CONFIRM_MODIFY.getValue());
 
+        // 调用更新接口
+        diagnosticReportService.updateRule(ruleJsonStr);
+
+        treatmentResult.setType(EnumTreatState.CONFIRM_MODIFY.getValue());
         return modifyTreatmentResultInfo(treatmentResult);
     }
 

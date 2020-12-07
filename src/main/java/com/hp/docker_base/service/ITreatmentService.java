@@ -33,5 +33,5 @@ public interface ITreatmentService {
     /**
      * 管理员接受诊断记录
      */
-    int acceptTreatmentResult(String medicalRecordId, String userName);
+    int acceptTreatmentResult(String medicalRecordId, String userName, String ruleJsonStr);
 }

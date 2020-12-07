@@ -24,4 +24,9 @@ public interface IDiagnosticReportService {
     FidOutDto queryDignosticResultInfo( String RecId,
                                        String DeptId,
                                         String DataIn);
+
+    /**
+     * 更新规则
+     */
+    String updateRule(String params);
 }

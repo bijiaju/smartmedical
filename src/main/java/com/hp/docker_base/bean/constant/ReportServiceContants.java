@@ -14,6 +14,8 @@ public class ReportServiceContants {
     public static  final String BASE_URL = "http://39.98.147.216:8802/smart-medical/diagnostic/result";
 
 
-
-    public static  final String UPDATE_URL = "http://39.98.147.216:8802/smart-medical/diagnostic/result";
+    /**
+     * 更新规则接口
+     */
+    public static  final String UPDATE_URL = "http://39.98.147.216:8802/smart-medical/updateRule";
 }
