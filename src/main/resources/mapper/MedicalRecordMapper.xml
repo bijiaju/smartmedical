@@ -73,10 +73,10 @@ AND record.is_delete=0
     </if>
 
     /*要过滤的诊疗数据*/
-    AND result.uuid not in (SELECT uuid FROM tb_treatment_result
+   /* AND result.uuid not in (SELECT uuid FROM tb_treatment_result
     WHERE type=1
     AND treatment_id in (SELECT treatment_id FROM tb_treatment_result
-    WHERE type=2))
+    WHERE type=2))*/
 
     <if test="type != '-1'.toString() " >
       and result.type=#{type}

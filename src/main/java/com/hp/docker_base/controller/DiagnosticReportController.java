@@ -115,7 +115,7 @@ public class DiagnosticReportController extends BaseController {
                 retAccountInfo);
     }
 
-    @ApiOperation(value = "接受修改记录", notes = "否定自动诊断记录")
+    @ApiOperation(value = "管理员接受修改诊断", notes = "管理员接受修改诊断")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
             @ApiImplicitParam(name = "ruleJsonStr", paramType = "query", required = false,
@@ -220,31 +220,37 @@ public class DiagnosticReportController extends BaseController {
         User currentUser = getCurrentUser(request);
 
         // 2、解析组Json字符串参数
-        TreatmentResultDto treatmentResult = JSONObject.parseObject(autoTreatmentJsonStr, TreatmentResultDto.class);
-        ValidateUtils.validateGroup(treatmentResult, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
-
-        // 2、解析组Json字符串参数
-        TreatmentResultDto modfiyResult = JSONObject.parseObject(rejectTreatmentJsonStr, TreatmentResultDto.class);
-        ValidateUtils.validateGroup(modfiyResult, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
 
         // 3、新增诊断结果
         int retAccountInfo = 0;
-        if(treatmentResult != null){
-             retAccountInfo = treatmentService.addTreatmentResultInfo(
-                    medicalRecordId,
-                    treatmentResult,
-                    EnumTreatState.COMMON.getValue(),
-                    currentUser.getUserName()
-            );
+        if(StringUtils.isNotEmpty(autoTreatmentJsonStr)){
+            TreatmentResultDto treatmentResult = JSONObject.parseObject(autoTreatmentJsonStr, TreatmentResultDto.class);
+            ValidateUtils.validateGroup(treatmentResult, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
+
+            if(treatmentResult != null){
+                retAccountInfo = treatmentService.addTreatmentResultInfo(
+                        medicalRecordId,
+                        treatmentResult,
+                        EnumTreatState.COMMON.getValue(),
+                        currentUser.getUserName()
+                );
+            }
         }
 
-        if(modfiyResult != null){
-            retAccountInfo = treatmentService.addTreatmentResultInfo(
-                    medicalRecordId,
-                    treatmentResult,
-                    EnumTreatState.MODIFY.getValue(),
-                    currentUser.getUserName()
-            );
+        if(StringUtils.isNotEmpty(rejectTreatmentJsonStr)){
+            // 2、解析组Json字符串参数
+            TreatmentResultDto modfiyResult = JSONObject.parseObject(rejectTreatmentJsonStr, TreatmentResultDto.class);
+            ValidateUtils.validateGroup(modfiyResult, MiniValidation.class);//后面的MiniValidation.class只是为了分组校验
+
+            if(modfiyResult != null){
+                retAccountInfo = treatmentService.addTreatmentResultInfo(
+                        medicalRecordId,
+                        modfiyResult,
+                        EnumTreatState.MODIFY.getValue(),
+                        currentUser.getUserName()
+                );
+            }
+
         }
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
