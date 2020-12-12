@@ -90,6 +90,8 @@ public class TreatmentServiceImpl implements ITreatmentService {
         TreatmentResult treatmentResult = this.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
         treatmentResult.setType(EnumTreatState.REJECT_MODIFY.getValue());
 
+
+
         return modifyTreatmentResultInfo(treatmentResult);
     }
 
@@ -114,6 +116,7 @@ public class TreatmentServiceImpl implements ITreatmentService {
 
         criteria.andTreatmentIdEqualTo(treatmentResult.getTreatmentId());
         criteria.andIsDeleteEqualTo(EnumDelete.NOT_DELETE.getCode());
+        criteria.andTypeEqualTo(EnumTreatState.MODIFY.getValue());
 
         return treatmentResultMapper.updateByExample(treatmentResult,example);
     }
