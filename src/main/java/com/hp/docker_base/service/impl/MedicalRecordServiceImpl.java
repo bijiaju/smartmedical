@@ -3,9 +3,12 @@ package com.hp.docker_base.service.impl;
 import com.hp.docker_base.bean.MedicalRecord;
 import com.hp.docker_base.bean.MedicalRecordExample;
 import com.hp.docker_base.bean.bo.MedicalRecordBo;
+import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.em.EnumDelete;
+import com.hp.docker_base.em.EnumRole;
 import com.hp.docker_base.mapper.MedicalRecordMapper;
 import com.hp.docker_base.service.IMedicalRecordService;
+import com.hp.docker_base.service.IRoleUserService;
 import com.hp.docker_base.util.CommonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
     @Autowired
     private MedicalRecordMapper medicalRecordMapper;
+
+    @Autowired
+    private IRoleUserService roleUserService;
 
 
 
@@ -118,7 +124,14 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
                                                                   Integer type,
                                                                   String startDate,
                                                                   String endDate) {
+
+        // 如果是管理员需要过滤
+        RoleDto roleDto = roleUserService.queryRoleIdByUserId(uuid);
+        if(roleDto.getRoleCode().equals(EnumRole.ADMIN.getCode())){
+            uuid = null;
+        }
         return medicalRecordMapper.selectMedicalRecordByDoctorId(uuid,keywords,type,startDate,endDate);
+
     }
 
     private int updateMedicalRecordInfo(MedicalRecord medicalRecord){
