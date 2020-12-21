@@ -69,8 +69,8 @@ public class IPUtils {
 
     public static void main(String args[]) {
 
-       // int isExist = 1==2 ? 1 :0;
-     //   System.out.println(isExist);
+        int isExist = 1==2 ? 1 :0;
+        System.out.println(isExist);
 
         User p=new User();
         System.out.println( p instanceof User);
