@@ -73,7 +73,6 @@ public class IPUtils {
         System.out.println(isExist);
 
         User p=new User();
-
         System.out.println( p instanceof User);
 
 
