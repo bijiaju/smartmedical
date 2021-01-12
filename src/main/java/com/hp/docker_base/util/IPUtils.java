@@ -1,12 +1,16 @@
 package com.hp.docker_base.util;
 
+import antlr.StringUtils;
 import cn.hutool.core.date.DateUtil;
 import com.hp.docker_base.bean.User;
+import org.springframework.beans.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @description:
@@ -68,6 +72,44 @@ public class IPUtils {
 
 
     public static void main(String args[]) {
+
+        String property = System.getProperty("line.separator");
+
+        if (System.getProperty("line.separator").equals("/r/n")) {
+            System.out.println("//r//n is for windows");
+        } else if (System.getProperty("line.separator").equals("/r")) {
+            System.out.println("//r is for Mac");
+        } else if (System.getProperty("line.separator").equals("/n")) {
+            System.out.println("//n is for Unix/Linux");
+        }
+
+        List<User> userList = new ArrayList<User>();
+        User user1 = new User();
+        user1.setId(1);
+        User user2 = new User();
+        user2.setId(2);
+        userList.add(user1);
+        userList.add(user2);
+
+        List<User> extCopyFields = new ArrayList<>();
+        //BeanUtils.copyProperties(userList,extCopyFields);
+        //BeanConvertUtils.convertListTo(userList,extCopyFields);
+        List<User> users = BeanCopyUtil.copyListProperties(userList, User::new);
+
+        String str = "|31|21||";
+        if(str != null
+                && str.startsWith("|")
+                && str.endsWith("|")){
+
+            String[] userArr = str.split("\\|");
+            if(userArr != null || userArr.length != 0){
+                for(String userId : userArr){
+                    if(!"".equals(userId)){
+                        System.out.println("good");
+                    }
+                }
+            }
+        }
 
         int isExist = 1==2 ? 1 :0;
         System.out.println(isExist);
