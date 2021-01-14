@@ -42,17 +42,6 @@ public class MDC1ServiceImpl implements IMDC1Service {
 
     @Override
     public List<MDC1> queryFeatureList(String departmentId) {
-       /* if(StringUtils.isEmpty(departmentId)){
-            return null;
-        }*/
-
         return mdc1Mapper.selectFeatureList(departmentId);
-      /*  MDC1Example example = new MDC1Example();
-        MDC1Example.Criteria criteria = example.createCriteria();
-
-        criteria.andDepartmentEqualTo(departmentId);
-        criteria.andTypeEqualTo(EnumMDC1Type.OUT.getCode());
-
-        return mdc1Mapper.selectByExample(example);*/
     }
 }

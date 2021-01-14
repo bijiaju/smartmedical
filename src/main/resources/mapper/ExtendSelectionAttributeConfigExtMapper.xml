@@ -24,7 +24,11 @@
         select * FROM
 idaas_extend_attr_config_selection
         WHERE is_delete=0
-        and attr_id = #{attrId,jdbcType=VARCHAR}
+
+
+      <if test="attrId != null and attrId!=''">
+          and attr_id = #{attrId,jdbcType=VARCHAR}
+      </if>
     </select>
 
 

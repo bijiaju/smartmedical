@@ -24,10 +24,9 @@
   <select id="selectFeatureList" resultMap="BaseResultMap">
     SELECT *
     FROM mdc1
-    WHERE type='input'
 
     <if test="departmentId != null and departmentId!=''">
-      and department=#{departmentId,jdbcType=VARCHAR}
+      WHERE department=#{departmentId,jdbcType=VARCHAR}
     </if>
   </select>
 
