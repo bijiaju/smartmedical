@@ -36,6 +36,6 @@ public class ReferenceDto implements Serializable {
     private String value;
 
     @ApiModelProperty(value = "显示数值",example = "显示数值")
-    private String showValue;
+    private double showValue;
 
 }

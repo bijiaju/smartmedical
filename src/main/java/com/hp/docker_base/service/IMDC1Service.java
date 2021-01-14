@@ -13,4 +13,7 @@ public interface IMDC1Service {
      * 获取某个科室下病的结果
      */
     List<MDC1> querySickList(String departmentId);
+
+
+    List<MDC1> queryFeatureList(String departmentId);
 }

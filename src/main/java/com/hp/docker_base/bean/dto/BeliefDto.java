@@ -27,9 +27,12 @@ public class BeliefDto implements Serializable {
     @ApiModelProperty(value = "疾病id",example = "疾病id")
     private String id;
 
+    @ApiModelProperty(value = "病名称",example = "病名称")
+    private String name;
+
 
     @ApiModelProperty(value = "疾病value",example = "疾病value")
-    private String value;
+    private Double value;
 
 
 }

@@ -32,7 +32,6 @@ public class RuleDetailDto implements Serializable {
     @ApiModelProperty(value = "规则列表",example = "规则列表")
     private List<ReferenceDto> ruleList;
 
-    @ApiModelProperty(value = "疾病列表",example = "疾病列表")
-    private List<BeliefDto> sickList;
+
 
 }

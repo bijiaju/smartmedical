@@ -21,6 +21,15 @@
     </if>
   </select>
 
+  <select id="selectFeatureList" resultMap="BaseResultMap">
+    SELECT *
+    FROM mdc1
+    WHERE type='input'
+
+    <if test="departmentId != null and departmentId!=''">
+      and department=#{departmentId,jdbcType=VARCHAR}
+    </if>
+  </select>
 
   <sql id="Example_Where_Clause" >
     <where >

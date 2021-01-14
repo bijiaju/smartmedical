@@ -1,6 +1,7 @@
 package com.hp.docker_base.mapper;
 
 import com.hp.docker_base.bean.TranAttr;
+import com.hp.docker_base.bean.extend.ExtendSelectionAttributeConfig;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,8 @@ public interface ExtendAttributeExtMapper {
     List<TranAttr> selectTransFeignMap();
 
     List<TranAttr> selectAttrNumMap();
+
+
+    // 根据属性编号 获取select列表
+    List<ExtendSelectionAttributeConfig> selectSelectionListByAttrId(@Param("attrId") String attrId);
 }

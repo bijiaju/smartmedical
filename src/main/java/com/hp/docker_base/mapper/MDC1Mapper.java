@@ -33,4 +33,6 @@ public interface MDC1Mapper {
 
 
     List<MDC1> selectSickList(@Param("departmentId")String departmentId);
+
+    List<MDC1> selectFeatureList(@Param("departmentId")String departmentId);
 }

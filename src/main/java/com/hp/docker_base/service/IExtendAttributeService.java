@@ -158,5 +158,11 @@ public interface IExtendAttributeService {
     Map<String,String> queryAttrSelectMap();
 
 
+    /**
+     * 获取转换的map
+     */
+    Map<String,String> queryAttrSelectForeignIdMap();
+
+
     Map<String,String> queryAttrNumMap();
 }
