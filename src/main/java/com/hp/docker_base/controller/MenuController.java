@@ -14,6 +14,8 @@ import com.hp.docker_base.service.IMenuService;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.convert.CommonObjectTypeConvertUtils;
 import com.hp.docker_base.util.convert.MenuObjectConvert;
+import com.hp.docker_base.util.validate.ErrorParamException;
+import com.hp.docker_base.util.validate.TMPException;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
 import io.swagger.annotations.Api;
@@ -21,9 +23,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +72,9 @@ public class MenuController extends BaseController{
 
         // 查询角色对应的菜单
         List<Menu> menuList = menuService.queryMenuListByRoleId(roleId);
+        if(CollectionUtils.isEmpty(menuList)){
+            throw new TMPException("403","请通知管理员配置菜单");
+        }
         List<MenuDto> menuDtos1 = MenuObjectConvert.convertMenu2DtoList(menuList);
         List<MenuDto> menuDtos = MenuObjectConvert.buildMenuTreeList(menuDtos1);
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),menuDtos);

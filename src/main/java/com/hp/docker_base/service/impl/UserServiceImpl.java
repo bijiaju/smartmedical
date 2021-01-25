@@ -83,6 +83,10 @@ public class UserServiceImpl implements IUserService {
             roleService.addRoleMemberInfo(uuid,
                     EnumRole.ADMIN.getCode(),
                     userInfo.getUserName());
+        }else{
+            roleService.addRoleMemberInfo(uuid,
+                    userInfo.getRoleId(),
+                    userInfo.getUserName());
         }
 
 

@@ -12,6 +12,7 @@ import com.hp.docker_base.bean.exception.DataException;
 import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.validate.ErrorParamException;
+import com.hp.docker_base.util.validate.TMPException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,6 +48,16 @@ class GlobalExceptionHandler {
         map.put("msg",e.getMessage());
 
         return CommonUtil.setReturnMap(EnumOKOrNG.NG.getCode(),e.getMessage(),null);
+    }
+
+    @ExceptionHandler(TMPException.class)
+    @ResponseBody
+    public Object handleServicergumentNotValidException(TMPException e) {
+        System.out.println("###出现异常！");
+        Map<String,Object> map=new HashMap<>();
+        map.put("msg",e.getMessage());
+
+        return CommonUtil.setReturnMap(e.getCode(),e.getMessage(),null);
     }
 
     /**

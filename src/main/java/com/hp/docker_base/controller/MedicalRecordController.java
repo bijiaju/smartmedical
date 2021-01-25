@@ -10,6 +10,7 @@ import com.hp.docker_base.bean.algorithm.*;
 import com.hp.docker_base.bean.annotation.MyLog;
 import com.hp.docker_base.bean.bo.MedicalRecordBo;
 import com.hp.docker_base.bean.dto.MedicalRecordDto;
+import com.hp.docker_base.bean.dto.MedicalRecordDto2;
 import com.hp.docker_base.bean.dto.SortDto;
 import com.hp.docker_base.bean.dto.TreatmentResultDto;
 import com.hp.docker_base.bean.em.EnumTreatState;
@@ -18,6 +19,7 @@ import com.hp.docker_base.em.EnumOKOrNG;
 import com.hp.docker_base.service.*;
 import com.hp.docker_base.util.CommonUtil;
 import com.hp.docker_base.util.PageUtil;
+import com.hp.docker_base.util.convert.MedicalRecordObjectConvert;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
 import io.swagger.annotations.Api;
@@ -112,7 +114,9 @@ public class MedicalRecordController extends BaseController {
 
         // 查询所有的就诊记录
         List<MedicalRecordBo>  medicalRecordList = medicalRecordService.queryMedicalRecordPageList(postId,keywords);
-        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(medicalRecordList));
+        List<MedicalRecordDto2> medicalRecordDto2s = MedicalRecordObjectConvert.convertMedicalRecordList2Dto(medicalRecordList);
+
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),new PageInfo(medicalRecordDto2s));
     }
 
     @ApiOperation(value = "查询医生分页就诊记录", notes = "查询医生看了几个病人记录")
@@ -152,10 +156,12 @@ public class MedicalRecordController extends BaseController {
     @ApiOperation(value = "查询单个就诊记录信息", notes = "查询单个就诊记录信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = false),
+            @ApiImplicitParam(name = "type", value = "类型,1是算法，2是修改", paramType = "query", required = false),
     })
     @GetMapping("/{medicalRecordId}")
     public Map<String,Object> doGetAccount(
             @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            @RequestParam(value = "type",defaultValue = "1") int type,
             HttpServletRequest request) {
         MedicalRecordDto medicalRecordDto = new MedicalRecordDto();
         MedicalRecord medicalRecord = medicalRecordService.queryMedicalRecordByUUID(medicalRecordId);
@@ -163,7 +169,7 @@ public class MedicalRecordController extends BaseController {
             BeanUtils.copyProperties(medicalRecord,medicalRecordDto);
         }
 
-        FidOutDto medicalResult = getMedicalResult(medicalRecordId);
+        FidOutDto medicalResult = getMedicalResult(medicalRecordId,type);
         medicalRecordDto.setActivedRules(medicalResult.getActivedRules());
         medicalRecordDto.setResult(medicalResult.getResult());
         medicalRecordDto.setDisease(medicalResult.getDisease());
@@ -234,11 +240,11 @@ public class MedicalRecordController extends BaseController {
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),processDetailDto);
     }
 
-    private FidOutDto getMedicalResult(String medicalRecordId){
+    private FidOutDto getMedicalResult(String medicalRecordId, int type){
         FidOutDto ret = new FidOutDto();
 
-        TreatmentResult treatmentResult = treatmentService.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.COMMON.getValue());
-        TreatmentResult treatmentObjection = treatmentService.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
+        TreatmentResult treatmentResult = treatmentService.queryResultByMedicalRecordId(medicalRecordId, type);
+       // TreatmentResult treatmentObjection = treatmentService.queryResultByMedicalRecordId(medicalRecordId, EnumTreatState.MODIFY.getValue());
 
         if(treatmentResult != null){
             String activeRuleJson = treatmentResult.getActiveRuleJson();
@@ -253,7 +259,7 @@ public class MedicalRecordController extends BaseController {
             ret.setTreatmentPlan(treatmentResult.getTreatmentPlan());
         }
 
-        if(treatmentObjection != null){
+       /* if(treatmentObjection != null){
             String activeRuleJson = treatmentObjection.getActiveRuleJson();
             String outFeatureJson = treatmentObjection.getOutFeatureJson();
 
@@ -264,7 +270,7 @@ public class MedicalRecordController extends BaseController {
             ret.setActivedRules(activedRulesDtos);
             ret.setDisease(treatmentObjection.getDiagnosisResult());
             ret.setTreatmentPlan(treatmentObjection.getTreatmentPlan());
-        }
+        }*/
 
         return ret;
     }

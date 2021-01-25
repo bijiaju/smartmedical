@@ -1,5 +1,6 @@
 package com.hp.docker_base.bean.bo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.hp.docker_base.bean.MedicalRecord;
 import com.hp.docker_base.bean.em.EnumTreatState;
 
@@ -120,6 +121,10 @@ public class MedicalRecordBo{
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public void setTypeDesc(String typeDesc) {
+        this.typeDesc = typeDesc;
     }
 
     public Integer getIsDelete() {

@@ -3,6 +3,7 @@ package com.hp.docker_base.service.impl;
 import com.hp.docker_base.bean.RoleUser;
 import com.hp.docker_base.bean.dto.RoleDto;
 import com.hp.docker_base.em.EnumRole;
+import com.hp.docker_base.mapper.RoleMapper;
 import com.hp.docker_base.mapper.RoleUserMapper;
 import com.hp.docker_base.service.IRoleUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,9 @@ public class RoleUserServiceImpl implements IRoleUserService{
 
     @Autowired
     private RoleUserMapper roleUserMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public List<String> queryRoleUserByRoleId(String roleId) {
@@ -43,6 +47,9 @@ public class RoleUserServiceImpl implements IRoleUserService{
             }else if(roleUser.getRoleId().equals(EnumRole.ADMIN.getCode())){
                 roleDto.setRoleCode(EnumRole.ADMIN.getCode());
                 roleDto.setRoleName(EnumRole.ADMIN.getValue());
+            }else{
+                roleDto.setRoleCode(roleUser.getRoleId());
+                roleDto.setRoleName(roleMapper.findRoleByRoleId(roleUser.getRoleId()).getRoleName());
             }
             return roleDto;
         }

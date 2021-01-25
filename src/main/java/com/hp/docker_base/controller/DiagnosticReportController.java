@@ -187,7 +187,7 @@ public class DiagnosticReportController extends BaseController {
 
 
 
-    @ApiOperation(value = "插入新增和修改就诊结果", notes = "插入新增和修改就诊结果")
+    @ApiOperation(value = "插入新增结果", notes = "插入新增结果")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
             @ApiImplicitParam(name = "autoTreatmentJsonStr", paramType = "query", required = false,
@@ -197,29 +197,17 @@ public class DiagnosticReportController extends BaseController {
                             "  \"treatmentPlan\": \"治疗方案\",\n" +
                             "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
                             "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
-                            "}"),
-            @ApiImplicitParam(name = "rejectTreatmentJsonStr", paramType = "query", required = false,
-                    value = "" +
-                            "否定就诊结果信息（Json字符串）\n{\n" +
-                            "  \"diagnosisResult\": \"诊断结果\",\n" +
-                            "  \"treatmentPlan\": \"治疗方案\",\n" +
-                            "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
-                            "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
-                            "  \"reason\": \"修改理由\"\n" +
                             "}")
     })
     @PostMapping("/insert/{medicalRecordId}")
     @MyLog("插入新增和修改就诊结果")
-    public Map<String,Object> doPostSureMedicalInfo(
+    public Map<String,Object> doPostAcceptMedicalInfo(
             @PathVariable(value = "medicalRecordId") String medicalRecordId,
-            @RequestParam(value = "rejectTreatmentJsonStr") String rejectTreatmentJsonStr,
             @RequestParam(value = "autoTreatmentJsonStr") String autoTreatmentJsonStr,
             HttpServletRequest request) {
 
         // 1、获取用户信息
         User currentUser = getCurrentUser(request);
-
-        // 2、解析组Json字符串参数
 
         // 3、新增诊断结果
         int retAccountInfo = 0;
@@ -237,6 +225,37 @@ public class DiagnosticReportController extends BaseController {
             }
         }
 
+        return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),
+                EnumOKOrNG.OK.getValue(),
+                retAccountInfo);
+    }
+
+
+    @ApiOperation(value = "插入修改就诊结果", notes = "插入修改就诊结果")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "medicalRecordId", value = "就诊记录编号", paramType = "path", required = true),
+            @ApiImplicitParam(name = "rejectTreatmentJsonStr", paramType = "query", required = false,
+                    value = "" +
+                            "否定就诊结果信息（Json字符串）\n{\n" +
+                            "  \"diagnosisResult\": \"诊断结果\",\n" +
+                            "  \"treatmentPlan\": \"治疗方案\",\n" +
+                            "  \"outFeatureJson\": \"输出特征Json字符串\",\n" +
+                            "  \"activeRuleJson\": \"激活规则Json字符串\",\n" +
+                            "  \"reason\": \"修改理由\"\n" +
+                            "}")
+    })
+    @PostMapping("/insert/update/{medicalRecordId}")
+    @MyLog("插入新增和修改就诊结果")
+    public Map<String,Object> doPostSureMedicalInfo(
+            @PathVariable(value = "medicalRecordId") String medicalRecordId,
+            @RequestParam(value = "rejectTreatmentJsonStr") String rejectTreatmentJsonStr,
+            HttpServletRequest request) {
+
+        // 1、获取用户信息
+        User currentUser = getCurrentUser(request);
+
+        // 3、新增诊断结果
+        int retAccountInfo = 0;
         if(StringUtils.isNotEmpty(rejectTreatmentJsonStr)){
             // 2、解析组Json字符串参数
             TreatmentResultDto modfiyResult = JSONObject.parseObject(rejectTreatmentJsonStr, TreatmentResultDto.class);
@@ -257,7 +276,6 @@ public class DiagnosticReportController extends BaseController {
                 EnumOKOrNG.OK.getValue(),
                 retAccountInfo);
     }
-
 
 
 

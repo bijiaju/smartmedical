@@ -89,9 +89,10 @@ public class UserController extends BaseController{
         //3、类型转换
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(user,userDto);
-        userDto.setRoleId(role.getRoleCode());
-        userDto.setRoleName(role.getRoleName());
-
+        if(role != null){
+            userDto.setRoleId(role.getRoleCode());
+            userDto.setRoleName(role.getRoleName());
+        }
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),userDto);
     }
 
@@ -325,8 +326,10 @@ public class UserController extends BaseController{
         //3、类型转换
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(user,userDto);
-        userDto.setRoleId(role.getRoleCode());
-        userDto.setRoleName(role.getRoleName());
+        if(role != null){
+            userDto.setRoleId(role.getRoleCode());
+            userDto.setRoleName(role.getRoleName());
+        }
 
         return CommonUtil.setReturnMap(EnumOKOrNG.OK.getCode(),EnumOKOrNG.OK.getValue(),userDto);
     }
