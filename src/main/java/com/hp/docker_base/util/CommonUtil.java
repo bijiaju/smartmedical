@@ -130,7 +130,12 @@ public class CommonUtil {
         return count+1;
     }
 
+    public static String getVeriCode(){
+        return String.valueOf((int)((Math.random() * 9 + 1) * Math.pow(10,5)));
+    }
+
     public static void main(String[] args){
+        String _name = "sdfads";
         //测试生成base64的编码
        /* String imgFile = "C:\\Users\\bee\\Desktop\\test1\\2.png";
         String base64 = imgToBase64(imgFile);
