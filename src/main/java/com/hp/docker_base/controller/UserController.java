@@ -16,10 +16,7 @@ import com.hp.docker_base.em.EnumYesOrNo;
 import com.hp.docker_base.service.IRoleUserService;
 import com.hp.docker_base.service.ISysLogService;
 import com.hp.docker_base.service.IUserService;
-import com.hp.docker_base.util.CommonUtil;
-import com.hp.docker_base.util.IPUtils;
-import com.hp.docker_base.util.MD5Utils;
-import com.hp.docker_base.util.PageUtil;
+import com.hp.docker_base.util.*;
 import com.hp.docker_base.util.convert.UserObjectConvert;
 import com.hp.docker_base.util.validate.ValidateUtils;
 import com.hp.docker_base.util.validate.group.MiniValidation;
@@ -63,6 +60,9 @@ public class UserController extends BaseController{
     @GetMapping("/list")
    // @MyLog("获取账户列表")
     public Map<String,Object> doQueryAccountList() {
+
+        /*HuToolUtils huToolUtils = new HuToolUtils();
+        huToolUtils.getUser();*/
 
         List<User> allUsers = userService.findAllUsers(null,
                 null);

@@ -9,6 +9,7 @@ import cn.hutool.core.date.Month;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.IdcardUtil;
+import com.hp.docker_base.service.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
@@ -23,8 +24,15 @@ import java.util.Date;
 
 public class HuToolUtils {
 
+    private IUserService userService = ServiceBeanFactory.getBean(IUserService.class);
+
+    public  void getUser(){
+        int sort = userService.queryUserSort();
+        System.out.println(sort);
+    }
 
     public static void main(String args[]) {
+
 
         // 1-类型转换
         String param = "10";
